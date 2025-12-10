@@ -1,0 +1,134 @@
+
+
+/* accent themes */
+    .c-accent-blue,
+    .c-accent-white {
+        --c-app-theme: #2D6AE0;
+
+        --c-app-theme__shade-10: #C9D2DB;
+        --c-app-theme__shade-20: #CFD1DF;
+        --c-app-theme__shade-30: #D5D9E3;
+        --c-app-theme__shade-40: #DBE0E8;
+        --c-app-theme__shade-50: #E1E7EC;
+        --c-app-theme__shade-60: #E8ECF0;
+        --c-app-theme__shade-70: #EEF1F4;
+        --c-app-theme__shade-80: #F4F8FA;
+        --c-app-theme__shade-90: #F9FBFC;
+        --c-app-theme__shade-100: #FDFDFE;
+    }
+    .c-accent-red {
+        --c-app-theme: #CD3A2A;
+
+        --c-app-theme__shade-10: #D7CECD;
+        --c-app-theme__shade-20: #DBD4D3;
+        --c-app-theme__shade-30: #E0D9D8;
+        --c-app-theme__shade-40: #E5DFDE;
+        --c-app-theme__shade-50: #E9E4E4;
+        --c-app-theme__shade-60: #EEEAEA;
+        --c-app-theme__shade-70: #EDF1F4;
+        --c-app-theme__shade-80: #F4F6F8;
+        --c-app-theme__shade-90: #FAFBFC;
+        --c-app-theme__shade-100: #FDFDFE;
+    }
+    .c-accent-purple {
+        --c-app-theme: #67349A;
+
+        --c-app-theme__shade-10: #D2CDD7;
+        --c-app-theme__shade-20: #D7D3DB;
+        --c-app-theme__shade-30: #DCD8E0;
+        --c-app-theme__shade-40: #E1DEE5;
+        --c-app-theme__shade-50: #E7E4E9;
+        --c-app-theme__shade-60: #ECEAEE;
+        --c-app-theme__shade-70: #F1F0F3;
+        --c-app-theme__shade-80: #F6F5F7;
+        --c-app-theme__shade-90: #FBFAFC;
+        --c-app-theme__shade-100: #FDFDFE;
+    }
+    .c-accent-pink {
+        --c-app-theme: #DC2D70;
+
+        --c-app-theme__shade-10: #D7CDD1;
+        --c-app-theme__shade-20: #DBD3D6;
+        --c-app-theme__shade-30: #E0D8DB;
+        --c-app-theme__shade-40: #E5DEE1;
+        --c-app-theme__shade-50: #E1E1E1;
+        --c-app-theme__shade-60: #E9E9EA;
+        --c-app-theme__shade-70: #EEEEEE;
+        --c-app-theme__shade-80: #F4F4F5;
+        --c-app-theme__shade-90: #F9F9FA;
+        --c-app-theme__shade-100: #FDFDFE;
+    }
+    .c-accent-orange {
+        --c-app-theme: #E75201;
+
+        --c-app-theme__shade-10: #D7D7DD;
+        --c-app-theme__shade-20: #CFCFD0;
+        --c-app-theme__shade-30: #D5D5D7;
+        --c-app-theme__shade-40: #DBDBDC;
+        --c-app-theme__shade-50: #E1E1E1;
+        --c-app-theme__shade-60: #E9E9EA;
+        --c-app-theme__shade-70: #EEEEEE;
+        --c-app-theme__shade-80: #F4F4F5;
+        --c-app-theme__shade-90: #F9F9FA;
+        --c-app-theme__shade-100: #FDFDFE;
+    }
+    .c-accent-green {
+        --c-app-theme: #0D8945;
+
+        --c-app-theme__shade-10: #D7D7DD;
+        --c-app-theme__shade-20: #CFCFD0;
+        --c-app-theme__shade-30: #D5D5D7;
+        --c-app-theme__shade-40: #DBDBDC;
+        --c-app-theme__shade-50: #E1E1E1;
+        --c-app-theme__shade-60: #E9E9EA;
+        --c-app-theme__shade-70: #EEEEEE;
+        --c-app-theme__shade-80: #F4F4F5;
+        --c-app-theme__shade-90: #F9F9FA;
+        --c-app-theme__shade-100: #FDFDFE;
+    }
+/* \\\ accent themes */
+
+
+/* white theme overwrites */
+    :root {
+        --c-white-theme-bg: #e7ebf6;
+        --c-white-theme-border: #c6cfdf;
+    }
+/* \\\ white theme overwrites */
+
+
+/* ui components shades */
+    :root,
+    .c-accent-blue,
+    .c-accent-white,
+    .c-accent-red,
+    .c-accent-purple,
+    .c-accent-pink,
+    .c-accent-orange,
+    .c-accent-green {
+        /* accent shades */
+            --c-app-theme__accent-shade-1: var(--c-app-theme__shade-70);
+            --c-app-theme__accent-shade-2: var(--c-app-theme__shade-80);
+            --c-app-theme__accent-shade-3: var(--c-app-theme__shade-90);
+            --c-app-theme__accent-shade-4: var(--c-app-theme__shade-100);
+        /* \\\ accent shades */
+
+        /* table */
+            --c-table-th-bg: var(--c-app-theme__accent-shade-3);
+            --c-table-td-hov: var(--c-app-theme__accent-shade-4);
+            --c-table-tr-selected-bg: var(--c-app-theme__accent-shade-2);
+        /* \\\ table */
+
+        /* dropdowns */
+            --c-dropdown-list-btn__hov: var(--c-app-theme__accent-shade-2);
+            --c-dropdown-list-btn__selected: var(--c-app-theme);
+            --c-dropdown-list-btn__selected-bg: var(--c-app-theme__accent-shade-2);
+        /* \\\ dropdowns */
+
+        /* link colors */
+            --c-link: var(--c-app-theme);
+    /* \\\ link colors */
+    }
+/* \\\ ui components shades */
+
+

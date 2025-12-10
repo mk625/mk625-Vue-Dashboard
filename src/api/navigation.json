@@ -1,0 +1,92 @@
+[
+    {
+        "id": "dashboard",
+        "label": "Dashboard",
+        "icon": "bi-speedometer2",
+        "path": "/",
+        "hasChildren": false,
+        "children": []
+    },
+    {
+        "id": "employees",
+        "label": "Employees",
+        "icon": "bi-people",
+        "path": "/employees",
+        "hasChildren": true,
+        "children": [
+            {
+                "id": "all-employees",
+                "label": "All Employees",
+                "path": "/employees/all-employees"
+            },
+            {
+                "id": "active-employees",
+                "label": "Active",
+                "path": "/employees/active-employees"
+            },
+            {
+                "id": "on-leave",
+                "label": "On Leave",
+                "path": "/employees/on-leave"
+            },
+            {
+                "id": "terminated",
+                "label": "Terminated",
+                "path": "/employees/terminated"
+            },
+            {
+                "id": "new-hires",
+                "label": "New Hires",
+                "path": "/employees/new-hires"
+            }
+        ]
+    },
+    {
+        "id": "departments",
+        "label": "Departments",
+        "icon": "bi-building",
+        "path": "/departments",
+        "hasChildren": false,
+        "children": []
+    },
+    {
+        "id": "attendance",
+        "label": "Attendance",
+        "icon": "bi-calendar-check",
+        "path": "/attendance",
+        "hasChildren": false,
+        "children": []
+    },
+    {
+        "id": "payroll",
+        "label": "Payroll",
+        "icon": "bi-cash-stack",
+        "path": "/payroll",
+        "hasChildren": false,
+        "children": []
+    },
+    {
+        "id": "performance",
+        "label": "Performance",
+        "icon": "bi-trophy",
+        "path": "/performance",
+        "hasChildren": false,
+        "children": []
+    },
+    {
+        "id": "reports",
+        "label": "Reports",
+        "icon": "bi-file-earmark-bar-graph",
+        "path": "/reports",
+        "hasChildren": false,
+        "children": []
+    },
+    {
+        "id": "settings",
+        "label": "Settings",
+        "icon": "bi-gear",
+        "path": "/settings",
+        "hasChildren": false,
+        "children": []
+    }
+]

@@ -1,0 +1,138 @@
+
+/* display grid */
+.d-grid { display: grid; }
+.d-inline-grid { display: inline-grid; }
+
+/* grid template columns */
+.gtc-1 { grid-template-columns: repeat(1, 1fr); }
+.gtc-2 { grid-template-columns: repeat(2, 1fr); }
+.gtc-3 { grid-template-columns: repeat(3, 1fr); }
+.gtc-4 { grid-template-columns: repeat(4, 1fr); }
+.gtc-5 { grid-template-columns: repeat(5, 1fr); }
+.gtc-6 { grid-template-columns: repeat(6, 1fr); }
+.gtc-12 { grid-template-columns: repeat(12, 1fr); }
+.gtc-auto { grid-template-columns: auto; }
+.gtc-none { grid-template-columns: none; }
+
+/* grid template rows */
+.gtr-1 { grid-template-rows: repeat(1, 1fr); }
+.gtr-2 { grid-template-rows: repeat(2, 1fr); }
+.gtr-3 { grid-template-rows: repeat(3, 1fr); }
+.gtr-4 { grid-template-rows: repeat(4, 1fr); }
+.gtr-5 { grid-template-rows: repeat(5, 1fr); }
+.gtr-6 { grid-template-rows: repeat(6, 1fr); }
+.gtr-auto { grid-template-rows: auto; }
+.gtr-none { grid-template-rows: none; }
+
+/* grid auto flow */
+.gaf-row { grid-auto-flow: row; }
+.gaf-col { grid-auto-flow: column; }
+.gaf-dense { grid-auto-flow: dense; }
+.gaf-row-dense { grid-auto-flow: row dense; }
+.gaf-col-dense { grid-auto-flow: column dense; }
+
+/* grid auto columns */
+.gac-auto { grid-auto-columns: auto; }
+.gac-min { grid-auto-columns: min-content; }
+.gac-max { grid-auto-columns: max-content; }
+.gac-fr { grid-auto-columns: 1fr; }
+
+/* grid auto rows */
+.gar-auto { grid-auto-rows: auto; }
+.gar-min { grid-auto-rows: min-content; }
+.gar-max { grid-auto-rows: max-content; }
+.gar-fr { grid-auto-rows: 1fr; }
+
+
+/* grid column span */
+.gc-span-1 { grid-column: span 1; }
+.gc-span-2 { grid-column: span 2; }
+.gc-span-3 { grid-column: span 3; }
+.gc-span-4 { grid-column: span 4; }
+.gc-span-5 { grid-column: span 5; }
+.gc-span-6 { grid-column: span 6; }
+.gc-span-7 { grid-column: span 7; }
+.gc-span-8 { grid-column: span 8; }
+.gc-span-9 { grid-column: span 9; }
+.gc-span-10 { grid-column: span 10; }
+.gc-span-11 { grid-column: span 11; }
+.gc-span-12 { grid-column: span 12; }
+.gc-span-full { grid-column: 1 / -1; }
+
+/* grid row span */
+.gr-span-1 { grid-row: span 1; }
+.gr-span-2 { grid-row: span 2; }
+.gr-span-3 { grid-row: span 3; }
+.gr-span-4 { grid-row: span 4; }
+.gr-span-5 { grid-row: span 5; }
+.gr-span-6 { grid-row: span 6; }
+.gr-span-full { grid-row: 1 / -1; }
+
+/* grid column start */
+.gc-start-1 { grid-column-start: 1; }
+.gc-start-2 { grid-column-start: 2; }
+.gc-start-3 { grid-column-start: 3; }
+.gc-start-4 { grid-column-start: 4; }
+.gc-start-5 { grid-column-start: 5; }
+.gc-start-6 { grid-column-start: 6; }
+.gc-start-auto { grid-column-start: auto; }
+
+/* grid column end */
+.gc-end-1 { grid-column-end: 1; }
+.gc-end-2 { grid-column-end: 2; }
+.gc-end-3 { grid-column-end: 3; }
+.gc-end-4 { grid-column-end: 4; }
+.gc-end-5 { grid-column-end: 5; }
+.gc-end-6 { grid-column-end: 6; }
+.gc-end-auto { grid-column-end: auto; }
+.gc-end--1 { grid-column-end: -1; }
+
+/* grid row start */
+.gr-start-1 { grid-row-start: 1; }
+.gr-start-2 { grid-row-start: 2; }
+.gr-start-3 { grid-row-start: 3; }
+.gr-start-4 { grid-row-start: 4; }
+.gr-start-5 { grid-row-start: 5; }
+.gr-start-6 { grid-row-start: 6; }
+.gr-start-auto { grid-row-start: auto; }
+
+/* grid row end */
+.gr-end-1 { grid-row-end: 1; }
+.gr-end-2 { grid-row-end: 2; }
+.gr-end-3 { grid-row-end: 3; }
+.gr-end-4 { grid-row-end: 4; }
+.gr-end-5 { grid-row-end: 5; }
+.gr-end-6 { grid-row-end: 6; }
+.gr-end-auto { grid-row-end: auto; }
+.gr-end--1 { grid-row-end: -1; }
+
+/* justify items (horizontal alignment in grid) */
+.jI-S { justify-items: start; }
+.jI-E { justify-items: end; }
+.jI-C { justify-items: center; }
+.jI-stretch { justify-items: stretch; }
+
+/* place items (shorthand for align-items and justify-items) */
+.pI-S { place-items: start; }
+.pI-E { place-items: end; }
+.pI-C { place-items: center; }
+.pI-stretch { place-items: stretch; }
+
+/* justify self */
+.jS-S { justify-self: start; }
+.jS-E { justify-self: end; }
+.jS-C { justify-self: center; }
+.jS-stretch { justify-self: stretch; }
+
+/* align self */
+.aS-S { align-self: start; }
+.aS-E { align-self: end; }
+.aS-C { align-self: center; }
+.aS-stretch { align-self: stretch; }
+
+/* place self */
+.pS-S { place-self: start; }
+.pS-E { place-self: end; }
+.pS-C { place-self: center; }
+.pS-stretch { place-self: stretch; }
+

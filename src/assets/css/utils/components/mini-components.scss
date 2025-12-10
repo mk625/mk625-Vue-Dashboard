@@ -1,0 +1,113 @@
+
+
+// table
+    .m-table {
+        width: 100%;
+        border: 1px solid var(--c-gray-93);
+        border-spacing: 0;
+        border-radius: 12px;
+        overflow: hidden;
+    }
+    .m-table th {
+        background-color: #f3f8f9;
+        font-weight: var(--fw-sbold);
+        white-space: nowrap;
+    }
+    .m-table th:first-child {
+        border-start-start-radius: 11px;
+    }
+    .m-table th:last-child {
+        border-start-end-radius: 11px;
+    }
+    .m-table th,
+    .m-table td {
+        padding: 14px 25px 14px;
+        text-align: start;
+        vertical-align: middle;
+        transition: all 0.3s ease-in-out;
+    }
+    .m-table tr:not(:last-child) td {
+        border-bottom: 1px solid #eef3f9;
+    }
+    .m-table tr:hover td {
+        background-color: var(--c-gray-98);
+    }
+// \\\ table
+
+
+/* scroller component */
+    .scrollerY-main { display: flex; flex-direction: column; height: 100%; }
+    .scrollerY-sibling { flex-shrink: 0; }
+    .scrollerY-body { flex-grow: 1; overflow-y: auto; }
+
+    .w-scrollbar-thin { scrollbar-width: thin; }
+    .scroll-x-auto { overflow-x: auto; }
+    .scroll-y-auto { overflow-y: auto; }
+
+    .scrollBar-hidden::-webkit-scrollbar { width: 0; }
+    .scrollBar-hidden::-webkit-scrollbar-track { background-color: transparent; }
+    .scrollBar-hidden::-webkit-scrollbar-thumb { background-color: transparent; }
+    /* For Firefox */
+    .scrollBar-hidden { scrollbar-width: none; scrollbar-color: transparent transparent; }
+    /* For IE and Edge */
+    .scrollBar-hidden { -ms-overflow-style: none; }
+    .scrollBar-hidden::-webkit-scrollbar { display: none; }
+/* \\\ scroller component */
+
+
+/* hover */
+	.hov-icon {
+        cursor: pointer;
+        color: var(--c-gray-60);
+        transition: var(--fast-trans);
+    }
+	.hov-icon:hover {
+        color: var(--c-gray-20);
+    }
+
+	.hov-icon-red {
+        color: var(--c-gray-60);
+        transition: var(--fast-trans);
+        cursor: pointer;
+    }
+	.hov-icon-red:hover {
+        color: var(--c-status-red);
+    }
+
+	.hov-link {
+        color: var(--sec-dark-c);
+        transition: var(--fast-trans);
+    }
+	.hov-link:hover {
+        color: var(--c-link);
+    }
+
+	.hov-underline:hover {
+        text-decoration: underline;
+    }
+
+	.hover-opac-parent .hover-opac-child {
+        opacity: 0;
+        transition: all 0.2s ease-in-out;
+        transform: scale(80%);
+    }
+	.hover-opac-parent:hover .hover-opac-child {
+        opacity: 1;
+        transform: scale(100%);
+    }
+
+	.hover-visible-parent .hover-visible-child {
+        visibility: hidden;
+    }
+	.hover-visible-parent:hover .hover-visible-child {
+        visibility: visible;
+    }
+
+	.hover-block-parent .hover-block-child {
+        display: none;
+    }
+	.hover-block-parent:hover .hover-block-child {
+        display: block;
+    }
+/* \\\ hover */
+

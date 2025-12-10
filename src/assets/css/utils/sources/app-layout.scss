@@ -1,0 +1,40 @@
+
+
+:root {
+    /* home layout */
+        --w-app-sidebar: 200px;
+        --h-app-header: 56px;
+    /* \\\ home layout */
+
+
+    /* inputs */
+        // default state
+            --h-input: 36px;
+            --br-radius-input: 4px;
+
+            --c-input-br: var(--c-gray-85);
+        // default state
+
+        // hover
+            --c-input-br-hov: var(--c-gray-70);
+            --input-box-shad-hov: 0px 0px 3px 2px #f0f5fa;
+        // \\\ hover
+
+        // focus
+            --c-input-br-foc: #3890ed;
+            --input-box-shad-foc: 0 0 5px 0 #96b8e9;
+        // \\\ focus
+
+        // shadows
+            --box-shadow-sm: 0 2px 4px var(--c-shadow-sm);
+            --box-shadow-default: 0 4px 12px var(--c-shadow);
+            --box-shadow-lg: 0 8px 28px var(--c-shadow-lg);
+        // \\\ shadows
+    /* \\\ inputs */
+
+
+    // border radius
+        --br-radius-card: 8px;
+    // \\\ border radius
+}
+

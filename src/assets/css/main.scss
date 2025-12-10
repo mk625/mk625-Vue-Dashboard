@@ -1,0 +1,31 @@
+
+
+/* common */
+    /* sources */
+        @use './utils/sources/product-fonts.scss';
+        @use './utils/sources/app-themes.scss';
+        @use './utils/sources/color-schema.scss';
+        @use './utils/sources/app-layout.scss';
+    /* \\\ sources */
+
+    /* global */
+        @use './utils/components/_functions.scss' as *;
+        @use './utils/components/_mixins.scss';
+        
+        @use './utils/global-reset.scss';
+    /* \\\ global */
+
+    /* sources styles */
+        @use './utils/sources/sources-styles/color-schema-styles.scss';
+        @use './utils/sources/sources-styles/productfonts-styles.scss';
+    /* \\\ sources styles */
+
+    /* utils */
+        @use './utils/components/styleBits.scss';
+        @use './utils/components/flex.scss';
+        @use './utils/components/grid.scss';
+        @use './utils/components/mini-components.scss';
+        @use './utils/components/responsive.scss';
+    /* \\\ utils */
+/* \\\ common */
+
