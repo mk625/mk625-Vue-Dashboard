@@ -1,6 +1,6 @@
 <script setup>
     // imports
-        import { onMounted, ref } from 'vue';
+        import { onMounted, ref, computed } from 'vue';
         import db from '@/firebase';
         import { collection, onSnapshot } from 'firebase/firestore';
 
@@ -12,6 +12,7 @@
 
     // global variables
         const users_list = ref([]);
+        const searchingText = ref('');
         const isLoading = ref(true)
     // \\\ global variables
 
@@ -37,6 +38,23 @@
         });
     }
 
+    const filteredUserList = computed(() => {
+        const searchingTextUpdated = searchingText.value.toLowerCase().trim();
+
+        if(!searchingTextUpdated) {
+            return users_list.value;
+        }
+
+        return users_list.value.filter((user) =>{
+            return(
+                user.name?.toLowerCase().includes(searchingTextUpdated) ||
+                user.email?.toLowerCase().includes(searchingTextUpdated) ||
+                user.mailId?.toLowerCase().includes(searchingTextUpdated) ||
+                user.location?.toLowerCase().includes(searchingTextUpdated)
+            )
+        })
+    });
+
     onMounted(() => {
         getUsersList();
     });
@@ -46,7 +64,10 @@
 <template>
     <div class="mB20">
         <div class="d-flx jC-FE">
-            <MInput placeholder="Search"></MInput>
+            <MInput
+                placeholder="Search"
+                v-model="searchingText"
+            />
         </div>
     </div>
 
@@ -75,7 +96,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="(user, index) in users_list" :key="user.id">
+                    <tr v-for="(user, index) in filteredUserList" :key="user.id">
                         <td><div><span>{{ index + 1 }}</span></div></td>
                         <td><div><span>{{ user.name || 'N/A' }}</span></div></td>
                         <td><div><span>{{ user.email || user.mailId || 'N/A' }}</span></div></td>

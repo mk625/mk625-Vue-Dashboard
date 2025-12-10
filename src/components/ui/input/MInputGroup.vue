@@ -60,7 +60,7 @@ const handleUpdate = (value) => {
     <template v-if="view === 'labled'">
         <div>
             <MInputLabel :field_name="label_name"/>
-        
+
             <div class="input-ele-parent">
                 <div>
                     <MInput :input_type="input_type" :toValue="toValue" :placeholder="placeholder" @update:toValue="handleUpdate"/>
@@ -70,7 +70,7 @@ const handleUpdate = (value) => {
             </div>
         </div>
     </template>
-    
+
     <template v-else-if="view === 'search_box'">
         <div class="pos-rel">
             <i class="fa-solid fa-magnifying-glass pos"></i>

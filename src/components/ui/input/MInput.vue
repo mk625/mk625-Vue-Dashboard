@@ -1,6 +1,12 @@
 
 <script setup>
-    defineProps({
+    import { computed } from 'vue';
+
+    const props = defineProps({
+        modelValue: {
+            type: [String, Number],
+            default: "",
+        },
         toValue: {
             type: [String, Number],
             default: "",
@@ -15,10 +21,16 @@
         },
     });
 
-    const emit = defineEmits(['update:toValue']);
+    const emit = defineEmits(['update:modelValue', 'update:toValue']);
+
+    const inputValue = computed(() => {
+        return props.modelValue !== "" ? props.modelValue : props.toValue;
+    });
 
     const handleInput = (event) => {
-        emit('update:toValue', event.target.value);
+        const value = event.target.value;
+        emit('update:modelValue', value);
+        emit('update:toValue', value);
     };
 </script>
 
@@ -26,7 +38,7 @@
 <template>
     <input
         :type="input_type"
-        :value="toValue"
+        :value="inputValue"
         :placeholder="placeholder"
         @input="handleInput"
         class="input-ele"
