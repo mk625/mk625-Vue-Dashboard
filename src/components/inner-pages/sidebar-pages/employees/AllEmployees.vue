@@ -2,7 +2,7 @@
     // imports
         import { onMounted, ref, computed } from 'vue';
         import db from '@/firebase';
-        import { collection, onSnapshot } from 'firebase/firestore';
+        import { collection, onSnapshot, orderBy, query } from 'firebase/firestore';
 
         // components
             import MInput from '@/components/ui/input/MInput.vue';
@@ -17,19 +17,13 @@
     // \\\ global variables
 
 
-    // watcher
-        // watch(searchTtx, (val) => {
-        //     if(!val.trim()) {
-
-        //     }
-        // })
-    // \\\ watcher
-
-
     function getUsersList() {
-        const usersListDb = collection(db, 'users-list');
+        const usersListQuery = query(
+            collection(db, 'users-list'),
+            orderBy('id', 'asc')
+        )
 
-        onSnapshot(usersListDb, (snapshot) => {
+        onSnapshot(usersListQuery, (snapshot) => {
             users_list.value = snapshot.docs.map((doc) => ({
                 id: doc.id,
                 ...doc.data()
@@ -81,26 +75,36 @@
             <table class="m-table">
                 <thead>
                     <tr>
-                        <th>
+                        <th class="w10pe">
                             <div><span>ID</span></div>
                         </th>
-                        <th>
+                        <th class="w30pe">
                             <div><span>Name</span></div>
                         </th>
-                        <th>
+                        <th class="w30pe">
                             <div><span>Mail ID</span></div>
                         </th>
-                        <th>
+                        <th class="w30pe">
                             <div><span>Location</span></div>
                         </th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="(user, index) in filteredUserList" :key="user.id">
-                        <td><div><span>{{ index + 1 }}</span></div></td>
-                        <td><div><span>{{ user.name || 'N/A' }}</span></div></td>
-                        <td><div><span>{{ user.email || user.mailId || 'N/A' }}</span></div></td>
-                        <td><div><span>{{ user.location || 'N/A' }}</span></div></td>
+                    <template v-if="filteredUserList.length !== 0">
+                        <tr v-for="(user) in filteredUserList" :key="user.id">
+                            <td><div><span>{{ user.id }}</span></div></td>
+                            <td><div><span>{{ user.name || 'N/A' }}</span></div></td>
+                            <td><div><span>{{ user.email || user.mailId || 'N/A' }}</span></div></td>
+                            <td><div><span>{{ user.location || 'N/A' }}</span></div></td>
+                        </tr>
+                    </template>
+
+                    <tr v-else>
+                        <td colspan="4">
+                            <div class="txt-a-center">
+                                <p class="text-secondary">No results found</p>
+                            </div>
+                        </td>
                     </tr>
                 </tbody>
             </table>
