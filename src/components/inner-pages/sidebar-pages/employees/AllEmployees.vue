@@ -6,6 +6,7 @@
 
         // components
             import MInput from '@/components/ui/input/MInput.vue';
+            import mTable from '@/components/ui/table/mTable.vue';
         // \\\ components
     // \\\ imports
 
@@ -13,7 +14,31 @@
     // global variables
         const users_list = ref([]);
         const searchingText = ref('');
-        const isLoading = ref(true)
+        const isLoading = ref(true);
+
+        const tableHeaderList = [
+            {
+                key: 'id',
+                label: "ID",
+                width: "w10pe"
+            },
+            {
+                key: 'name',
+                label: 'Name',
+                width: "w30pe"
+
+            },
+            {
+                key: 'email',
+                label: 'Email',
+                width: "w30pe"
+            },
+            {
+                key: 'location',
+                label: 'Location',
+                width: "w30pe"
+            }
+        ]
     // \\\ global variables
 
 
@@ -65,49 +90,17 @@
         </div>
     </div>
 
-
     <div>
-        <div v-if="isLoading">
-            <h3 class="f20">Loading...</h3>
-        </div>
-
-        <div v-else>
-            <table class="m-table">
-                <thead>
-                    <tr>
-                        <th class="w10pe">
-                            <div><span>ID</span></div>
-                        </th>
-                        <th class="w30pe">
-                            <div><span>Name</span></div>
-                        </th>
-                        <th class="w30pe">
-                            <div><span>Mail ID</span></div>
-                        </th>
-                        <th class="w30pe">
-                            <div><span>Location</span></div>
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <template v-if="filteredUserList.length !== 0">
-                        <tr v-for="(user) in filteredUserList" :key="user.id">
-                            <td><div><span>{{ user.id }}</span></div></td>
-                            <td><div><span>{{ user.name || 'N/A' }}</span></div></td>
-                            <td><div><span>{{ user.email || user.mailId || 'N/A' }}</span></div></td>
-                            <td><div><span>{{ user.location || 'N/A' }}</span></div></td>
-                        </tr>
-                    </template>
-
-                    <tr v-else>
-                        <td colspan="4">
-                            <div class="txt-a-center">
-                                <p class="text-secondary">No results found</p>
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+        <mTable
+            :columns="tableHeaderList"
+            :rows="filteredUserList"
+            :loading="isLoading"
+        />
     </div>
 </template>
+
+
+<style scoped>
+
+</style>
+

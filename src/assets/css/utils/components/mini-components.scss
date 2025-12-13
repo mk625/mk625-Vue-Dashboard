@@ -1,40 +1,5 @@
 
 
-// table
-    .m-table {
-        width: 100%;
-        border: 1px solid var(--c-gray-93);
-        border-spacing: 0;
-        border-radius: 12px;
-        overflow: hidden;
-    }
-    .m-table th {
-        background-color: #f3f8f9;
-        font-weight: var(--fw-sbold);
-        white-space: nowrap;
-    }
-    .m-table th:first-child {
-        border-start-start-radius: 11px;
-    }
-    .m-table th:last-child {
-        border-start-end-radius: 11px;
-    }
-    .m-table th,
-    .m-table td {
-        padding: 14px 25px 14px;
-        text-align: start;
-        vertical-align: middle;
-        transition: all 0.3s ease-in-out;
-    }
-    .m-table tr:not(:last-child) td {
-        border-bottom: 1px solid #eef3f9;
-    }
-    .m-table tr:hover td {
-        background-color: var(--c-gray-98);
-    }
-// \\\ table
-
-
 /* scroller component */
     .scrollerY-main { display: flex; flex-direction: column; height: 100%; }
     .scrollerY-sibling { flex-shrink: 0; }
