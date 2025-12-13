@@ -31,52 +31,70 @@
                     :class="[`${column.width}`]"
                     >
                     <div>
-                        <span>
-                            {{ column.label }}
-                        </span>
+                        <slot
+                            :name="`header-${column.key}`"
+                            :column="column"
+                            >
+                            <span>
+                                {{ column.label }}
+                            </span>
+                        </slot>
                     </div>
                 </th>
             </tr>
         </thead>
 
         <tbody>
-            <template v-if="loading">
-                <tr v-for="n in 4" :key="n">
-                    <td>
-                        <div> <span class="sk-table-td"></span> </div>
-                    </td>
-                    <td>
-                        <div> <span class="sk-table-td"></span> </div>
-                    </td>
-                    <td>
-                        <div> <span class="sk-table-td"></span> </div>
-                    </td>
-                    <td>
-                        <div> <span class="sk-table-td"></span> </div>
+            <!-- skeleton -->
+                <template v-if="loading">
+                    <tr v-for="n in 4" :key="n">
+                        <td>
+                            <div> <span class="sk-table-td"></span> </div>
+                        </td>
+                        <td>
+                            <div> <span class="sk-table-td"></span> </div>
+                        </td>
+                        <td>
+                            <div> <span class="sk-table-td"></span> </div>
+                        </td>
+                        <td>
+                            <div> <span class="sk-table-td"></span> </div>
+                        </td>
+                    </tr>
+                </template>
+            <!-- skeleton -->
+
+            <!-- real data -->
+                <tr
+                    v-else-if="!loading && rows.length > 0"
+                    v-for="row in rows"
+                    :key="row.id"
+                >
+                    <td
+                        v-for="col in columns"
+                        :key="col.key"
+                        >
+                        <slot
+                            :name="`cell-${col.key}`"
+                            :row="row"
+                            :column="col"
+                            :value="row[col.key]"
+                            >
+                            {{ row[col.key] || '-' }}
+                        </slot>
                     </td>
                 </tr>
-            </template>
+            <!-- \\\ real data -->
 
-            <tr
-                v-else-if="!loading"
-                v-for="row in rows"
-                :key="row.id"
-            >
-                <td
-                    v-for="col in columns"
-                    :key="col.key"
-                    >
-                    {{ row[col.key] || '-' }}
-                </td>
-            </tr>
-
-            <!-- <tr v-else-if="rows.length===0" style="display: none;">
-                <td colspan="4">
-                    <div class="txt-a-center">
-                        <p class="text-secondary">No results found</p>
-                    </div>
-                </td>
-            </tr> -->
+            <!-- no results -->
+                <tr v-else-if="!loading && rows.length === 0">
+                    <td :colspan="columns.length">
+                        <div class="txt-a-center">
+                            <p class="text-secondary">No results found</p>
+                        </div>
+                    </td>
+                </tr>
+            <!-- \\\ no results -->
         </tbody>
     </table>
 </template>
