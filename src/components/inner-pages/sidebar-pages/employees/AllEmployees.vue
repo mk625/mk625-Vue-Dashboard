@@ -5,8 +5,8 @@
         import { collection, onSnapshot, orderBy, query } from 'firebase/firestore';
 
         // components
-            import MInput from '@/components/ui/input/MInput.vue';
             import mTable from '@/components/ui/table/mTable.vue';
+            import MSearchBox from '@/components/ui/input/MSearchBox.vue';
         // \\\ components
     // \\\ imports
 
@@ -83,7 +83,7 @@
 <template>
     <div class="mB20">
         <div class="d-flx jC-FE">
-            <MInput
+            <MSearchBox
                 placeholder="Search"
                 v-model="searchingText"
             />

@@ -144,7 +144,7 @@
 
     .sk-table-td {
         display: inline-block;
-        width: 90%;
+        width: 50%;
         height: 6px;
         background: linear-gradient( 90deg, var(--c-gray-90) 25%, var(--c-gray-95) 37%, var(--c-gray-90) 63%);
         background-size: 400% 100%;
