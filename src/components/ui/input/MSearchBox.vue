@@ -5,51 +5,48 @@
 
     const modelValue = defineModel({ type: String });
 
-    defineProps({
+    const props = defineProps({
         placeholder: {
             type: String,
             default: "",
+        },
+        searchIcon: {
+            type: String,
+            default: "bi bi-search",
+        },
+        showClearButton: {
+            type: Boolean,
+            default: true,
         },
     });
 
     const clearInput = () => {
         modelValue.value = "";
     };
+
+    const shouldShowClearButton = () => {
+        return props.showClearButton && modelValue.value && modelValue.value.length > 0;
+    };
     // \\\ props
 </script>
 
 
 <template>
-    <div class="input-box">
-        <div class="d-flx aI-C g-8 h100pe">
-            <i class="bi bi-search"></i>
-            <MInput
-                class="fG-1"
-                v-model="modelValue"
-                :placeholder="placeholder"
-            />
-            <NavButton @click="clearInput"/>
-        </div>
-    </div>
+    <MInput
+        v-model="modelValue"
+        :placeholder="placeholder"
+    >
+        <template #prefix>
+            <i :class="searchIcon"></i>
+        </template>
+        
+        <template #suffix>
+            <NavButton v-if="shouldShowClearButton()" @click="clearInput"/>
+        </template>
+    </MInput>
 </template>
 
 
 <style scoped>
-    .input-box {
-        max-width: 250px;
-        width: 100%;
-        height: var(--h-input);
-        padding-inline: 12px;
-        border-radius: var(--br-radius-input);
-        border: 1px solid var(--c-input-br);
-        transition: var(--default-trans);
-    }
-    .input-box:hover {
-        border-color: var(--c-gray-80);
-        box-shadow: var(--input-box-shad-hov);
-    }
-    .input-box:focus-within {
-        border-color: var(--c-input-br-foc);
-        box-shadow: var(--input-box-shad-foc);
-    }
+
 </style>

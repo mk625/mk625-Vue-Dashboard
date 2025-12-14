@@ -23,7 +23,7 @@
             <h2 class="f26 fw-sbold"> {{ count }} </h2>
         </div>
         <div>
-            <p class="txt-secondary">
+            <p class="c-txt-secondary">
                 {{ description }}
             </p>
         </div>

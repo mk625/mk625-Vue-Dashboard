@@ -1,82 +1,98 @@
-
 <script setup>
-import MInput from './MInput.vue';
-import MInputError from './MInputError.vue';
-import MInputLabel from './MInputLabel.vue';
+    // imports
+        import { provide, toRefs } from 'vue';
+        import MInput from './MInput.vue';
+        import MInputError from './MInputError.vue';
+        import MInputLabel from './MInputLabel.vue';
+    // \\\ imports
 
-defineProps({
-    view: {
-        type: String,
-        default: "input_only",
-    },
-    isRequired: {
-        type: Boolean,
-        default: false
-    },
+    // props
+    const props = defineProps({
+        // view
+            view: {
+                type: String,
+                default: 'input_only',
+                validator: (value) => ['input_only', 'labeled'].includes(value)
+            },
+        // \\\ view
 
-    // input
-        toValue: {
+        // input
+            placeholder: {
+                type: String,
+                default: ''
+            },
+            input_type: {
+                type: String,
+                default: 'text'
+            },
+            have_type_icon: {
+                type: Boolean,
+                default: false
+            },
+        // \\\ input
+
+        // label
+            label_name: {
+                type: String,
+                default: ''
+            },
+        // \\\ label
+
+        // Error
+            error: {
+                type: Boolean,
+                default: false
+            }
+        // \\\ Error
+    });
+
+    // model
+        const modelValue = defineModel({
             type: [String, Number],
-            default: '',
-        },
-        placeholder: {
-            type: String,
-            default: '',
-        },
-        input_type: {
-            type: String,
-            default: 'text',
-        },
-        have_type_icon: {
-            type: Boolean,
-            default: false,
-        },
-    // \\\ input
+            default: ''
+        });
+    // \\\ model
 
-
-    // label
-        label_name: {
-            type: String,
-        },
-    // \\\ label
-
-
-    // Error
-        error: {
-            type: Boolean,
-        },
-    // Error
-})
-
-const emit = defineEmits(['update:toValue']);
-
-const handleUpdate = (value) => {
-    emit('update:toValue', value);
-};
+    // provide
+        provide('inputGroupProps', toRefs(props));
+    // \\\ provide
 </script>
 
 
 <template>
-    <template v-if="view === 'labled'">
+    <!-- input_only view -->
+    <template v-if="view === 'input_only'">
+        <div class="input-ele-parent">
+            <div>
+                <MInput v-model="modelValue" />
+                <i
+                    v-if="have_type_icon"
+                    class="fa-solid fa-magnifying-glass input-type-icon"
+                ></i>
+            </div>
+            <MInputError />
+        </div>
+    </template>
+    <!-- \\\ input_only view -->
+
+    <!-- labeled view -->
+    <template v-if="view === 'labeled'">
         <div>
-            <MInputLabel :field_name="label_name"/>
+            <MInputLabel />
 
             <div class="input-ele-parent">
                 <div>
-                    <MInput :input_type="input_type" :toValue="toValue" :placeholder="placeholder" @update:toValue="handleUpdate"/>
-                    <i v-if="have_type_icon" class="fa-solid fa-magnifying-glass input-type-icon"></i>
+                    <MInput v-model="modelValue" />
+                    <i
+                        v-if="have_type_icon"
+                        class="fa-solid fa-magnifying-glass input-type-icon"
+                    ></i>
                 </div>
-                <MInputError :isError="error"/>
+                <MInputError />
             </div>
         </div>
     </template>
-
-    <template v-else-if="view === 'search_box'">
-        <div class="pos-rel">
-            <i class="fa-solid fa-magnifying-glass pos"></i>
-            <MInput :input_type="input_type" :toValue="toValue" :placeholder="placeholder" @update:toValue="handleUpdate"/>
-        </div>
-    </template>
+    <!-- \\\ labeled view -->
 </template>
 
 

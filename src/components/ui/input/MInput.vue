@@ -1,43 +1,68 @@
 <script setup>
-const modelValue = defineModel({
-    type: [String, Number],
-    default: ''
-});
+    // props (for standalone use)
+    defineProps ({
+        placeholder: {
+            type: String,
+            default: ''
+        },
+        input_type: {
+            type: String,
+            default: 'text'
+        }
+    });
+    // \\\ props
 
-defineProps({
-    placeholder: {
-        type: String,
-        default: ''
-    },
-    input_type: {
-        type: String,
-        default: 'text'
-    }
-});
+    // model
+        const modelValue = defineModel({
+            type: [String, Number],
+            default: ''
+        });
+    // \\\ model
 </script>
 
 
 <template>
-    <input
-        class="input-ele"
-        :type="input_type"
-        :value="modelValue"
-        :placeholder="placeholder"
-        @input="modelValue = $event.target.value"
-    />
+    <div class="input-box">
+        <div class="d-flx aI-C g-8 h100pe">
+            <slot name="prefix"></slot>
+            <input
+                class="fG-1 m-input"
+                :type="input_type"
+                v-model="modelValue"
+                :placeholder="placeholder"
+            />
+            <slot name="suffix"></slot>
+        </div>
+    </div>
 </template>
 
 
 <style scoped>
-    .input-ele {
-        display: inline-block;
+    .input-box {
+        max-width: 250px;
+        width: 100%;
+        height: var(--h-input);
+        padding-inline: 12px;
+        border-radius: var(--br-radius-input);
+        border: 1px solid var(--c-input-br);
+        transition: var(--default-trans);
+    }
+    .input-box:hover {
+        border-color: var(--c-gray-80);
+        box-shadow: var(--input-box-shad-hov);
+    }
+    .input-box:focus-within {
+        border-color: var(--c-input-br-foc);
+        box-shadow: var(--input-box-shad-foc);
+    }
+    .m-input {
         height: 100%;
-        flex-shrink: 0;
-
-        background-color: transparent;
         border: none;
+        background-color: transparent;
+        font-size: inherit;
+        color: inherit;
+        line-height: inherit;
+        font-family: inherit;
         outline: none;
-
-        text-overflow: ellipsis;
     }
 </style>
