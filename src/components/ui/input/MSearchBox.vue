@@ -3,6 +3,19 @@
     import MInput from './MInput.vue';
     import NavButton from '../buttons/NavButton.vue';
 
+    const modelValue = defineModel({ type: String });
+
+    defineProps({
+        placeholder: {
+            type: String,
+            default: "",
+        },
+    });
+
+    const clearInput = () => {
+        modelValue.value = "";
+    };
+    // \\\ props
 </script>
 
 
@@ -10,8 +23,12 @@
     <div class="input-box">
         <div class="d-flx aI-C g-8 h100pe">
             <i class="bi bi-search"></i>
-            <MInput class="fG-1"/>
-            <NavButton/>
+            <MInput
+                class="fG-1"
+                v-model="modelValue"
+                :placeholder="placeholder"
+            />
+            <NavButton @click="clearInput"/>
         </div>
     </div>
 </template>
