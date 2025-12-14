@@ -4,6 +4,7 @@ import DashboardHome from '../components/home/home-elements/DashboardHome.vue'
 import AttendanceHome from '../components/inner-pages/sidebar-pages/attendance/AttendanceHome.vue'
 import EmployeesHome from '../components/inner-pages/sidebar-pages/employees/EmployeesHome.vue'
 import AllEmployees from '../components/inner-pages/sidebar-pages/employees/AllEmployees.vue'
+import AddEmployee from '../components/inner-pages/sidebar-pages/employees/AddEmployee.vue'
 import DepartmentsHome from '../components/inner-pages/sidebar-pages/departments/DepartmentsHome.vue'
 import PayrollHome from '../components/inner-pages/sidebar-pages/payroll/PayrollHome.vue'
 import PerformanceHome from '../components/inner-pages/sidebar-pages/performance/PerformanceHome.vue'
@@ -26,6 +27,7 @@ const componentMap = {
 // Child component mapping for employees
 const employeesChildMap = {
     'all-employees': AllEmployees,
+    'add-employee': AddEmployee,
 }
 
 function generateRoutesFromNavigation(navigationItems) {

@@ -20,9 +20,9 @@
                 "path": "/employees/all-employees"
             },
             {
-                "id": "active-employees",
-                "label": "Active",
-                "path": "/employees/active-employees"
+                "id": "add-employee",
+                "label": "Add Employee",
+                "path": "/employees/add-employee"
             },
             {
                 "id": "on-leave",
