@@ -39,7 +39,7 @@
         <template #prefix>
             <i :class="searchIcon"></i>
         </template>
-        
+
         <template #suffix>
             <NavButton v-if="shouldShowClearButton()" @click="clearInput"/>
         </template>

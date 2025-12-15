@@ -1,7 +1,9 @@
 
 <script setup>
     // imports
-        import MInputGroup from '@/components/ui/input/MInputGroup.vue';
+        import MInput from '@/components/ui/input/MInput.vue';
+        import MInputLabel from '@/components/ui/input/MInputLabel.vue';
+        import MButton from '@/components/ui/buttons/MButton.vue';
     // \\\ imports
 
 
@@ -10,7 +12,7 @@
 
 <template>
     <!-- steps design -->
-    <div>
+    <div class="mB50 mT30">
         <ul class="d-flx aI-C jC-C g-80">
             <li class="step-completed">
                 <div class="txt-a-center">
@@ -95,8 +97,47 @@
     <!-- \\\ steps design -->
 
     <div>
-        <div class="w50pe">
-            <MInputGroup input_type="text" placeholder="Enter Name"/>
+        <div class="max-w-600 w100pe m0-auto">
+            <form class="d-block" action="">
+                <div>
+                    <div class="d-flx aI-C jC-S g-20 mB30">
+                        <div class="w50pe">
+                            <MInputLabel class="mB5" label_name="First Name"/>
+                            <MInput input_type="text" placeholder="Enter First Name"/>
+                        </div>
+                        <div class="w50pe">
+                            <MInputLabel class="mB5" label_name="Last Name"/>
+                            <MInput input_type="text" placeholder="Enter Last Name"/>
+                        </div>
+                    </div>
+
+                    <div class="mB30">
+                        <div class="d-flx aI-C jC-S g-20">
+                            <div class="w50pe">
+                                <MInputLabel class="mB5" label_name="Email"/>
+                                <MInput input_type="email" placeholder="Enter Email"/>
+                            </div>
+                            <div class="w50pe">
+                                <MInputLabel class="mB5" label_name="Phone"/>
+                                <MInput input_type="tel" placeholder="Enter Phone"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mB40">
+                        <div>
+                            <div class="w50pe">
+                                <MInputLabel class="mB5" label_name="Location"/>
+                                <MInput input_type="text" placeholder="Enter Location"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="txt-a-center">
+                    <MButton button_type="primary" button_text="Save">Save</MButton>
+                </div>
+            </form>
         </div>
     </div>
 </template>

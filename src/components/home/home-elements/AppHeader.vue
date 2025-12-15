@@ -4,7 +4,7 @@
     import { fetchNavigationItems } from '@/js/services/navigationApi.js';
     import profilePic from '@/assets/images/general/profile-pic.jpg';
     import PlainButton from '@/components/ui/buttons/PlainButton.vue';
-    import MInputGroup from '@/components/ui/input/MInputGroup.vue';
+    import MInput from '@/components/ui/input/MInput.vue';
     import MProfilePic from '@/components/ui/general/mProfilePic.vue';
 
     const route = useRoute();
@@ -43,7 +43,7 @@
 
             <div class="d-flx aI-C g-15">
                 <!-- input -->
-                <MInputGroup/>
+                <MInput placeholder="Search..."/>
                 <!-- \\\ input -->
 
                 <!-- app actions -->

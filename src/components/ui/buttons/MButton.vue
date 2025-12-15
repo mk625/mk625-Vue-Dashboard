@@ -92,8 +92,8 @@
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        min-width: 60px;
-        height: 35px;
+        min-width: 80px;
+        height: var(--h-input);
         padding-inline: 16px;
         color: var(--c-white);
         border-radius: 5px;

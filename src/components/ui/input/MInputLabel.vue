@@ -1,43 +1,31 @@
 
 <script setup>
-    // imports
-        import { inject, computed } from 'vue';
-    // \\\ imports
-
-    // inject
-        const inputGroupProps = inject('inputGroupProps', null);
-    // \\\ inject
-
     // props (for standalone use)
-        const props = defineProps({
-            field_name: {
+        defineProps({
+            label_name: {
                 type: String,
                 default: '',
             },
         });
     // \\\ props
-
-    // computed (use injected value or prop)
-        const fieldName = computed(() => inputGroupProps?.label_name?.value ?? props.field_name);
-    // \\\ computed
 </script>
 
 
 <template>
-    <label class="input-label">
-        <span class="input-label__text">{{ fieldName }}</span>
-    </label>
+    <div>
+        <label class="input-label">
+            <span class="input-label__text">{{ label_name }}</span>
+        </label>
+    </div>
 </template>
 
 
 <style scoped>
     .input-label {
         display: block;
-        margin-bottom: 8px;
-        font-size: 14px;
         color: var(--c-black);
+        font-weight: var(--fw-medium);
     }
-
     .input-label__text {
         display: inline-block;
     }

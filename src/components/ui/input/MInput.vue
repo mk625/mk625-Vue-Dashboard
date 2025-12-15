@@ -1,15 +1,21 @@
 <script setup>
     // props (for standalone use)
-    defineProps ({
-        placeholder: {
-            type: String,
-            default: ''
-        },
-        input_type: {
-            type: String,
-            default: 'text'
-        }
-    });
+        defineProps ({
+            placeholder: {
+                type: String,
+                default: ''
+            },
+            input_type: {
+                type: String,
+                default: 'text'
+            },
+            pre_icon: {
+                type: String,
+            },
+            suf_icon: {
+                type: String,
+            }
+        });
     // \\\ props
 
     // model
@@ -24,8 +30,8 @@
 <template>
     <div class="input-box">
         <div class="d-flx aI-C g-8 h100pe">
-            <slot name="prefix">
-                <i></i>
+            <slot v-if="pre_icon" name="prefix">
+                <i :class="['bi', pre_icon]"></i>
             </slot>
             <input
                 class="fG-1 m-input"
@@ -33,7 +39,9 @@
                 v-model="modelValue"
                 :placeholder="placeholder"
             />
-            <slot name="suffix"></slot>
+            <slot v-if="suf_icon" name="suffix">
+                <i :class="['bi', suf_icon]"></i>
+            </slot>
         </div>
     </div>
 </template>
@@ -41,7 +49,7 @@
 
 <style scoped>
     .input-box {
-        max-width: 250px;
+        max-width: 280px;
         width: 100%;
         height: var(--h-input);
         padding-inline: 12px;
