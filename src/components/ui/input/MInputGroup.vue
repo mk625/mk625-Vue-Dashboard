@@ -63,13 +63,7 @@
     <!-- input_only view -->
     <template v-if="view === 'input_only'">
         <div class="input-ele-parent">
-            <div>
-                <MInput v-model="modelValue" />
-                <i
-                    v-if="have_type_icon"
-                    class="fa-solid fa-magnifying-glass input-type-icon"
-                ></i>
-            </div>
+            <MInput v-model="modelValue" />
             <MInputError />
         </div>
     </template>

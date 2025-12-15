@@ -24,7 +24,9 @@
 <template>
     <div class="input-box">
         <div class="d-flx aI-C g-8 h100pe">
-            <slot name="prefix"></slot>
+            <slot name="prefix">
+                <i></i>
+            </slot>
             <input
                 class="fG-1 m-input"
                 :type="input_type"
