@@ -35,6 +35,7 @@
     <MInput
         v-model="modelValue"
         :placeholder="placeholder"
+        type="search"
     >
         <template #prefix>
             <i :class="searchIcon"></i>

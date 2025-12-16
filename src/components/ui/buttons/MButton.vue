@@ -17,6 +17,11 @@
             type: String,
             validator: value => ['size-sm', 'size-lg'].includes(value)
         },
+        type: {
+            type: String,
+            default: 'button',
+            validator: value => ['button', 'submit', 'reset'].includes(value)
+        },
         disabled: {
             type: Boolean,
             default: false,
@@ -45,7 +50,11 @@
 
 <template>
     <!-- default button styles -->
-    <component :is="tag" :class="['m-btn', `m-btn-${variant}`, { 'btn-loading': isLoading }]">
+    <component
+        :is="tag"
+        :class="['m-btn', `m-btn-${variant}`, { 'btn-loading': isLoading }]"
+        :type="type">
+        
         <!-- default button -->
             <template v-if="btn_view === 'normal'">
                 <span class="btn-title"> <slot/> </span>
@@ -124,18 +133,6 @@
     .m-btn.m-btn-secondary:hover {
         color: var(--c-black);
         border-color: var(--c-black);
-    }
-    .m-btn.m-btn-green {
-        background-color: #4ea656;
-        border: 1px solid #4ea656;
-    }
-    .m-btn.m-btn-red {
-        background-color: #e35959;
-        border: 1px solid #e35959;
-    }
-    .m-btn.m-btn-orange {
-        background-color: #ea8f2d;
-        border: 1px solid #ea8f2d;
     }
     .m-btn.m-btn-icon {
         padding-inline: 10px;

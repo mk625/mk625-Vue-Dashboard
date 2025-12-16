@@ -5,9 +5,10 @@
                 type: String,
                 default: ''
             },
-            input_type: {
+            type: {
                 type: String,
-                default: 'text'
+                default: 'text',
+                validator: (value) => ['text', 'email', 'password', 'tel', 'search'].includes(value)
             },
             pre_icon: {
                 type: String,
@@ -35,7 +36,7 @@
             </slot>
             <input
                 class="fG-1 m-input"
-                :type="input_type"
+                :type="type"
                 v-model="modelValue"
                 :placeholder="placeholder"
             />

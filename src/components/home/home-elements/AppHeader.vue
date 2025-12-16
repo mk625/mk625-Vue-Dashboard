@@ -43,7 +43,7 @@
 
             <div class="d-flx aI-C g-15">
                 <!-- input -->
-                <MInput placeholder="Search..."/>
+                <MInput placeholder="Search..." type="search"/>
                 <!-- \\\ input -->
 
                 <!-- app actions -->

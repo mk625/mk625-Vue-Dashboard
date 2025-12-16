@@ -1,12 +1,45 @@
 
 <script setup>
     // imports
+        import { ref } from 'vue';
+        import { addDoc, collection } from 'firebase/firestore';
+        import db from '@/firebase';
+
         import MInput from '@/components/ui/input/MInput.vue';
         import MInputLabel from '@/components/ui/input/MInputLabel.vue';
         import MButton from '@/components/ui/buttons/MButton.vue';
     // \\\ imports
 
+    // global variables
+        const first_name = ref('');
+        const last_name = ref('');
+        const email = ref('');
+        const phone = ref('');
+        const location = ref('');
 
+        const isError = ref(false);
+    // \\\ global variables
+
+
+    async function handleSubmit() {
+        if (first_name.value === '' || last_name.value === '' || email.value === '' || phone.value === '' || location.value === '') {
+            isError.value = true;
+            return;
+        }
+
+        await addDoc(collection(db, 'users-list'),{
+            name: first_name.value + ' ' + last_name.value,
+            email: email.value,
+            location: location.value,
+        })
+
+        // reset form
+        first_name.value = "";
+        last_name.value = "";
+        email.value = "";
+        phone.value = "";
+        location.value = "";
+    }
 </script>
 
 
@@ -98,44 +131,48 @@
 
     <div>
         <div class="max-w-600 w100pe m0-auto">
-            <form class="d-block" action="">
-                <div>
-                    <div class="d-flx aI-C jC-S g-20 mB30">
+            <form class="d-block" @submit.prevent="handleSubmit">
+                <div class="d-flx fD-C g-20">
+                    <div class="d-flx aI-C jC-S g-20">
                         <div class="w50pe">
-                            <MInputLabel class="mB5" label_name="First Name"/>
-                            <MInput input_type="text" placeholder="Enter First Name"/>
+                            <MInputLabel v-model="first_name" class="mB5" label_name="First Name"/>
+                            <MInput placeholder="Enter First Name"/>
                         </div>
                         <div class="w50pe">
-                            <MInputLabel class="mB5" label_name="Last Name"/>
-                            <MInput input_type="text" placeholder="Enter Last Name"/>
+                            <MInputLabel v-model="last_name" class="mB5" label_name="Last Name"/>
+                            <MInput placeholder="Enter Last Name"/>
                         </div>
                     </div>
 
-                    <div class="mB30">
+                    <div>
                         <div class="d-flx aI-C jC-S g-20">
                             <div class="w50pe">
-                                <MInputLabel class="mB5" label_name="Email"/>
-                                <MInput input_type="email" placeholder="Enter Email"/>
+                                <MInputLabel v-model="email" class="mB5" label_name="Email"/>
+                                <MInput type="email" placeholder="Enter Email"/>
                             </div>
                             <div class="w50pe">
                                 <MInputLabel class="mB5" label_name="Phone"/>
-                                <MInput input_type="tel" placeholder="Enter Phone"/>
+                                <MInput  v-model="phone" type="tel" placeholder="Enter Phone"/>
                             </div>
                         </div>
                     </div>
 
-                    <div class="mB40">
+                    <div>
                         <div>
                             <div class="w50pe">
                                 <MInputLabel class="mB5" label_name="Location"/>
-                                <MInput input_type="text" placeholder="Enter Location"/>
+                                <MInput v-model="location" placeholder="Enter Location"/>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="txt-a-center">
-                    <MButton button_type="primary" button_text="Save">Save</MButton>
+                <div v-if="isError" class="mT15">
+                    <p class="c-status-red">Please fill in all the fields</p>
+                </div>
+
+                <div class="txt-a-center mT30">
+                    <MButton type="submit">Save</MButton>
                 </div>
             </form>
         </div>
