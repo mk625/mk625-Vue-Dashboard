@@ -54,7 +54,7 @@
         :is="tag"
         :class="['m-btn', `m-btn-${variant}`, { 'btn-loading': isLoading }]"
         :type="type">
-        
+
         <!-- default button -->
             <template v-if="btn_view === 'normal'">
                 <span class="btn-title"> <slot/> </span>
@@ -78,12 +78,12 @@
         <!-- \\\ default button with icon -->
 
         <!-- single icon -->
-        <template v-else-if="btn_view==='single_icon'">
+        <template v-else-if="btn_view === 'single_icon'">
             <i class="fa-solid fa-upload"></i>
         </template>
 
         <!-- 2 icons icon -->
-        <template v-else-if="btn_view==='two_icon'">
+        <template v-else-if="btn_view === 'two_icon'">
             <span class="d-flx aI-C g-10">
                 <i class="fa-solid fa-arrow-down-wide-short"></i>
                 <i class="fa-solid fa-chevron-down"></i>

@@ -2,7 +2,7 @@
 <script setup>
     // imports
         import { ref } from 'vue';
-        import { addDoc, collection } from 'firebase/firestore';
+        import { addDoc, collection, query, orderBy, limit, getDocs } from 'firebase/firestore';
         import db from '@/firebase';
 
         import MInput from '@/components/ui/input/MInput.vue';
@@ -17,9 +17,23 @@
         const phone = ref('');
         const location = ref('');
 
+        const isLoading = ref(false);
         const isError = ref(false);
     // \\\ global variables
 
+
+    async function getLastId() {
+        const usersRef = collection(db, 'users-list');
+        const q = query(usersRef, orderBy('id', 'desc'), limit(1));
+        const querySnapshot = await getDocs(q);
+
+        if (querySnapshot.empty) {
+            return 0;
+        }
+
+        const lastDoc = querySnapshot.docs[0];
+        return lastDoc.data().id || 0;
+    }
 
     async function handleSubmit() {
         if (first_name.value === '' || last_name.value === '' || email.value === '' || phone.value === '' || location.value === '') {
@@ -27,18 +41,33 @@
             return;
         }
 
-        await addDoc(collection(db, 'users-list'),{
-            name: first_name.value + ' ' + last_name.value,
-            email: email.value,
-            location: location.value,
-        })
+        isLoading.value = true;
+        try {
+            const lastId = await getLastId();
+            const newId = lastId + 1;
 
-        // reset form
-        first_name.value = "";
-        last_name.value = "";
-        email.value = "";
-        phone.value = "";
-        location.value = "";
+            await addDoc(collection(db, 'users-list'),{
+                id: newId,
+                name: first_name.value + ' ' + last_name.value,
+                email: email.value,
+                phone: phone.value,
+                location: location.value,
+            })
+
+            isError.value = false;
+
+            // reset form
+            first_name.value = "";
+            last_name.value = "";
+            email.value = "";
+            phone.value = "";
+            location.value = "";
+        } catch (error) {
+            console.error('Error adding document: ', error);
+            isError.value = true;
+        } finally {
+            isLoading.value = false;
+        }
     }
 </script>
 
@@ -135,24 +164,24 @@
                 <div class="d-flx fD-C g-20">
                     <div class="d-flx aI-C jC-S g-20">
                         <div class="w50pe">
-                            <MInputLabel v-model="first_name" class="mB5" label_name="First Name"/>
-                            <MInput placeholder="Enter First Name"/>
+                            <MInputLabel class="mB5" label_name="First Name"/>
+                            <MInput v-model="first_name" placeholder="Enter First Name"/>
                         </div>
                         <div class="w50pe">
-                            <MInputLabel v-model="last_name" class="mB5" label_name="Last Name"/>
-                            <MInput placeholder="Enter Last Name"/>
+                            <MInputLabel class="mB5" label_name="Last Name"/>
+                            <MInput v-model="last_name" placeholder="Enter Last Name"/>
                         </div>
                     </div>
 
                     <div>
                         <div class="d-flx aI-C jC-S g-20">
                             <div class="w50pe">
-                                <MInputLabel v-model="email" class="mB5" label_name="Email"/>
-                                <MInput type="email" placeholder="Enter Email"/>
+                                <MInputLabel class="mB5" label_name="Email"/>
+                                <MInput v-model="email" type="email" placeholder="Enter Email"/>
                             </div>
                             <div class="w50pe">
                                 <MInputLabel class="mB5" label_name="Phone"/>
-                                <MInput  v-model="phone" type="tel" placeholder="Enter Phone"/>
+                                <MInput v-model="phone" type="tel" placeholder="Enter Phone"/>
                             </div>
                         </div>
                     </div>
@@ -172,7 +201,9 @@
                 </div>
 
                 <div class="txt-a-center mT30">
-                    <MButton type="submit">Save</MButton>
+                    <MButton type="submit" btn_view="loader" :isLoading="isLoading">
+                        Save
+                    </MButton>
                 </div>
             </form>
         </div>
