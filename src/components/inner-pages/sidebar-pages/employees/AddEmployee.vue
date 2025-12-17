@@ -55,7 +55,7 @@
                                 <i class="bi bi-check-lg f20"></i>
                             </div>
                             <div>
-                                <span class="c-txt-secondary">Step 1</span>
+                                <span>Step 1</span>
                             </div>
                         </div>
                     </div>
@@ -74,7 +74,7 @@
                                 <i class="bi bi-check-lg f20"></i>
                             </div>
                             <div>
-                                <span class="c-txt-secondary">Step 2</span>
+                                <span>Step 2</span>
                             </div>
                         </div>
                         <div class="progress-line"></div>
@@ -94,7 +94,7 @@
                                 <i class="bi bi-check-lg f20"></i>
                             </div>
                             <div>
-                                <span class="c-txt-secondary">Step 3</span>
+                                <span>Step 3</span>
                             </div>
                         </div>
                         <div class="progress-line"></div>
@@ -114,7 +114,7 @@
                                 <i class="bi bi-check-lg f20"></i>
                             </div>
                             <div>
-                                <span class="c-txt-secondary">Step 4</span>
+                                <span>Step 4</span>
                             </div>
                         </div>
                         <div class="progress-line"></div>
