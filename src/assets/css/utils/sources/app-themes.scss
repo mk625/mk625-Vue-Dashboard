@@ -106,23 +106,16 @@
     .c-accent-pink,
     .c-accent-orange,
     .c-accent-green {
-        /* accent shades */
-            --c-app-theme__accent-shade-1: var(--c-app-theme__shade-70);
-            --c-app-theme__accent-shade-2: var(--c-app-theme__shade-80);
-            --c-app-theme__accent-shade-3: var(--c-app-theme__shade-90);
-            --c-app-theme__accent-shade-4: var(--c-app-theme__shade-100);
-        /* \\\ accent shades */
-
         /* table */
-            --c-table-th-bg: var(--c-app-theme__accent-shade-3);
-            --c-table-td-hov: var(--c-app-theme__accent-shade-4);
-            --c-table-tr-selected-bg: var(--c-app-theme__accent-shade-2);
+            --c-table-th-bg: var(--c-app-theme__shade-90);
+            --c-table-td-hov: var(--c-app-theme__shade-100);
+            --c-table-tr-selected-bg: var(--c-app-theme__shade-80);
         /* \\\ table */
 
         /* dropdowns */
-            --c-dropdown-list-btn__hov: var(--c-app-theme__accent-shade-2);
+            --c-dropdown-list-btn__hov: var(--c-app-theme__shade-80);
             --c-dropdown-list-btn__selected: var(--c-app-theme);
-            --c-dropdown-list-btn__selected-bg: var(--c-app-theme__accent-shade-2);
+            --c-dropdown-list-btn__selected-bg: var(--c-app-theme__shade-80);
         /* \\\ dropdowns */
 
         /* link colors */

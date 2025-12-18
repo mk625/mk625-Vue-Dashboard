@@ -42,6 +42,7 @@
         }
 
         isLoading.value = true;
+
         try {
             const lastId = await getLastId();
             const newId = lastId + 1;
@@ -57,11 +58,13 @@
             isError.value = false;
 
             // reset form
-            first_name.value = "";
-            last_name.value = "";
-            email.value = "";
-            phone.value = "";
-            location.value = "";
+                first_name.value = "";
+                last_name.value = "";
+                email.value = "";
+                phone.value = "";
+                location.value = "";
+            // \\\ reset form
+
         } catch (error) {
             console.error('Error adding document: ', error);
             isError.value = true;
@@ -208,10 +211,33 @@
             </form>
         </div>
     </div>
+
+    <div class="toaster-container c-status-green">
+        <div class="d-flx aI-C g-20">
+            <div class="fS-0">
+                <i class="bi bi-check-lg f20 c-status"></i>
+            </div>
+            <div class="fG-1">
+                <p>Employee added successfully</p>
+            </div>
+        </div>
+    </div>
 </template>
 
 
 <style scoped>
+    .toaster-container {
+        position: fixed;
+        top: 20px;
+        left: 50%;
+        padding: 10px 15px;
+        transform: translateX(-50%);
+        background-color: var(--c-white);
+        box-shadow: var(--c-shadow);
+        border-radius: 8px;
+    }
+
+
     .design-container {
         position: relative;
         margin-bottom: 5px;

@@ -96,7 +96,7 @@
         padding: 20px;
     }
     .primary-dashboard-card .dashboard-card {
-        background-color: var(--c-app-theme__accent-shade-1);
+        background-color: var(--c-app-theme__shade-70);
     }
     .dashboard-card-header {
         margin-bottom: 10px;
