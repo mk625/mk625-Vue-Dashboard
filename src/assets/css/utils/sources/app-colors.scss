@@ -36,27 +36,104 @@
     /* status */
         --c-status-green: #0b7842;
         --c-status-green-dark: #06733c;
-        --c-light-status-green: #f2faf7;
+        --c-status-green-darker: #045a2e;
+        --c-status-light-green: #f2faf7;
+        --c-status-green-border: #c8e6d5;
+        --c-status-green__shade-1: oklch(95% 0.08 145);
+        --c-status-green__shade-2: oklch(90% 0.10 145);
+        --c-status-green__shade-3: oklch(85% 0.12 145);
+        --c-status-green__shade-4: oklch(75% 0.13 145);
+        --c-status-green__shade-5: oklch(65% 0.14 145);
+        --c-status-green__shade-6: oklch(55% 0.15 145);
+        --c-status-green__shade-7: oklch(45% 0.14 145);
+        --c-status-green__shade-8: oklch(35% 0.13 145);
+        --c-status-green__shade-9: oklch(28% 0.12 145);
+        --c-status-green__shade-10: oklch(22% 0.10 145);
+
 
         --c-status-blue: #1571cd;
         --c-status-blue-dark: #0962bb;
-        --c-light-status-blue: #eef7ff;
+        --c-status-blue-darker: #0753a0;
+        --c-status-light-blue: #eef7ff;
+        --c-status-blue-border: #b8d9f5;
+        --c-status-blue__shade-1: oklch(95% 0.10 250);
+        --c-status-blue__shade-2: oklch(90% 0.12 250);
+        --c-status-blue__shade-3: oklch(85% 0.15 250);
+        --c-status-blue__shade-4: oklch(75% 0.18 250);
+        --c-status-blue__shade-5: oklch(65% 0.20 250);
+        --c-status-blue__shade-6: oklch(55% 0.19 250);
+        --c-status-blue__shade-7: oklch(45% 0.17 250);
+        --c-status-blue__shade-8: oklch(35% 0.15 250);
+        --c-status-blue__shade-9: oklch(28% 0.13 250);
+        --c-status-blue__shade-10: oklch(22% 0.11 250);
+
 
         --c-status-gray: #8a8d9a;
         --c-status-gray-dark: #787b87;
-        --c-light-status-gray: #d6d8e0;
+        --c-status-gray-darker: #666974;
+        --c-status-light-gray: #d6d8e0;
+        --c-status-gray-border: #c4c6d0;
+        --c-status-gray__shade-1: oklch(95% 0.01 250);
+        --c-status-gray__shade-2: oklch(90% 0.02 250);
+        --c-status-gray__shade-3: oklch(85% 0.03 250);
+        --c-status-gray__shade-4: oklch(75% 0.04 250);
+        --c-status-gray__shade-5: oklch(65% 0.05 250);
+        --c-status-gray__shade-6: oklch(55% 0.04 250);
+        --c-status-gray__shade-7: oklch(45% 0.03 250);
+        --c-status-gray__shade-8: oklch(35% 0.02 250);
+        --c-status-gray__shade-9: oklch(28% 0.01 250);
+        --c-status-gray__shade-10: oklch(22% 0.01 250);
+
 
         --c-status-yellow: #e8c100;
         --c-status-yellow-dark: #d0ae00;
-        --c-light-status-yellow: #fafbf2;
+        --c-status-yellow-darker: #b89a00;
+        --c-status-light-yellow: #fafbf2;
+        --c-status-yellow-border: #f5e899;
+        --c-status-yellow__shade-1: oklch(95% 0.12 90);
+        --c-status-yellow__shade-2: oklch(90% 0.15 90);
+        --c-status-yellow__shade-3: oklch(85% 0.18 90);
+        --c-status-yellow__shade-4: oklch(80% 0.20 90);
+        --c-status-yellow__shade-5: oklch(75% 0.22 90);
+        --c-status-yellow__shade-6: oklch(65% 0.23 90);
+        --c-status-yellow__shade-7: oklch(55% 0.22 90);
+        --c-status-yellow__shade-8: oklch(45% 0.20 90);
+        --c-status-yellow__shade-9: oklch(35% 0.18 90);
+        --c-status-yellow__shade-10: oklch(28% 0.15 90);
+
 
         --c-status-orange: #d86a05;
         --c-status-orange-dark: #e2730d;
-        --c-light-status-orange: #fff7ef;
+        --c-status-orange-darker: #c55a04;
+        --c-status-light-orange: #fff7ef;
+        --c-status-orange-border: #ffd9b8;
+        --c-status-orange__shade-1: oklch(95% 0.15 40);
+        --c-status-orange__shade-2: oklch(90% 0.18 40);
+        --c-status-orange__shade-3: oklch(85% 0.22 40);
+        --c-status-orange__shade-4: oklch(75% 0.25 40);
+        --c-status-orange__shade-5: oklch(65% 0.28 40);
+        --c-status-orange__shade-6: oklch(55% 0.27 40);
+        --c-status-orange__shade-7: oklch(45% 0.25 40);
+        --c-status-orange__shade-8: oklch(35% 0.23 40);
+        --c-status-orange__shade-9: oklch(28% 0.20 40);
+        --c-status-orange__shade-10: oklch(22% 0.18 40);
+
 
         --c-status-red: #ce1515;
         --c-status-red-dark: #b70101;
-        --c-light-status-red: #ffeeef;
+        --c-status-red-darker: #9a0101;
+        --c-status-light-red: #ffeeef;
+        --c-status-red-border: #ffc4c6;
+        --c-status-red__shade-1: oklch(95% 0.18 20);
+        --c-status-red__shade-2: oklch(90% 0.22 20);
+        --c-status-red__shade-3: oklch(85% 0.26 20);
+        --c-status-red__shade-4: oklch(75% 0.30 20);
+        --c-status-red__shade-5: oklch(65% 0.32 20);
+        --c-status-red__shade-6: oklch(55% 0.31 20);
+        --c-status-red__shade-7: oklch(45% 0.29 20);
+        --c-status-red__shade-8: oklch(35% 0.27 20);
+        --c-status-red__shade-9: oklch(28% 0.24 20);
+        --c-status-red__shade-10: oklch(22% 0.21 20);
     /* \\\ status */
 
 

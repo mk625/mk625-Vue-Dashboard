@@ -50,19 +50,34 @@
 
 
 /* status colors */
-    .status-green {
-        --c-status: var(--c-status-green)
+    .status-theme-green {
+        --c-status: var(--c-status-green);
+        --c-status-light: var(--c-status-light-green);
+        --c-status-border: var(--c-status-green-border);
     }
-    .status-red {
+    .status-theme-red {
         --c-status: var(--c-status-red)
+        --c-status-light: var(--c-status-light-red);
+        --c-status-border: var(--c-status-red-border);
     }
-    .status-blue {
-        --c-status: var(--c-status-blue)
+    .status-theme-blue {
+        --c-status: var(--c-status-blue);
+        --c-status-light: var(--c-status-light-blue);
+        --c-status-border: var(--c-status-blue-border);
     }
-    .status-orange {
-        --c-status: var(--c-status-orange)
+    .status-theme-orange {
+        --c-status: var(--c-status-orange);
+        --c-status-light: var(--c-status-light-orange);
+        --c-status-border: var(--c-status-orange-border);
     }
-    .status-yellow {
-        --c-status: var(--c-status-yellow)
+    .status-theme-yellow {
+        --c-status: var(--c-status-yellow);
+        --c-status-light: var(--c-status-light-yellow);
+        --c-status-border: var(--c-status-yellow-border);
+    }
+    .status-theme-gray {
+        --c-status: var(--c-status-gray);
+        --c-status-light: var(--c-status-light-gray);
+        --c-status-border: var(--c-status-gray-border);
     }
 /* \\\ status colors */
