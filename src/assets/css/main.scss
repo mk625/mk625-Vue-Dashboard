@@ -2,9 +2,9 @@
 
 /* common */
     /* sources */
-        @use './utils/sources/product-fonts.scss';
+        @use './utils/sources/app-fonts.scss';
         @use './utils/sources/app-themes.scss';
-        @use './utils/sources/color-schema.scss';
+        @use './utils/sources/app-colors.scss';
 
         // // icons
         //     @use '../../assets/icons/font-awesome/css/all.min.css';
@@ -23,8 +23,8 @@
     /* \\\ global */
 
     /* sources styles */
-        @use './utils/sources/sources-styles/color-schema-styles.scss';
-        @use './utils/sources/sources-styles/productfonts-styles.scss';
+        @use './utils/sources/sources-styles/app-colors-styles.scss';
+        @use './utils/sources/sources-styles/app-fonts-styles.scss';
     /* \\\ sources styles */
 
     /* utils */
