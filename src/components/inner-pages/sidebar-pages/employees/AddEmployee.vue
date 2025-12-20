@@ -9,6 +9,7 @@
         import MInputLabel from '@/components/ui/input/MInputLabel.vue';
         import MButton from '@/components/ui/buttons/MButton.vue';
         import ToastPop from '@/components/ui/popup/toast/ToastPop.vue'
+        import StatusThemeShades from '@/components/ui/color-shades-testing/StatusThemeShades.vue';
     // \\\ imports
 
     // global variables
@@ -78,7 +79,7 @@
 
 <template>
     <!-- steps design -->
-    <div class="mB50 mT30">
+    <div class="mB50 mT30 hide">
         <ul class="d-flx aI-C jC-C g-80">
             <li class="step-completed">
                 <div class="txt-a-center">
@@ -163,7 +164,7 @@
     <!-- \\\ steps design -->
 
     <div>
-        <div class="max-w-600 w100pe m0-auto">
+        <div class="max-w-600 w100pe m0-auto hide">
             <form class="d-block" @submit.prevent="handleSubmit">
                 <div class="d-flx fD-C g-20">
                     <div class="d-flx aI-C jC-S g-20">
@@ -213,40 +214,9 @@
         </div>
     </div>
 
-    <ul class="color-box-lists d-flx aI-C g-10">
-        <li>
-            <div class="color-box"></div>
-        </li>
-        <li>
-            <div class="color-box"></div>
-        </li>
-        <li>
-            <div class="color-box"></div>
-        </li>
-        <li>
-            <div class="color-box"></div>
-        </li>
-        <li>
-            <div class="color-box"></div>
-        </li>
-        <li>
-            <div class="color-box"></div>
-        </li>
-        <li>
-            <div class="color-box"></div>
-        </li>
-        <li>
-            <div class="color-box"></div>
-        </li>
-        <li>
-            <div class="color-box"></div>
-        </li>
-        <li>
-            <div class="color-box"></div>
-        </li>
-    </ul>
-
     <ToastPop message="Employee added successfully"/>
+
+    <StatusThemeShades/>
 </template>
 
 
@@ -286,42 +256,5 @@
     }
     .step-completed .progress-line {
         background-position: left;
-    }
-
-
-    .color-box {
-        width: 30px;
-        height: 30px;
-        border-radius: 8px;
-    }
-    .color-box-lists li:first-child .color-box {
-        background-color: var(--c-status-green-10);
-    }
-    .color-box-lists li:nth-child(2) .color-box {
-        background-color: var(--c-status-green-20);
-    }
-    .color-box-lists li:nth-child(3) .color-box {
-        background-color: var(--c-status-green-30);
-    }
-    .color-box-lists li:nth-child(4) .color-box {
-        background-color: var(--c-status-green-40);
-    }
-    .color-box-lists li:nth-child(5) .color-box {
-        background-color: var(--c-status-green-50);
-    }
-    .color-box-lists li:nth-child(6) .color-box {
-        background-color: var(--c-status-green-60);
-    }
-    .color-box-lists li:nth-child(7) .color-box {
-        background-color: var(--c-status-green-70);
-    }
-    .color-box-lists li:nth-child(8) .color-box {
-        background-color: var(--c-status-green-80);
-    }
-    .color-box-lists li:nth-child(9) .color-box {
-        background-color: var(--c-status-green-90);
-    }
-    .color-box-lists li:nth-child(10) .color-box {
-        background-color: var(--c-status-green-100);
     }
 </style>

@@ -50,34 +50,10 @@
 
 
 /* status colors */
-    .status-theme-green {
-        --c-status: var(--c-status-green);
-        --c-status-light: var(--c-status-light-green);
-        --c-status-border: var(--c-status-green-border);
-    }
-    .status-theme-red {
-        --c-status: var(--c-status-red)
-        --c-status-light: var(--c-status-light-red);
-        --c-status-border: var(--c-status-red-border);
-    }
-    .status-theme-blue {
-        --c-status: var(--c-status-blue);
-        --c-status-light: var(--c-status-light-blue);
-        --c-status-border: var(--c-status-blue-border);
-    }
-    .status-theme-orange {
-        --c-status: var(--c-status-orange);
-        --c-status-light: var(--c-status-light-orange);
-        --c-status-border: var(--c-status-orange-border);
-    }
-    .status-theme-yellow {
-        --c-status: var(--c-status-yellow);
-        --c-status-light: var(--c-status-light-yellow);
-        --c-status-border: var(--c-status-yellow-border);
-    }
-    .status-theme-gray {
-        --c-status: var(--c-status-gray);
-        --c-status-light: var(--c-status-light-gray);
-        --c-status-border: var(--c-status-gray-border);
-    }
+.status-theme-green  { --c-hue-status: 145; } /* success */
+.status-theme-blue   { --c-hue-status: 250; } /* info */
+.status-theme-gray   { --c-hue-status: 240deg;   } /* neutral */
+.status-theme-yellow { --c-hue-status: 95; } /* accent */
+.status-theme-orange { --c-hue-status: 55;  } /* warning */
+.status-theme-red    { --c-hue-status: 25;  } /* error */
 /* \\\ status colors */
