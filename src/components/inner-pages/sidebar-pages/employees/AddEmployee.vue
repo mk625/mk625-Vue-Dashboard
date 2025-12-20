@@ -213,6 +213,39 @@
         </div>
     </div>
 
+    <ul class="color-box-lists d-flx aI-C g-10">
+        <li>
+            <div class="color-box"></div>
+        </li>
+        <li>
+            <div class="color-box"></div>
+        </li>
+        <li>
+            <div class="color-box"></div>
+        </li>
+        <li>
+            <div class="color-box"></div>
+        </li>
+        <li>
+            <div class="color-box"></div>
+        </li>
+        <li>
+            <div class="color-box"></div>
+        </li>
+        <li>
+            <div class="color-box"></div>
+        </li>
+        <li>
+            <div class="color-box"></div>
+        </li>
+        <li>
+            <div class="color-box"></div>
+        </li>
+        <li>
+            <div class="color-box"></div>
+        </li>
+    </ul>
+
     <ToastPop message="Employee added successfully"/>
 </template>
 
@@ -253,5 +286,42 @@
     }
     .step-completed .progress-line {
         background-position: left;
+    }
+
+
+    .color-box {
+        width: 30px;
+        height: 30px;
+        border-radius: 8px;
+    }
+    .color-box-lists li:first-child .color-box {
+        background-color: var(--c-status-green-10);
+    }
+    .color-box-lists li:nth-child(2) .color-box {
+        background-color: var(--c-status-green-20);
+    }
+    .color-box-lists li:nth-child(3) .color-box {
+        background-color: var(--c-status-green-30);
+    }
+    .color-box-lists li:nth-child(4) .color-box {
+        background-color: var(--c-status-green-40);
+    }
+    .color-box-lists li:nth-child(5) .color-box {
+        background-color: var(--c-status-green-50);
+    }
+    .color-box-lists li:nth-child(6) .color-box {
+        background-color: var(--c-status-green-60);
+    }
+    .color-box-lists li:nth-child(7) .color-box {
+        background-color: var(--c-status-green-70);
+    }
+    .color-box-lists li:nth-child(8) .color-box {
+        background-color: var(--c-status-green-80);
+    }
+    .color-box-lists li:nth-child(9) .color-box {
+        background-color: var(--c-status-green-90);
+    }
+    .color-box-lists li:nth-child(10) .color-box {
+        background-color: var(--c-status-green-100);
     }
 </style>

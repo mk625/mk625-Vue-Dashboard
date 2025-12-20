@@ -35,14 +35,4 @@
         border-radius: 8px;
         border: 1px solid var(--c-status-border);
     }
-    .icon-box {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-shrink: 0;
-        width: 20px;
-        height: 20px;
-        background-color: var(--c-status-shade__50);
-        border-radius: 50%;
-    }
 </style>
