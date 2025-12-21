@@ -9,7 +9,6 @@
         import MInputLabel from '@/components/ui/input/MInputLabel.vue';
         import MButton from '@/components/ui/buttons/MButton.vue';
         import ToastPop from '@/components/ui/popup/toast/ToastPop.vue'
-        import StatusThemeShades from '@/components/ui/color-shades-testing/StatusThemeShades.vue';
     // \\\ imports
 
     // global variables
@@ -21,6 +20,7 @@
 
         const isLoading = ref(false);
         const isError = ref(false);
+        const showToast = ref(false);
     // \\\ global variables
 
 
@@ -67,6 +67,8 @@
                 location.value = "";
             // \\\ reset form
 
+            showToast.value = true;
+
         } catch (error) {
             console.error('Error adding document: ', error);
             isError.value = true;
@@ -79,8 +81,8 @@
 
 <template>
     <!-- steps design -->
-    <div class="mB50 mT30 hide">
-        <ul class="d-flx aI-C jC-C g-80">
+    <div class="mB50 mT30">
+        <ul class="d-flx aI-C jC-C g-80 status-theme-green">
             <li class="step-completed">
                 <div class="txt-a-center">
                     <div class="design-container">
@@ -164,7 +166,7 @@
     <!-- \\\ steps design -->
 
     <div>
-        <div class="max-w-600 w100pe m0-auto hide">
+        <div class="max-w-600 w100pe m0-auto">
             <form class="d-block" @submit.prevent="handleSubmit">
                 <div class="d-flx fD-C g-20">
                     <div class="d-flx aI-C jC-S g-20">
@@ -214,9 +216,7 @@
         </div>
     </div>
 
-    <ToastPop message="Employee added successfully"/>
-
-    <StatusThemeShades/>
+    <ToastPop message="Employee added successfully" :show="showToast"/>
 </template>
 
 
@@ -239,7 +239,7 @@
         margin-bottom: 10px;
     }
     .step-completed .status-circle {
-        background-color: var(--c-status-green);
+        background-color: var(--c-status);
     }
     .progress-line {
         width: 100px;

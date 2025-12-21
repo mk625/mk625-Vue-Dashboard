@@ -1,32 +1,67 @@
 
 <script setup>
-    defineProps({
+    // imports
+        import { watch } from 'vue';
+        import { defineEmits } from 'vue';
+    // \\\ imports
+
+    const emit = defineEmits(['update:show']);
+
+
+    const props = defineProps({
         message: {
             type: String,
             required: true,
+        },
+        show: {
+            type: Boolean,
+            default: false,
         }
-    })
+    });
+    watch(props.show, (newVal) => {
+        if (newVal) {
+            setTimeout(() => {
+                emit('update:show', false);
+            }, 3000);
+        }
+    });
 </script>
 
 
 <template>
-    <div class="toaster-container status-theme-green">
-        <div class="d-flx aI-C g-10">
-            <div class="icon-box">
-                <i class="bi bi-check2 f20 c-status"></i>
-            </div>
-            <div class="fG-1">
-                <p> {{ message }} </p>
+    <Transition>
+        <div v-if="show" class="toaster-container status-theme-green">
+            <div class="d-flx aI-C g-10">
+                <div class="icon-box">
+                    <i class="bi bi-check2 f20 c-status"></i>
+                </div>
+                <div class="fG-1">
+                    <p> {{ message }} </p>
+                </div>
             </div>
         </div>
-    </div>
+    </Transition>
 </template>
 
 
 <style scoped>
+    .v-enter-active,
+    .v-leave-active {
+        transition: var(--fast-trans);
+    }
+    .v-enter-from,
+    .v-leave-to {
+        top: 20px;
+        opacity: 1;
+        visibility: visible;
+        transform: translateX(-50%) translateY(-10px);
+    }
+
     .toaster-container {
         position: fixed;
-        top: 20px;
+        top: 5px;
+        opacity: 0;
+        visibility: hidden;
         left: 50%;
         padding-block: 8px;
         padding-inline: 12px 18px;
