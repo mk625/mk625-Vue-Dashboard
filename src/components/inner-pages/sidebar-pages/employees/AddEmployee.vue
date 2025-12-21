@@ -43,6 +43,7 @@
             return;
         }
 
+        isError.value = false;
         isLoading.value = true;
 
         try {
@@ -216,7 +217,9 @@
         </div>
     </div>
 
-    <ToastPop message="Employee added successfully" :show="showToast"/>
+    <button class="m-btn m-btn-primary" @click="showToast = true">Show Toast</button>
+
+    <ToastPop message="Employee added successfully" v-model:show="showToast"/>
 </template>
 
 

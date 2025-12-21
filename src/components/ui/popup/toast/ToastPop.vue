@@ -1,11 +1,13 @@
 
 <script setup>
     // imports
-        import { watch } from 'vue';
-        import { defineEmits } from 'vue';
+        import { watch, onBeforeUnmount } from 'vue';
     // \\\ imports
 
-    const emit = defineEmits(['update:show']);
+    // global variables
+        let closeTimer = null;
+        const emit = defineEmits(['update:show']);
+    // \\\ global variables
 
 
     const props = defineProps({
@@ -18,58 +20,76 @@
             default: false,
         }
     });
-    watch(props.show, (newVal) => {
+
+    watch(() => props.show, (newVal) => {
         if (newVal) {
-            setTimeout(() => {
+            if (closeTimer) {
+                clearTimeout(closeTimer);
+            }
+
+            closeTimer = setTimeout(() => {
                 emit('update:show', false);
             }, 3000);
+        }
+    });
+
+    onBeforeUnmount(() => {
+        if (closeTimer) {
+            clearTimeout(closeTimer);
         }
     });
 </script>
 
 
 <template>
-    <Transition>
-        <div v-if="show" class="toaster-container status-theme-green">
-            <div class="d-flx aI-C g-10">
-                <div class="icon-box">
-                    <i class="bi bi-check2 f20 c-status"></i>
-                </div>
-                <div class="fG-1">
-                    <p> {{ message }} </p>
+    <Teleport to="body">
+        <Transition name="toast">
+            <div v-if="show" class="toaster-container status-theme-green">
+                <div class="d-flx aI-C g-10">
+                    <div class="icon-box">
+                        <i class="bi bi-check2 f20 c-status"></i>
+                    </div>
+                    <div class="fG-1">
+                        <p> {{ message }} </p>
+                    </div>
                 </div>
             </div>
-        </div>
-    </Transition>
+        </Transition>
+    </Teleport>
 </template>
 
 
 <style scoped>
-    .v-enter-active,
-    .v-leave-active {
-        transition: var(--fast-trans);
+    .toast-enter-from,
+    .toast-leave-to {
+        top: 30px;
+        opacity: 0;
+        visibility: hidden;
     }
-    .v-enter-from,
-    .v-leave-to {
-        top: 20px;
+
+    .toast-enter-to,
+    .toast-leave-from {
+        top: 30px;
         opacity: 1;
         visibility: visible;
-        transform: translateX(-50%) translateY(-10px);
+    }
+
+    .toast-enter-active,
+    .toast-leave-active {
+        transition: var(--fast-trans);
     }
 
     .toaster-container {
-        position: fixed;
-        top: 5px;
-        opacity: 0;
-        visibility: hidden;
-        left: 50%;
         padding-block: 8px;
         padding-inline: 12px 18px;
-        transform: translateX(-50%);
         background-color: var(--c-status-98);
+        position: fixed;
+        inset-inline-start: 50%;
+        translate: -50% -15px;
+        border: 1px solid var(--c-status-90);
         box-shadow: var(--c-shadow);
         border-radius: 8px;
-        border: 1px solid var(--c-status-90);
+        z-index: 10;
     }
     .icon-box {
         width: 30px;
