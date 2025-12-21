@@ -28,11 +28,21 @@
         position: fixed;
         top: 20px;
         left: 50%;
-        padding: 10px 15px;
+        padding-block: 8px;
+        padding-inline: 12px 18px;
         transform: translateX(-50%);
-        background-color: var(--c-status-light);
+        background-color: var(--c-status-98);
         box-shadow: var(--c-shadow);
         border-radius: 8px;
-        border: 1px solid var(--c-status-border);
+        border: 1px solid var(--c-status-90);
+    }
+    .icon-box {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background-color: var(--c-status-95);
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 </style>

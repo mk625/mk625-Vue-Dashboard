@@ -35,6 +35,45 @@
 
     /* status */
         // global controls
+            // light
+                --c-light-status-10: 25%;
+                --c-light-status-20: 38%;
+                --c-light-status-30: 47%;
+                --c-light-status-40: 56%;
+                --c-light-status-50: 65%;
+                --c-light-status-60: 74%;
+                --c-light-status-70: 82%;
+                --c-light-status-80: 89%;
+                --c-light-status-90: 95%;
+                --c-light-status-95: 97%;
+                --c-light-status-96: 97.8%;
+                --c-light-status-97: 98.6%;
+                --c-light-status-98: 99.2%;
+                --c-light-status-99: 99.6%;
+            // \\\ light
+
+            // chroma
+                --c-chroma-status-10: 0.10;
+                --c-chroma-status-20: 0.15;
+                --c-chroma-status-30: 0.17;
+                --c-chroma-status-40: 0.18;
+                --c-chroma-status-50: 0.17;
+                --c-chroma-status-60: 0.14;
+                --c-chroma-status-70: 0.11;
+                --c-chroma-status-80: 0.08;
+                --c-chroma-status-90: 0.04;
+                --c-chroma-status-95: 0.025;
+                --c-chroma-status-96: 0.020;
+                --c-chroma-status-97: 0.015;
+                --c-chroma-status-98: 0.010;
+                --c-chroma-status-99: 0.006;
+
+                // gray overwrites
+                    .status-theme-gray {
+                        --c-chroma-status-static: 0.01;
+                    }
+                // \\\ gray overwrites
+            // \\\ chroma
 
         // \\\ global controls
 
@@ -46,36 +85,46 @@
         .status-theme-orange,
         .status-theme-red {
             /* darkest */
-                --c-status-10:  oklch(25%  0.10 var(--c-hue-status));
-                --c-status-20:  oklch(38%  0.15 var(--c-hue-status));
-                --c-status-30:  oklch(47%  0.17 var(--c-hue-status));
+                --c-status-10: oklch(var(--c-light-status-10)  var(--c-chroma-status-static, var(--c-chroma-status-10)) var(--c-hue-status));
+                --c-status-20: oklch(var(--c-light-status-20)  var(--c-chroma-status-static, var(--c-chroma-status-20)) var(--c-hue-status));
+                --c-status-30: oklch(var(--c-light-status-30)  var(--c-chroma-status-static, var(--c-chroma-status-30)) var(--c-hue-status));
             /* \\\ darkest */
 
             // medium
-                --c-status-40:  oklch(56%  0.18 var(--c-hue-status));
-                --c-status-50:  oklch(65%  0.17 var(--c-hue-status));
-                --c-status-60:  oklch(74%  0.14 var(--c-hue-status));
+                --c-status-40: oklch(var(--c-light-status-40)  var(--c-chroma-status-static, var(--c-chroma-status-40)) var(--c-hue-status));
+                --c-status-50: oklch(var(--c-light-status-50)  var(--c-chroma-status-static, var(--c-chroma-status-50)) var(--c-hue-status));
+                --c-status-60: oklch(var(--c-light-status-60)  var(--c-chroma-status-static, var(--c-chroma-status-60)) var(--c-hue-status));
             // \\\ medium
 
             // lightest
-                --c-status-70:  oklch(82%  0.11 var(--c-hue-status));
-                --c-status-80:  oklch(89%  0.08 var(--c-hue-status));
-                --c-status-90:  oklch(95%  0.04 var(--c-hue-status));
-                --c-status-95:  oklch(97%  0.025 var(--c-hue-status));
+                --c-status-70: oklch(var(--c-light-status-70)  var(--c-chroma-status-static, var(--c-chroma-status-70)) var(--c-hue-status));
+                --c-status-80: oklch(var(--c-light-status-80)  var(--c-chroma-status-static, var(--c-chroma-status-80)) var(--c-hue-status));
+                --c-status-90: oklch(var(--c-light-status-90)  var(--c-chroma-status-static, var(--c-chroma-status-90)) var(--c-hue-status));
+                --c-status-95: oklch(var(--c-light-status-95)  var(--c-chroma-status-static, var(--c-chroma-status-95)) var(--c-hue-status));
+                --c-status-96: oklch(var(--c-light-status-96)  var(--c-chroma-status-static, var(--c-chroma-status-96)) var(--c-hue-status));
+                --c-status-97: oklch(var(--c-light-status-97)  var(--c-chroma-status-static, var(--c-chroma-status-97)) var(--c-hue-status));
+                --c-status-98: oklch(var(--c-light-status-98)  var(--c-chroma-status-static, var(--c-chroma-status-98)) var(--c-hue-status));
+                --c-status-99: oklch(var(--c-light-status-99)  var(--c-chroma-status-static, var(--c-chroma-status-99)) var(--c-hue-status));
             // \\\ lightest
 
 
             // default
-                --c-status-default: var(--c-status-50);
+                --c-status: var(--c-status-50);
             // \\\ default
         }
     /* \\\ status */
 
 
     // box shadows
-        --c-shadow-sm: 0 2px 4px oklch(0% 0 0 / 0.10);
-        --c-shadow: 0 4px 12px oklch(0% 0 0 / 0.12);
-        --c-shadow-lg: 0 8px 28px oklch(0% 0 0 / 0.14);
+        --c-shadow-sm:
+                    0 1px 2px oklch(0% 0 0 / 0.06),
+                    0 2px 4px oklch(0% 0 0 / 0.04);
+        --c-shadow:
+                    0 2px 4px oklch(0% 0 0 / 0.08),
+                    0 6px 12px oklch(0% 0 0 / 0.06);
+        --c-shadow-lg:
+                    0 4px 8px oklch(0% 0 0 / 0.10),
+                    0 12px 24px oklch(0% 0 0 / 0.08);
     // \\\ box shadows
 }
 

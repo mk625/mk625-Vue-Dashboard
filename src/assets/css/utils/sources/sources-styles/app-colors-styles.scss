@@ -28,7 +28,7 @@
 
 
 /* text */
-    .c-txt-primary { color: var(--c-text-primary); }
+    .c-txt-primary  { color: var(--c-text-primary); }
     .c-txt-secondary { color: var(--c-text-secondary); }
     .c-txt-tertiary { color: var(--c-text-tertiary); }
     .c-txt-quaternary { color: var(--c-text-quaternary); }
@@ -50,10 +50,12 @@
 
 
 /* status colors */
-.status-theme-green  { --c-hue-status: 145; } /* success */
-.status-theme-blue   { --c-hue-status: 250; } /* info */
-.status-theme-gray   { --c-hue-status: 240deg;   } /* neutral */
-.status-theme-yellow { --c-hue-status: 95; } /* accent */
-.status-theme-orange { --c-hue-status: 55;  } /* warning */
-.status-theme-red    { --c-hue-status: 25;  } /* error */
+    .status-theme-green { --c-hue-status: 145; }
+    .status-theme-blue { --c-hue-status: 250; }
+    .status-theme-gray { --c-hue-status: 240; }
+    .status-theme-yellow { --c-hue-status: 95; }
+    .status-theme-orange { --c-hue-status: 55; }
+    .status-theme-red { --c-hue-status: 25;  }
+
+    .c-status { color: var(--c-status); }
 /* \\\ status colors */
