@@ -7,6 +7,7 @@
         // components
             import mTable from '@/components/ui/table/mTable.vue';
             import MSearchBox from '@/components/ui/input/MSearchBox.vue';
+            import MButton from '@/components/ui/buttons/MButton.vue';
         // \\\ components
     // \\\ imports
 
@@ -37,6 +38,11 @@
                 key: 'location',
                 label: 'Location',
                 width: "w30pe"
+            },
+            {
+                key: 'actions',
+                label: 'Actions',
+                width: "w20pe"
             }
         ]
     // \\\ global variables
@@ -74,6 +80,16 @@
         })
     });
 
+    function handleEdit(row) {
+        console.log('Edit employee:', row);
+        // Add your edit logic here
+    }
+
+    function handleDelete(row) {
+        console.log('Delete employee:', row);
+        // Add your delete logic here
+    }
+
     onMounted(() => {
         getUsersList();
     });
@@ -95,12 +111,35 @@
             :columns="tableHeaderList"
             :rows="filteredUserList"
             :loading="isLoading"
-        />
+        >
+            <template #cell-actions="{ row }">
+                <div class="employee-actions">
+                    <MButton
+                        variant="primary-2"
+                        size="size-sm"
+                        @click="handleEdit(row)"
+                    >
+                        Edit
+                    </MButton>
+                    <MButton
+                        variant="red"
+                        size="size-sm"
+                        @click="handleDelete(row)"
+                    >
+                        Delete
+                    </MButton>
+                </div>
+            </template>
+        </mTable>
     </div>
 </template>
 
 
 <style scoped>
-
+    .employee-actions {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
 </style>
 

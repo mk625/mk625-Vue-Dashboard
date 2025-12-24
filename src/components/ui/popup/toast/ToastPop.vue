@@ -29,7 +29,7 @@
 
             closeTimer = setTimeout(() => {
                 emit('update:show', false);
-            }, 3000);
+            }, 2000);
         }
     });
 
@@ -62,7 +62,7 @@
 <style scoped>
     .toast-enter-from,
     .toast-leave-to {
-        top: 30px;
+        top: 10px;
         opacity: 0;
         visibility: hidden;
     }
@@ -84,6 +84,7 @@
         padding-inline: 12px 18px;
         background-color: var(--c-status-98);
         position: fixed;
+        top: 30px;
         inset-inline-start: 50%;
         translate: -50% -15px;
         border: 1px solid var(--c-status-90);

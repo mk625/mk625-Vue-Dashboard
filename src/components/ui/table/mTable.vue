@@ -49,16 +49,32 @@
                 <template v-if="loading">
                     <tr v-for="n in 4" :key="n">
                         <td>
-                            <div> <span class="sk-table-td"></span> </div>
+                            <div>
+                                <!-- data skeleton -->
+                                    <span class="sk-table-td"></span>
+                                <!-- /// data skeleton -->
+                            </div>
                         </td>
                         <td>
-                            <div> <span class="sk-table-td"></span> </div>
+                            <div>
+                                <!-- data skeleton -->
+                                    <span class="sk-table-td"></span>
+                                <!-- /// data skeleton -->
+                            </div>
                         </td>
                         <td>
-                            <div> <span class="sk-table-td"></span> </div>
+                            <div>
+                                <!-- data skeleton -->
+                                    <span class="sk-table-td"></span>
+                                <!-- /// data skeleton -->
+                            </div>
                         </td>
                         <td>
-                            <div> <span class="sk-table-td"></span> </div>
+                            <div>
+                                <!-- data skeleton -->
+                                    <span class="sk-table-td"></span>
+                                <!-- /// data skeleton -->
+                            </div>
                         </td>
                     </tr>
                 </template>
