@@ -1,8 +1,8 @@
 
 
 /* accent themes */
-    .c-accent-blue,
-    .c-accent-white {
+    .c-accent-shades__blue,
+    .c-accent-shades__white {
         --c-app-theme: #2D6AE0;
 
         --c-app-theme__shade-10: #C9D2DB;
@@ -16,7 +16,7 @@
         --c-app-theme__shade-90: #F9FBFC;
         --c-app-theme__shade-100: #FDFDFE;
     }
-    .c-accent-red {
+    .c-accent-shades__red {
         --c-app-theme: #CD3A2A;
 
         --c-app-theme__shade-10: #D7CECD;
@@ -30,7 +30,7 @@
         --c-app-theme__shade-90: #FAFBFC;
         --c-app-theme__shade-100: #FDFDFE;
     }
-    .c-accent-purple {
+    .c-accent-shades__purple {
         --c-app-theme: #67349A;
 
         --c-app-theme__shade-10: #D2CDD7;
@@ -44,7 +44,7 @@
         --c-app-theme__shade-90: #FBFAFC;
         --c-app-theme__shade-100: #FDFDFE;
     }
-    .c-accent-pink {
+    .c-accent-shades__pink {
         --c-app-theme: #DC2D70;
 
         --c-app-theme__shade-10: #D7CDD1;
@@ -58,7 +58,7 @@
         --c-app-theme__shade-90: #F9F9FA;
         --c-app-theme__shade-100: #FDFDFE;
     }
-    .c-accent-orange {
+    .c-accent-shades__orange {
         --c-app-theme: #E75201;
 
         --c-app-theme__shade-10: #D7D7DD;
@@ -72,7 +72,7 @@
         --c-app-theme__shade-90: #F9F9FA;
         --c-app-theme__shade-100: #FDFDFE;
     }
-    .c-accent-green {
+    .c-accent-shades__green {
         --c-app-theme: #0D8945;
 
         --c-app-theme__shade-10: #D7D7DD;
@@ -99,13 +99,13 @@
 
 /* ui components shades */
     :root,
-    .c-accent-blue,
-    .c-accent-white,
-    .c-accent-red,
-    .c-accent-purple,
-    .c-accent-pink,
-    .c-accent-orange,
-    .c-accent-green {
+    .c-accent-shades__blue,
+    .c-accent-shades__white,
+    .c-accent-shades__red,
+    .c-accent-shades__purple,
+    .c-accent-shades__pink,
+    .c-accent-shades__orange,
+    .c-accent-shades__green {
         /* table */
             --c-table-th-bg: var(--c-app-theme__shade-90);
             --c-table-td-hov: var(--c-app-theme__shade-100);
