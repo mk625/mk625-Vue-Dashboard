@@ -53,11 +53,11 @@
     // Get status color variant
     @function status-color($status, $variant: 'base') {
         @if $variant == 'dark' {
-            @return var(--c-status-#{$status}-dark);
+            @return var(--c-status__#{$status}-dark);
         } @else if $variant == 'light' {
             @return var(--c-light-status-#{$status});
         } @else {
-            @return var(--c-status-#{$status});
+            @return var(--c-status__#{$status});
         }
     }
 // \\\ color functions

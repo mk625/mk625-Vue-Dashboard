@@ -5,6 +5,7 @@
         @use './utils/sources/app-fonts.scss';
         @use './utils/sources/app-themes.scss';
         @use './utils/sources/app-colors.scss';
+        @use './utils/sources/app-status-colors.scss';
 
         // // icons
         //     @use '../../assets/icons/font-awesome/css/all.min.css';
@@ -24,6 +25,7 @@
 
     /* sources styles */
         @use './utils/sources/sources-styles/app-colors-styles.scss';
+        @use './utils/sources/sources-styles/app-status-colors-styles.scss';
         @use './utils/sources/sources-styles/app-fonts-styles.scss';
     /* \\\ sources styles */
 

@@ -44,7 +44,7 @@
 <template>
     <Teleport to="body">
         <Transition name="toast">
-            <div v-if="show" class="toaster-container status-theme-green">
+            <div v-if="show" class="toaster-container c-status-shades__green">
                 <div class="d-flx aI-C g-10">
                     <div class="icon-box">
                         <i class="bi bi-check2 f20 c-status"></i>
@@ -82,12 +82,12 @@
     .toaster-container {
         padding-block: 8px;
         padding-inline: 12px 18px;
-        background-color: var(--c-status-98);
+        background-color: var(--c-status__98);
         position: fixed;
         top: 30px;
         inset-inline-start: 50%;
         translate: -50% -15px;
-        border: 1px solid var(--c-status-90);
+        border: 1px solid var(--c-status__90);
         box-shadow: var(--c-shadow);
         border-radius: 8px;
         z-index: 10;
@@ -96,7 +96,7 @@
         width: 30px;
         height: 30px;
         border-radius: 50%;
-        background-color: var(--c-status-95);
+        background-color: var(--c-status__95);
         display: flex;
         align-items: center;
         justify-content: center;

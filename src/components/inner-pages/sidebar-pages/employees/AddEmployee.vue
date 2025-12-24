@@ -83,7 +83,7 @@
 <template>
     <!-- steps design -->
     <div class="mB50 mT30">
-        <ul class="d-flx aI-C jC-C g-80 status-theme-green">
+        <ul class="d-flx aI-C jC-C g-80 c-status-shades__green">
             <li class="step-completed">
                 <div class="txt-a-center">
                     <div class="design-container">
@@ -217,8 +217,6 @@
         </div>
     </div>
 
-    <button class="m-btn m-btn-primary" @click="showToast = true">Show Toast</button>
-
     <ToastPop message="Employee added successfully" v-model:show="showToast"/>
 </template>
 
@@ -248,7 +246,7 @@
         width: 100px;
         height: 6px;
         border-radius: 8px;
-        background-image: linear-gradient(to right, var(--c-status-green) 50%, var(--c-gray-90) 50%);
+        background-image: linear-gradient(to right, var(--c-status__green) 50%, var(--c-gray-90) 50%);
         background-size: 200%;
         background-position: right;
         position: absolute;

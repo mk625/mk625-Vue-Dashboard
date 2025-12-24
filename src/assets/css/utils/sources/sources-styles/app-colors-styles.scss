@@ -40,22 +40,3 @@
     .c-link { color: var(--c-link); }
 /* \\\ link */
 
-/* status */
-    .c-status-red { color: var(--c-status-red); }
-    .c-status-green { color: var(--c-status-green); }
-    .c-status-blue { color: var(--c-status-blue); }
-    .c-status-orange { color: var(--c-status-orange); }
-    .c-status-yellow { color: var(--c-status-yellow); }
-/* \\\ status */
-
-
-/* status colors */
-    .status-theme-green { --c-hue-status: 145; }
-    .status-theme-blue { --c-hue-status: 250; }
-    .status-theme-gray { --c-hue-status: 240; }
-    .status-theme-yellow { --c-hue-status: 95; }
-    .status-theme-orange { --c-hue-status: 55; }
-    .status-theme-red { --c-hue-status: 25;  }
-
-    .c-status { color: var(--c-status); }
-/* \\\ status colors */

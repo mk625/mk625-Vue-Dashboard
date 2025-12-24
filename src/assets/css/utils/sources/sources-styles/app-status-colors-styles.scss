@@ -1,0 +1,23 @@
+
+
+/* status */
+    .c-status-red { color: var(--c-status__red); }
+    .c-status-green { color: var(--c-status__green); }
+    .c-status-blue { color: var(--c-status__blue); }
+    .c-status-orange { color: var(--c-status__orange); }
+    .c-status-yellow { color: var(--c-status__yellow); }
+/* \\\ status */
+
+
+/* status colors */
+    .c-status-shades__green { --c-hue-status: 145; }
+    .c-status-shades__blue { --c-hue-status: 250; }
+    .c-status-shades__gray { --c-hue-status: 240; }
+    .c-status-shades__yellow { --c-hue-status: 95; }
+    .c-status-shades__orange { --c-hue-status: 55; }
+    .c-status-shades__red { --c-hue-status: 25;  }
+
+    .c-status { color: var(--c-status); }
+/* \\\ status colors */
+
+

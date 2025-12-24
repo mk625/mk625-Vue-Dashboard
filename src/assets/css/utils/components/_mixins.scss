@@ -287,10 +287,10 @@
     @mixin generate-status-colors($property, $prefix, $statuses: (gray, orange, red, blue, green, yellow)) {
         @each $status in $statuses {
             .#{$prefix}-#{$status} {
-                #{$property}: var(--c-status-#{$status});
+                #{$property}: var(--c-status__#{$status});
             }
             .#{$prefix}-#{$status}-dark {
-                #{$property}: var(--c-status-#{$status}-dark);
+                #{$property}: var(--c-status__#{$status}-dark);
             }
             .#{$prefix}-#{$status}-light {
                 #{$property}: var(--c-light-status-#{$status});

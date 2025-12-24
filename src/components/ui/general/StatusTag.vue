@@ -32,7 +32,7 @@
         text-transform: uppercase;
         color: var(--c-status);
         border: 1px solid var(--c-status);
-        background-color: var(--c-status-light);
+        background-color: var(--c-status__light);
         border-radius: 2px;
     }
 </style>

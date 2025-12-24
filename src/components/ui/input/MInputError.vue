@@ -43,7 +43,7 @@
     .input-error__text {
         display: inline-block;
         font-size: 12px;
-        color: var(--c-status-red);
+        color: var(--c-status__red);
     }
 </style>
 
