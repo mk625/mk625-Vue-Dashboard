@@ -5,9 +5,10 @@
         import { collection, onSnapshot, orderBy, query } from 'firebase/firestore';
 
         // components
-            import mTable from '@/components/ui/table/mTable.vue';
+            import MTable from '@/components/ui/table/MTable.vue';
             import MSearchBox from '@/components/ui/input/MSearchBox.vue';
             import MButton from '@/components/ui/buttons/MButton.vue';
+            import RightDialog from '@/components/ui/dialog/RightDialog.vue';
         // \\\ components
     // \\\ imports
 
@@ -45,6 +46,8 @@
                 width: "w20pe"
             }
         ]
+
+        const showRightDialog = ref(true);
     // \\\ global variables
 
 
@@ -107,7 +110,7 @@
     </div>
 
     <div>
-        <mTable
+        <MTable
             :columns="tableHeaderList"
             :rows="filteredUserList"
             :loading="isLoading"
@@ -121,6 +124,7 @@
                     >
                         Edit
                     </MButton>
+                    
                     <MButton
                         variant="red"
                         size="size-sm"
@@ -130,8 +134,20 @@
                     </MButton>
                 </div>
             </template>
-        </mTable>
+        </MTable>
     </div>
+
+
+    <!-- child components -->
+        <RightDialog
+            v-model:show="showRightDialog"
+            :title="rightDialogTitle"
+            :description="rightDialogDescription"
+            @close="handleClose"
+        />
+
+
+    <!-- \\\ child components -->
 </template>
 
 
