@@ -16,6 +16,10 @@
         skCount: {
             type: Number,
             default: 5,
+        },
+        rowClick: {
+            type: Function,
+            default: null,
         }
     })
 </script>
@@ -85,6 +89,7 @@
                     v-else-if="!loading && rows.length > 0"
                     v-for="row in rows"
                     :key="row.id"
+                    @click="handleRowClick(row)"
                 >
                     <td
                         v-for="col in columns"

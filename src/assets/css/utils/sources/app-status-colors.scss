@@ -11,39 +11,39 @@
 
     // global controls
         // light
-        --c-light-status-10: 25%;
-        --c-light-status-20: 38%;
-        --c-light-status-30: 47%;
-        --c-light-status-40: 56%;
-        --c-light-status-50: 65%;
-        --c-light-status-60: 74%;
-        --c-light-status-70: 82%;
-        --c-light-status-80: 89%;
-        --c-light-status-90: 95%;
-        --c-light-status-95: 97%;
-        --c-light-status-96: 97.8%;
-        --c-light-status-97: 98.6%;
-        --c-light-status-98: 99.2%;
-        --c-light-status-99: 99.6%;
-    // \\\ light
+            --c-light-status-10: 25%;
+            --c-light-status-20: 38%;
+            --c-light-status-30: 47%;
+            --c-light-status-40: 56%;
+            --c-light-status-50: 65%;
+            --c-light-status-60: 74%;
+            --c-light-status-70: 82%;
+            --c-light-status-80: 89%;
+            --c-light-status-90: 95%;
+            --c-light-status-95: 97%;
+            --c-light-status-96: 97.8%;
+            --c-light-status-97: 98.6%;
+            --c-light-status-98: 99.2%;
+            --c-light-status-99: 99.6%;
+        // \\\ light
 
-    // chroma
-        --c-chroma-status-10: 0.10;
-        --c-chroma-status-20: 0.15;
-        --c-chroma-status-30: 0.17;
-        --c-chroma-status-40: 0.18;
-        --c-chroma-status-50: 0.17;
-        --c-chroma-status-60: 0.14;
-        --c-chroma-status-70: 0.11;
-        --c-chroma-status-80: 0.08;
-        --c-chroma-status-90: 0.04;
-        --c-chroma-status-95: 0.025;
-        --c-chroma-status-96: 0.020;
-        --c-chroma-status-97: 0.015;
-        --c-chroma-status-98: 0.010;
-        --c-chroma-status-99: 0.006;
-    // \\\ chroma
-
+        // chroma
+            --c-chroma-status-10: 0.10;
+            --c-chroma-status-20: 0.15;
+            --c-chroma-status-30: 0.17;
+            --c-chroma-status-40: 0.18;
+            --c-chroma-status-50: 0.17;
+            --c-chroma-status-60: 0.14;
+            --c-chroma-status-70: 0.11;
+            --c-chroma-status-80: 0.08;
+            --c-chroma-status-90: 0.04;
+            --c-chroma-status-95: 0.025;
+            --c-chroma-status-96: 0.020;
+            --c-chroma-status-97: 0.015;
+            --c-chroma-status-98: 0.010;
+            --c-chroma-status-99: 0.006;
+        // \\\ chroma
+    // \\\ global controls
 }
 
 
@@ -92,6 +92,8 @@
 
 
 :root {
+    --c-chroma-status-static: 0.2;
+
     --c-status__green: oklch(var(--c-light-status-50)  var(--c-chroma-status-static, var(--c-chroma-status-50)) var(--c-hue-status-green));
     --c-status__blue: oklch(var(--c-light-status-50)  var(--c-chroma-status-static, var(--c-chroma-status-50)) var(--c-hue-status-blue));
     --c-status__gray: oklch(var(--c-light-status-50)  var(--c-chroma-status-static, var(--c-chroma-status-50)) var(--c-hue-status-gray));

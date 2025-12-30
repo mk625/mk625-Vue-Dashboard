@@ -8,7 +8,7 @@
             import MTable from '@/components/ui/table/MTable.vue';
             import MSearchBox from '@/components/ui/input/MSearchBox.vue';
             import MButton from '@/components/ui/buttons/MButton.vue';
-            import RightDialog from '@/components/ui/dialog/RightDialog.vue';
+            import EditEmployeeDialog from './EditEmployeeDialog.vue';
         // \\\ components
     // \\\ imports
 
@@ -47,7 +47,8 @@
             }
         ]
 
-        const showRightDialog = ref(true);
+        const showEditEmployeeDialog = ref(false);
+        const closeEditEmployeeDialog = ref(true);
     // \\\ global variables
 
 
@@ -93,6 +94,11 @@
         // Add your delete logic here
     }
 
+    function handleRowClick(row) {
+        console.log('Row clicked:', row);
+        // Add your row click logic here
+    }
+
     onMounted(() => {
         getUsersList();
     });
@@ -114,17 +120,18 @@
             :columns="tableHeaderList"
             :rows="filteredUserList"
             :loading="isLoading"
+            :rowClick="handleRowClick"
         >
             <template #cell-actions="{ row }">
                 <div class="employee-actions">
                     <MButton
-                        variant="primary-2"
+                        variant="secondary"
                         size="size-sm"
-                        @click="handleEdit(row)"
+                        @click="showEditEmployeeDialog"
                     >
                         Edit
                     </MButton>
-                    
+
                     <MButton
                         variant="red"
                         size="size-sm"
@@ -139,14 +146,11 @@
 
 
     <!-- child components -->
-        <RightDialog
-            v-model:show="showRightDialog"
-            :title="rightDialogTitle"
-            :description="rightDialogDescription"
-            @close="handleClose"
-        />
-
-
+    <EditEmployeeDialog
+        v-model:show="showEditEmployeeDialog"
+        title="Edit Employee"
+        @close="closeEditEmployeeDialog"
+    />
     <!-- \\\ child components -->
 </template>
 

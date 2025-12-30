@@ -134,6 +134,11 @@
         color: var(--c-black);
         border-color: var(--c-black);
     }
+    .m-btn.m-btn-red {
+        background-color: var(--c-status__red);
+        color: var(--c-white);
+        border-color: var(--c-status__red);
+    }
     .m-btn.m-btn-icon {
         padding-inline: 10px;
         background-color: #eff2f6;

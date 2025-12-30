@@ -39,7 +39,7 @@
         </header>
 
         <section class="right-dialog-body">
-
+            <slot name="body"></slot>
         </section>
 
         <footer class="right-dialog-footer">
