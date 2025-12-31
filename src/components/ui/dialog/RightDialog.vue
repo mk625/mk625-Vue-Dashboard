@@ -16,9 +16,10 @@
         }
     });
 
-    const emit = defineEmits(['close']);
+    const emit = defineEmits(['close', 'update:show']);
 
     const handleClose = () => {
+        emit('update:show', false);
         emit('close');
     };
 </script>

@@ -48,7 +48,7 @@
         ]
 
         const showEditEmployeeDialog = ref(false);
-        const closeEditEmployeeDialog = ref(true);
+        const selectedEmployee = ref(null);
     // \\\ global variables
 
 
@@ -84,19 +84,19 @@
         })
     });
 
-    function handleEdit(row) {
-        console.log('Edit employee:', row);
-        // Add your edit logic here
-    }
-
     function handleDelete(row) {
         console.log('Delete employee:', row);
         // Add your delete logic here
     }
 
-    function handleRowClick(row) {
-        console.log('Row clicked:', row);
-        // Add your row click logic here
+    // function handleRowClick(row) {
+    //     console.log('Row clicked:', row);
+    //     // Add your row click logic here
+    // }
+
+    function handleEditEmployee(row) {
+        selectedEmployee.value = row;
+        showEditEmployeeDialog.value = true;
     }
 
     onMounted(() => {
@@ -120,14 +120,13 @@
             :columns="tableHeaderList"
             :rows="filteredUserList"
             :loading="isLoading"
-            :rowClick="handleRowClick"
         >
             <template #cell-actions="{ row }">
-                <div class="employee-actions">
+                <div class="employee-actions" @click.stop>
                     <MButton
                         variant="secondary"
                         size="size-sm"
-                        @click="showEditEmployeeDialog"
+                        @click="handleEditEmployee(row)"
                     >
                         Edit
                     </MButton>
@@ -149,7 +148,7 @@
     <EditEmployeeDialog
         v-model:show="showEditEmployeeDialog"
         title="Edit Employee"
-        @close="closeEditEmployeeDialog"
+        :employee="selectedEmployee"
     />
     <!-- \\\ child components -->
 </template>

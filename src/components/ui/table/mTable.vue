@@ -1,6 +1,6 @@
 
 <script setup>
-    defineProps ({
+    const props = defineProps ({
         columns: {
             type: Array,
             required: true,
@@ -22,6 +22,13 @@
             default: null,
         }
     })
+
+    function handleRowClick(row) {
+        if (props.rowClick) {
+            console.log(row);
+            props.rowClick(row);
+        }
+    }
 </script>
 
 
@@ -90,6 +97,7 @@
                     v-for="row in rows"
                     :key="row.id"
                     @click="handleRowClick(row)"
+                    :class="[(rowClick ? 'c-pointer' : ''), 'test-class test-class-2']"
                 >
                     <td
                         v-for="col in columns"
