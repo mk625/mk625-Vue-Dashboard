@@ -60,12 +60,16 @@
 
         onSnapshot(usersListQuery, (snapshot) => {
             users_list.value = snapshot.docs.map((doc) => ({
+                docId: doc.id,
                 id: doc.id,
                 ...doc.data()
             }));
             isLoading.value = false;
         });
+
+        console.log("users_list: ", users_list);
     }
+
 
     const filteredUserList = computed(() => {
         const searchingTextUpdated = searchingText.value.toLowerCase().trim();
@@ -76,6 +80,8 @@
 
         return users_list.value.filter((user) =>{
             return(
+                user.docId?.toString().includes(searchingTextUpdated) ||
+                user.id?.toString().includes(searchingTextUpdated) ||
                 user.name?.toLowerCase().includes(searchingTextUpdated) ||
                 user.email?.toLowerCase().includes(searchingTextUpdated) ||
                 user.mailId?.toLowerCase().includes(searchingTextUpdated) ||
@@ -86,17 +92,15 @@
 
     function handleDelete(row) {
         console.log('Delete employee:', row);
-        // Add your delete logic here
     }
-
-    // function handleRowClick(row) {
-    //     console.log('Row clicked:', row);
-    //     // Add your row click logic here
-    // }
 
     function handleEditEmployee(row) {
         selectedEmployee.value = row;
         showEditEmployeeDialog.value = true;
+    }
+
+    function handleUpdate(updatedEmployee) {
+        console.log('Updated employee:', updatedEmployee);
     }
 
     onMounted(() => {
@@ -149,6 +153,7 @@
         v-model:show="showEditEmployeeDialog"
         title="Edit Employee"
         :employee="selectedEmployee"
+        @updated="handleUpdate"
     />
     <!-- \\\ child components -->
 </template>

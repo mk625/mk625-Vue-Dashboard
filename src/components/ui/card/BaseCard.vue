@@ -35,7 +35,7 @@
     .base-card {
         height: 150px;
         padding: 20px;
-        border: 1px solid var(--c-border);
+        border: 1px solid var(--c-border-default);
         border-radius: 6px;
         box-shadow: var(--box-shadow-default);
     }

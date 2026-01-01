@@ -1,10 +1,12 @@
 <script setup>
     // imports
         import { ref, watch } from 'vue';
+        import { doc, updateDoc, getDoc } from 'firebase/firestore';
+        import db from '@/firebase';
         import MInput from '@/components/ui/input/MInput.vue';
         import MInputLabel from '@/components/ui/input/MInputLabel.vue';
-        import MButton from '@/components/ui/buttons/MButton.vue';
         import RightDialog from '@/components/ui/dialog/RightDialog.vue';
+        import ToastPop from '@/components/ui/popup/toast/ToastPop.vue';
     // \\\ imports
 
     const props = defineProps({
@@ -21,7 +23,7 @@
         },
     })
 
-    const emit = defineEmits(['close', 'update:show']);
+    const emit = defineEmits(['close', 'update:show', 'updated']);
 
     // Local form state for editing
     const formData = ref({
@@ -34,6 +36,7 @@
 
     const isError = ref(false);
     const isLoading = ref(false);
+    const showToast = ref(false);
 
     // Sync employee prop to local form state when employee changes
     watch(() => props.employee, (newEmployee) => {
@@ -48,7 +51,7 @@
         }
     }, { immediate: true });
 
-    function handleSubmit() {
+    async function handleSubmit() {
         isError.value = false;
 
         // Validate form
@@ -57,11 +60,55 @@
             return;
         }
 
-        // Handle form submission
+        const employeeId = props.employee.docId;
+        console.log("Employee ID: ", props.employee.docId);
+
         isLoading.value = true;
-        console.log('Form data:', formData.value);
-        // Add your save logic here
-        // After save, set isLoading.value = false
+
+        try {
+            const employeeRef = doc(db, 'users-list', employeeId.toString());
+            const fullName = formData.value.firstName + ' ' + formData.value.lastName;
+
+            console.log("Employee Reference: ", employeeRef);
+
+            const snap = await getDoc(employeeRef);
+
+            if(snap.exists()) {
+                console.log("This data already exists");
+                console.log(snap.data());
+            }else{
+                console.log("This data does not exist");
+            }
+
+
+            await updateDoc(employeeRef, {
+                name: fullName,
+                email: formData.value.email,
+                phone: formData.value.phone,
+                location: formData.value.location,
+            });
+
+            isError.value = false;
+            showToast.value = true;
+
+            // Emit updated event for parent component
+            emit('updated', {
+                id: employeeId,
+                ...formData.value,
+                name: fullName
+            });
+
+            // Close dialog after a short delay to show toast
+            setTimeout(() => {
+                handleClose();
+            }, 1500);
+
+        } catch (error) {
+            console.error('Error updating employee: ', error);
+            isError.value = true;
+        } finally {
+            isLoading.value = false;
+        }
     }
 
     const handleClose = () => {
@@ -118,14 +165,11 @@
                     <p class="c-status-red">Please fill in all the fields</p>
                 </div>
 
-                <div class="txt-a-center mT30">
-                    <MButton type="submit" btn_view="loader" :isLoading="isLoading">
-                        Save
-                    </MButton>
-                </div>
             </form>
         </template>
     </RightDialog>
+
+    <ToastPop message="Employee updated successfully" v-model:show="showToast"/>
 </template>
 
 

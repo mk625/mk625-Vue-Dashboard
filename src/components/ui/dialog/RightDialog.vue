@@ -2,6 +2,7 @@
 <script setup>
     // imports
         import HovIconCirlce from '@/components/ui/buttons/HovIconCirlce.vue';
+        import MButton from '@/components/ui/buttons/MButton.vue';
     // \\\ imports
 
 
@@ -44,7 +45,14 @@
         </section>
 
         <footer class="right-dialog-footer">
-
+            <div class="d-flx aI-C g-10">
+                <MButton variant="secondary" size="size-sm" @click="handleClose">
+                    Cancel
+                </MButton>
+                <MButton variant="primary" size="size-sm" @click="handleSubmit">
+                    Save
+                </MButton>
+            </div>
         </footer>
     </div>
 </template>
@@ -72,7 +80,7 @@
     .right-dialog .right-dialog-header {
         height: var(--h-right-dialog-header);
         padding: 0px 20px;
-        border-bottom: 1px solid var(--c-gray-90);
+        border-bottom: 1px solid var(--c-border-default);
     }
     .right-dialog .right-dialog-close-btn {
         font-size: 18px;
@@ -86,8 +94,10 @@
         padding: 0px;
     }
     .right-dialog-footer {
+        display: flex;
+        align-items: center;
         height: var(--h-right-dialog-footer);
         padding: 0px 20px;
-        border-top: 1px solid var(--c-border-light);
+        border-top: 1px solid var(--c-border-default);
     }
 </style>
