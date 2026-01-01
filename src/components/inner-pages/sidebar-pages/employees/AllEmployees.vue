@@ -4,12 +4,12 @@
         import db from '@/firebase';
         import { collection, onSnapshot, orderBy, query } from 'firebase/firestore';
 
-        // components
+        // ui components
             import MTable from '@/components/ui/table/MTable.vue';
             import MSearchBox from '@/components/ui/input/MSearchBox.vue';
             import MButton from '@/components/ui/buttons/MButton.vue';
             import EditEmployeeDialog from './EditEmployeeDialog.vue';
-        // \\\ components
+        // \\\ ui components
     // \\\ imports
 
 
@@ -66,8 +66,6 @@
             }));
             isLoading.value = false;
         });
-
-        console.log("users_list: ", users_list);
     }
 
 
@@ -99,8 +97,8 @@
         showEditEmployeeDialog.value = true;
     }
 
-    function handleUpdate(updatedEmployee) {
-        console.log('Updated employee:', updatedEmployee);
+    function handleUpdate() {
+        console.log('Employee updated successfully');
     }
 
     onMounted(() => {

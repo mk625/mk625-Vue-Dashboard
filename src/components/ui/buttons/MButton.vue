@@ -1,6 +1,8 @@
 
 <script setup>
-    import SpinLoader from '../general/SpinLoader.vue';
+    // imports
+        import SpinLoader from '../general/SpinLoader.vue';
+    // \\\ imports
 
     defineProps({
         tag: {

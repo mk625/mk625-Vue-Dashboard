@@ -138,7 +138,7 @@
         overflow: hidden;
     }
     .m-table th {
-        background-color: #f3f8f9;
+        background-color: var(--c-app-theme__shade-80);
         font-weight: var(--fw-sbold);
         white-space: nowrap;
     }
@@ -159,7 +159,7 @@
         border-bottom: 1px solid #eef3f9;
     }
     .m-table tr:hover td {
-        background-color: var(--c-gray-98);
+        background-color: var(--c-app-theme__shade-90);
     }
 
     @keyframes sk-animation {

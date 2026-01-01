@@ -1,44 +1,51 @@
 <script setup>
     // imports
         import { ref, watch } from 'vue';
-        import { doc, updateDoc, getDoc } from 'firebase/firestore';
+        import { doc, updateDoc } from 'firebase/firestore';
         import db from '@/firebase';
-        import MInput from '@/components/ui/input/MInput.vue';
-        import MInputLabel from '@/components/ui/input/MInputLabel.vue';
-        import RightDialog from '@/components/ui/dialog/RightDialog.vue';
-        import ToastPop from '@/components/ui/popup/toast/ToastPop.vue';
+
+        // ui components
+            import MInput from '@/components/ui/input/MInput.vue';
+            import MInputLabel from '@/components/ui/input/MInputLabel.vue';
+            import RightDialog from '@/components/ui/dialog/RightDialog.vue';
+            import ToastPop from '@/components/ui/popup/toast/ToastPop.vue';
+        // \\\ ui components
     // \\\ imports
 
-    const props = defineProps({
-        show: {
-            type: Boolean,
-            default: false
-        },
-        title: {
-            type: String,
-        },
-        employee: {
-            type: Object,
-            default: null,
-        },
-    })
+    // global variables
+        // from parent
+            const props = defineProps({
+                show: {
+                    type: Boolean,
+                    default: false
+                },
+                title: {
+                    type: String,
+                },
+                employee: {
+                    type: Object,
+                    default: null,
+                }
+            })
+        // \\\ from parent
 
-    const emit = defineEmits(['close', 'update:show', 'updated']);
+        // local
+            const formData = ref({
+                firstName: '',
+                lastName: '',
+                email: '',
+                phone: '',
+                location: ''
+            });
 
-    // Local form state for editing
-    const formData = ref({
-        firstName: '',
-        lastName: '',
-        email: '',
-        phone: '',
-        location: ''
-    });
+            const isError = ref(false);
+            const showToast = ref(false);
+            const isLoading = ref(false);
+            const emit = defineEmits(['close', 'update:show', 'updated']);
+        // \\\ local
+    // \\\ global variables
 
-    const isError = ref(false);
-    const isLoading = ref(false);
-    const showToast = ref(false);
 
-    // Sync employee prop to local form state when employee changes
     watch(() => props.employee, (newEmployee) => {
         if (newEmployee) {
             formData.value = {
@@ -51,6 +58,7 @@
         }
     }, { immediate: true });
 
+
     async function handleSubmit() {
         isError.value = false;
 
@@ -61,25 +69,12 @@
         }
 
         const employeeId = props.employee.docId;
-        console.log("Employee ID: ", props.employee.docId);
-
-        isLoading.value = true;
 
         try {
+            isLoading.value = true;
+
             const employeeRef = doc(db, 'users-list', employeeId.toString());
             const fullName = formData.value.firstName + ' ' + formData.value.lastName;
-
-            console.log("Employee Reference: ", employeeRef);
-
-            const snap = await getDoc(employeeRef);
-
-            if(snap.exists()) {
-                console.log("This data already exists");
-                console.log(snap.data());
-            }else{
-                console.log("This data does not exist");
-            }
-
 
             await updateDoc(employeeRef, {
                 name: fullName,
@@ -88,8 +83,10 @@
                 location: formData.value.location,
             });
 
+
             isError.value = false;
             showToast.value = true;
+            handleClose();
 
             // Emit updated event for parent component
             emit('updated', {
@@ -97,12 +94,6 @@
                 ...formData.value,
                 name: fullName
             });
-
-            // Close dialog after a short delay to show toast
-            setTimeout(() => {
-                handleClose();
-            }, 1500);
-
         } catch (error) {
             console.error('Error updating employee: ', error);
             isError.value = true;
@@ -110,6 +101,7 @@
             isLoading.value = false;
         }
     }
+
 
     const handleClose = () => {
         emit('update:show', false);
@@ -123,9 +115,11 @@
         :show="show"
         :title="title"
         @close="handleClose"
+        @submit="handleSubmit"
+        :isLoading="isLoading"
     >
         <template #body>
-            <form class="d-block" @submit.prevent="handleSubmit">
+            <form class="d-block">
                 <div class="d-flx fD-C g-20">
                     <div class="d-flx aI-C jC-S g-20">
                         <div class="w50pe">

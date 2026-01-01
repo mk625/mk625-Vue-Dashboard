@@ -6,23 +6,33 @@
     // \\\ imports
 
 
-    defineProps({
-        show: {
-            type: Boolean,
-            default: false
-        },
-        title: {
-            type: String,
-            default: 'Edit employee'
-        }
-    });
+    // global variables
+        // from parent
+            defineProps({
+                show: {
+                    type: Boolean,
+                    default: false
+                },
+                title: {
+                    type: String,
+                    default: 'Edit employee'
+                },
+                isLoading: {
+                    type: Boolean,
+                    default: false
+                }
+            });
+        // \\\ from parent
 
-    const emit = defineEmits(['close', 'update:show']);
+        // local
+            const emit = defineEmits(['close', 'update:show', 'submit', 'update:']);
 
-    const handleClose = () => {
-        emit('update:show', false);
-        emit('close');
-    };
+            const handleClose = () => {
+                emit('update:show', false);
+                emit('close');
+            };
+        // \\\ local
+    // \\\ global variables
 </script>
 
 
@@ -46,10 +56,19 @@
 
         <footer class="right-dialog-footer">
             <div class="d-flx aI-C g-10">
-                <MButton variant="secondary" size="size-sm" @click="handleClose">
+                <MButton
+                    variant="secondary"
+                    @click="handleClose"
+                >
                     Cancel
                 </MButton>
-                <MButton variant="primary" size="size-sm" @click="handleSubmit">
+
+                <MButton
+                    type="submit"
+                    btn_view="loader"
+                    :isLoading="isLoading"
+                    @click="emit('submit')"
+                >
                     Save
                 </MButton>
             </div>
