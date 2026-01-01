@@ -770,7 +770,7 @@
     .pos-sticky { position: sticky; }
     .pos-initial { position: initial; }
 
-    .pos-abs-center { @include pos-abs-center; }
+    .pos-abs-center { @include pos-abs-xy-center; }
     .pos-x-center { @include pos-x-center; }
     .pos-y-center { @include pos-y-center; }
 /* positions */

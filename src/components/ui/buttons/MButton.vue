@@ -105,7 +105,7 @@
         height: var(--h-input);
         padding-inline: 16px;
         color: var(--c-white);
-        border-radius: 5px;
+        border-radius: var(--br-radius-input);
         text-align: center;
         border: 1px solid transparent;
         position: relative;
