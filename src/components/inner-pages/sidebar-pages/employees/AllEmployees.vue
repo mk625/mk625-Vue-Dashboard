@@ -9,6 +9,7 @@
             import MSearchBox from '@/components/ui/input/MSearchBox.vue';
             import MButton from '@/components/ui/buttons/MButton.vue';
             import EditEmployeeDialog from './EditEmployeeDialog.vue';
+            import NoficationPop from '@/components/ui/popup/toast/NoficationPop.vue';
         // \\\ ui components
     // \\\ imports
 
@@ -147,12 +148,14 @@
 
 
     <!-- child components -->
-    <EditEmployeeDialog
-        v-model:show="showEditEmployeeDialog"
-        title="Edit Employee"
-        :employee="selectedEmployee"
-        @updated="handleUpdate"
-    />
+        <EditEmployeeDialog
+            v-model:show="showEditEmployeeDialog"
+            title="Edit Employee"
+            :employee="selectedEmployee"
+            @updated="handleUpdate"
+        />
+
+        <NoficationPop/>
     <!-- \\\ child components -->
 </template>
 
