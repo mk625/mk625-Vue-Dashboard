@@ -11,7 +11,7 @@
     // global variables
         const notificationPopChatListsIn = ref(null);
         const notificationPopNoteListsIn = ref(null);
-        
+
         const chats = ref([
             {
                 id: 1,
@@ -69,24 +69,23 @@
 <template>
     <Teleport to="body">
         <div class="notification-pop-container">
+            <!-- new pop button -->
+                <div class="d-flx g-20 aI-E pTB20 pos-fixed left-30 bottom-10">
+                    <MButton @click="addChat">Add Chat</MButton>
+                    <MButton @click="addNote">Add Note</MButton>
+                </div>
+            <!-- \\\ new pop button -->
+
             <TransitionGroup
                 tag="div"
                 class="notification-pop-container-in"
-                ref="notificationPopContainerIn"
-                name="notification-pop"
+                name="column-shift"
             >
-
-                <!-- new pop button -->
-                    <div class="d-flx g-20 aI-E pTB20">
-                        <MButton @click="addChat">Add Chat</MButton>
-                        <MButton @click="addNote">Add Note</MButton>
-                    </div>
-                <!-- \\\ new pop button -->
-
                 <!-- chat notifications -->
                     <div
                         class="notification-pop-lists"
                         ref="notificationPopChatListsIn"
+                        key="key-chat-lists"
                     >
                         <TransitionGroup tag="div" name="chat-pop">
                             <div class="notification-pop chat-pop" v-for="chat in chats" :key="chat.id">
@@ -98,23 +97,21 @@
                 <!-- \\\ chat notifications -->
 
                 <!-- note notifications -->
-                    <Transition>
+                    <!-- <Transition> -->
                         <div
                             class="notification-pop-lists"
                             ref="notificationPopNoteListsIn"
+                            key="key-note-lists"
                             v-if="notes.length > 0"
                         >
-                            <TransitionGroup
-                                tag="div"
-                                name="note-pop"
-                            >
+                            <TransitionGroup tag="div" name="note-pop">
                                 <div class="notification-pop note-pop" v-for="note in notes" :key="note.id">
                                     <h4 class="mB5">{{ note.title }}</h4>
                                     <p> {{ note.text }} </p>
                                 </div>
                             </TransitionGroup>
                         </div>
-                    </Transition>
+                    <!-- </Transition> -->
                     <!-- \\\ note notifications -->
             </TransitionGroup>
         </div>
@@ -141,17 +138,15 @@
         grid-auto-flow: column;
         gap: 20px;
         padding-inline: 20px;
-        border: 2px solid green;
     }
     .notification-pop-lists {
         max-height: 100vh;
         padding-block: 20px;
         overflow-y: auto;
         scroll-behavior: smooth;
-        border: 2px solid red;
     }
     .notification-pop {
-        max-width: 300px;
+        width: 300px;
         padding: 15px;
         background-color: #dbe2ec;
         margin-bottom: 12px;
@@ -160,6 +155,16 @@
     .notification-pop:last-child {
         margin-bottom: 0px;
     }
+
+    /* common animation frames */
+        .column-shift-move {
+            transition: transform 50s ease;
+        }
+        .chat-pop-move {
+            transition: transform 50s ease;
+        }
+    /* \\\ commmon animation frames */
+
 
     /* chat-pop animation frames */
         .chat-pop-enter-from {
@@ -171,10 +176,7 @@
             opacity: 1;
         }
         .chat-pop-enter-active {
-            transition: transform 0.5s ease, opacity 0.5s ease;
-        }
-        .chat-pop-move {
-            transition: transform 0.5s ease;
+            transition: transform 50s ease, opacity 50s ease;
         }
     /* \\\ chat-pop animation frames */
 
@@ -188,10 +190,7 @@
             opacity: 1;
         }
         .note-pop-enter-active {
-            transition: transform 0.5s ease, opacity 0.5s ease;
-        }
-        .note-pop-move {
-            transition: transform 0.5s ease;
+            transition: transform 50s ease, opacity 50s ease;
         }
     /* \\\ note-pop animation frames */
 </style>
