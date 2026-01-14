@@ -10,6 +10,8 @@
 
     // global variables
         const notificationPopChatListsIn = ref(null);
+        const notificationPopNoteListsIn = ref(null);
+        
         const chats = ref([
             {
                 id: 1,
@@ -31,44 +33,8 @@
                 user_name: 'Muthu',
                 text: 'I am going to the market alksdjflksa jdfkljas dfkals fasklfj alksdjf klsajdf kaskdlfj aklsfj lksadfjklasfjadf'
             },
-            // {
-            //     id: 5,
-            //     user_name: 'Meeha',
-            //     text: 'What are you doing?'
-            // },
-            // {
-            //     id: 6,
-            //     user_name: 'Muthu',
-            //     text: 'I am going to the market alskdfjadsf ajsdfl aksjf. dfa lskdfjklasjdf. asdflkas aslidjf klasdjf asldkfj asldfjklsadjf lkasjdf '
-            // },
-            // {
-            //     id: 7,
-            //     user_name: 'Meeha',
-            //     text: 'What are you doing? aslkdfj ajfd. asdl;fjklasdjf klasjfd ldaf '
-            // },
-            // {
-            //     id: 8,
-            //     user_name: 'Muthu',
-            //     text: 'I am going to the market. aklsdjfl alksdfj.'
-            // },
         ])
-        // const notes = ref([
-        //     {
-        //         id: 1,
-        //         title: 'Note 1',
-        //         text: 'This is a note'
-        //     },
-        //     {
-        //         id: 2,
-        //         title: 'Note 2',
-        //         text: 'This is a note lkasjd fkljsadf klj askldfj '
-        //     },
-        //     {
-        //         id: 3,
-        //         title: 'Note 3',
-        //         text: 'This is a note jlkasdfj kalsdjf lkasdfj lkajfd'
-        //     },
-        // ])
+        const notes = ref([]);
     // \\\ global variables
 
 
@@ -81,7 +47,19 @@
         });
 
         nextTick(() => {
-            const el = notificationPopChatListsIn.value.$ele;
+            const el = notificationPopChatListsIn.value;
+            el.scrollTop = el.scrollHeight;
+        });
+    }
+    function addNote() {
+        notes.value.push({
+            id: notes.value.length + 1,
+            title: 'Note 1',
+            text: 'This is a note'
+        });
+
+        nextTick(() => {
+            const el = notificationPopNoteListsIn.value;
             el.scrollTop = el.scrollHeight;
         });
     }
@@ -99,37 +77,45 @@
             >
 
                 <!-- new pop button -->
-                    <div class="d-flx aI-E pTB20">
+                    <div class="d-flx g-20 aI-E pTB20">
                         <MButton @click="addChat">Add Chat</MButton>
+                        <MButton @click="addNote">Add Note</MButton>
                     </div>
                 <!-- \\\ new pop button -->
 
                 <!-- chat notifications -->
-                    <TransitionGroup
-                        tag="div"
+                    <div
                         class="notification-pop-lists"
-                        name="chat-pop-lists"
                         ref="notificationPopChatListsIn"
                     >
-                        <div class="notification-pop chat-pop" v-for="chat in chats" :key="chat.id">
-                            <h4 class="mB5">{{ chat.user_name }}</h4>
-                            <p> {{ chat.text }} </p>
-                        </div>
-                    </TransitionGroup>
+                        <TransitionGroup tag="div" name="chat-pop">
+                            <div class="notification-pop chat-pop" v-for="chat in chats" :key="chat.id">
+                                <h4 class="mB5">{{ chat.user_name }}</h4>
+                                <p> {{ chat.text }} </p>
+                            </div>
+                        </TransitionGroup>
+                    </div>
                 <!-- \\\ chat notifications -->
 
                 <!-- note notifications -->
-                    <TransitionGroup
-                        tag="div"
-                        class="notification-pop-lists"
-                        name="note-pop-lists"
-                    >
-                        <div class="notification-pop note-pop">
-                            <h4 class="mB5">Note 1</h4>
-                            <p> This is a note adfjaks dfjlkasjdf lkasjdflkas jdfkasjflk jlk.</p>
+                    <Transition>
+                        <div
+                            class="notification-pop-lists"
+                            ref="notificationPopNoteListsIn"
+                            v-if="notes.length > 0"
+                        >
+                            <TransitionGroup
+                                tag="div"
+                                name="note-pop"
+                            >
+                                <div class="notification-pop note-pop" v-for="note in notes" :key="note.id">
+                                    <h4 class="mB5">{{ note.title }}</h4>
+                                    <p> {{ note.text }} </p>
+                                </div>
+                            </TransitionGroup>
                         </div>
-                    </TransitionGroup>
-                <!-- \\\ note notifications -->
+                    </Transition>
+                    <!-- \\\ note notifications -->
             </TransitionGroup>
         </div>
     </Teleport>
@@ -139,7 +125,7 @@
 <style scoped>
     .notification-pop-container {
         display: grid;
-        place-items: end;
+        place-content: end;
         width: 100vw;
         height: 100vh;
         background-color: #28282878;
@@ -151,45 +137,61 @@
     }
     .notification-pop-container-in {
         display: grid;
+        align-items: flex-end;
         grid-auto-flow: column;
-        place-items: end;
         gap: 20px;
         padding-inline: 20px;
-        /* border: 2px solid red; */
+        border: 2px solid green;
     }
     .notification-pop-lists {
-        display: grid;
-        place-content: end;
-        gap: 10px;
+        max-height: 100vh;
         padding-block: 20px;
-
-        height: 100vh;
         overflow-y: auto;
         scroll-behavior: smooth;
-
         border: 2px solid red;
     }
     .notification-pop {
         max-width: 300px;
         padding: 15px;
         background-color: #dbe2ec;
+        margin-bottom: 12px;
         border-radius: 10px;
     }
+    .notification-pop:last-child {
+        margin-bottom: 0px;
+    }
 
-    /* animation frames */
-        .notification-pop-enter-from {
+    /* chat-pop animation frames */
+        .chat-pop-enter-from {
             transform: translateX(100%);
             opacity: 0;
         }
-        .notification-pop-enter-to {
+        .chat-pop-enter-to {
             transform: translateX(0);
             opacity: 1;
         }
-        .notification-pop-enter-active {
-            transition: transform 1s ease, opacity 1s ease;
+        .chat-pop-enter-active {
+            transition: transform 0.5s ease, opacity 0.5s ease;
         }
-        .notification-pop-move {
-            transition: transform 1s ease;
+        .chat-pop-move {
+            transition: transform 0.5s ease;
         }
-    /* \\\ animation frames */
+    /* \\\ chat-pop animation frames */
+
+    /* note-pop animation frames */
+        .note-pop-enter-from {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+        .note-pop-enter-to {
+            transform: translateX(0);
+            opacity: 1;
+        }
+        .note-pop-enter-active {
+            transition: transform 0.5s ease, opacity 0.5s ease;
+        }
+        .note-pop-move {
+            transition: transform 0.5s ease;
+        }
+    /* \\\ note-pop animation frames */
 </style>
