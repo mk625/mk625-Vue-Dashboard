@@ -9,7 +9,7 @@
 
 
     // global variables
-        const notificationPopContainerIn = ref(null);
+        const notificationPopChatListsIn = ref(null);
         const chats = ref([
             {
                 id: 1,
@@ -81,7 +81,7 @@
         });
 
         nextTick(() => {
-            const el = notificationPopContainerIn.value.$el;
+            const el = notificationPopChatListsIn.value.$ele;
             el.scrollTop = el.scrollHeight;
         });
     }
@@ -91,26 +91,45 @@
 <template>
     <Teleport to="body">
         <div class="notification-pop-container">
-            <div class="pos-abs top-30 left-30">
-                <MButton @click="addChat">Add Chat</MButton>
-            </div>
-
             <TransitionGroup
+                tag="div"
                 class="notification-pop-container-in"
                 ref="notificationPopContainerIn"
-                tag="div"
                 name="notification-pop"
             >
-                <div class="chat-pops-container d-flx fD-C g-10">
-                    <div class="notification-pop" v-for="chat in chats" :key="chat.id">
-                        <h4 class="chat-title mB5">{{ chat.user_name }}</h4>
-                        <p class="chat-msg"> {{ chat.text }} </p>
+
+                <!-- new pop button -->
+                    <div class="d-flx aI-E pTB20">
+                        <MButton @click="addChat">Add Chat</MButton>
                     </div>
-                </div>
+                <!-- \\\ new pop button -->
 
-                <div class="notes-pops-container">
+                <!-- chat notifications -->
+                    <TransitionGroup
+                        tag="div"
+                        class="notification-pop-lists"
+                        name="chat-pop-lists"
+                        ref="notificationPopChatListsIn"
+                    >
+                        <div class="notification-pop chat-pop" v-for="chat in chats" :key="chat.id">
+                            <h4 class="mB5">{{ chat.user_name }}</h4>
+                            <p> {{ chat.text }} </p>
+                        </div>
+                    </TransitionGroup>
+                <!-- \\\ chat notifications -->
 
-                </div>
+                <!-- note notifications -->
+                    <TransitionGroup
+                        tag="div"
+                        class="notification-pop-lists"
+                        name="note-pop-lists"
+                    >
+                        <div class="notification-pop note-pop">
+                            <h4 class="mB5">Note 1</h4>
+                            <p> This is a note adfjaks dfjlkasjdf lkasjdflkas jdfkasjflk jlk.</p>
+                        </div>
+                    </TransitionGroup>
+                <!-- \\\ note notifications -->
             </TransitionGroup>
         </div>
     </Teleport>
@@ -119,9 +138,8 @@
 
 <style scoped>
     .notification-pop-container {
-        display: flex;
-        align-items: flex-end;
-        justify-content: flex-end;
+        display: grid;
+        place-items: end;
         width: 100vw;
         height: 100vh;
         background-color: #28282878;
@@ -132,24 +150,32 @@
         z-index: 1;
     }
     .notification-pop-container-in {
-        display: flex;
+        display: grid;
+        grid-auto-flow: column;
+        place-items: end;
         gap: 20px;
-        max-height: 100vh;
-        padding: 20px;
+        padding-inline: 20px;
         /* border: 2px solid red; */
     }
-    .chat-pops-container {
-        height: 100%;
+    .notification-pop-lists {
+        display: grid;
+        place-content: end;
+        gap: 10px;
+        padding-block: 20px;
+
+        height: 100vh;
         overflow-y: auto;
         scroll-behavior: smooth;
+
+        border: 2px solid red;
     }
     .notification-pop {
-        flex-shrink: 0;
         max-width: 300px;
         padding: 15px;
         background-color: #dbe2ec;
         border-radius: 10px;
     }
+
     /* animation frames */
         .notification-pop-enter-from {
             transform: translateX(100%);
