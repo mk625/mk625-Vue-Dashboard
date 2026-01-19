@@ -68,87 +68,90 @@
 
 <template>
     <Teleport to="body">
-        <div class="notification-pop-container">
-            <!-- new pop button -->
-                <div class="d-flx g-20 aI-E pTB20 pos-fixed left-30 bottom-10">
-                    <MButton @click="addChat">Add Chat</MButton>
-                    <MButton @click="addNote">Add Note</MButton>
-                </div>
-            <!-- \\\ new pop button -->
+        <!-- new pop button -->
+            <div class="d-flx g-20 aI-E pTB20 pos-fixed left-30 bottom-10 zi-2">
+                <MButton @click="addChat">Add Chat</MButton>
+                <MButton @click="addNote">Add Note</MButton>
+            </div>
+        <!-- \\\ new pop button -->
 
-            <TransitionGroup
-                tag="div"
-                class="notification-pop-container-in"
-                name="column-shift"
+
+        <!-- chat notifications -->
+            <div
+                class="chat-pop-lists notification-pop-lists"
+                ref="notificationPopChatListsIn"
+                key="key-chat-lists"
             >
-                <!-- chat notifications -->
-                    <div
-                        class="notification-pop-lists"
-                        ref="notificationPopChatListsIn"
-                        key="key-chat-lists"
-                    >
-                        <TransitionGroup tag="div" name="chat-pop">
-                            <div class="notification-pop chat-pop" v-for="chat in chats" :key="chat.id">
-                                <h4 class="mB5">{{ chat.user_name }}</h4>
-                                <p> {{ chat.text }} </p>
-                            </div>
-                        </TransitionGroup>
+                <TransitionGroup tag="div" name="chat-pop">
+                    <div class="notification-pop chat-pop" v-for="chat in chats" :key="chat.id">
+                        <h4 class="mB5">{{ chat.user_name }}</h4>
+                        <p> {{ chat.text }} </p>
                     </div>
-                <!-- \\\ chat notifications -->
+                </TransitionGroup>
+            </div>
+        <!-- \\\ chat notifications -->
 
-                <!-- note notifications -->
-                    <!-- <Transition> -->
-                        <div
-                            class="notification-pop-lists"
-                            ref="notificationPopNoteListsIn"
-                            key="key-note-lists"
-                            v-if="notes.length > 0"
-                        >
-                            <TransitionGroup tag="div" name="note-pop">
-                                <div class="notification-pop note-pop" v-for="note in notes" :key="note.id">
-                                    <h4 class="mB5">{{ note.title }}</h4>
-                                    <p> {{ note.text }} </p>
-                                </div>
-                            </TransitionGroup>
-                        </div>
-                    <!-- </Transition> -->
-                    <!-- \\\ note notifications -->
-            </TransitionGroup>
-        </div>
+
+        <!-- note notifications -->
+            <div
+                class="note-pop-lists notification-pop-lists"
+                ref="notificationPopNoteListsIn"
+                key="key-note-lists"
+                v-if="notes.length > 0"
+            >
+                <TransitionGroup
+                    tag="div"
+                    name="note-pop"
+                >
+                    <div class="notification-pop note-pop" v-for="note in notes" :key="note.id">
+                        <h4 class="mB5">{{ note.title }}</h4>
+                        <p> {{ note.text }} </p>
+                    </div>
+                </TransitionGroup>
+            </div>
+        <!-- \\\ note notifications -->
     </Teleport>
 </template>
 
 
-<style scoped>
-    .notification-pop-container {
-        display: grid;
-        place-content: end;
-        width: 100vw;
-        height: 100vh;
-        background-color: #28282878;
-
+<!-- <style>
+    #app-root {
+        position: relative;
+    }
+    #app-root::after {
+        content: '';
         position: fixed;
-        top: 0px;
-        left: 0px;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        pointer-events: auto;
         z-index: 1;
     }
-    .notification-pop-container-in {
-        display: grid;
-        align-items: flex-end;
-        grid-auto-flow: column;
-        gap: 20px;
-        padding-inline: 20px;
-    }
+</style> -->
+
+<style scoped>
     .notification-pop-lists {
+        /* sources */
+            --w-notification-pop: 300px;
+        /* \\\ sources */
+
+
         max-height: 100vh;
-        padding-block: 20px;
+        padding: 15px;
         overflow-y: auto;
         scroll-behavior: smooth;
+
+        position: fixed;
+        bottom: 0px;
+        z-index: 2;
     }
     .notification-pop {
-        width: 300px;
+        width: var(--w-notification-pop);
         padding: 15px;
         background-color: #dbe2ec;
+        border: 1px solid var(--c-border-default);
         margin-bottom: 12px;
         border-radius: 10px;
     }
@@ -156,41 +159,56 @@
         margin-bottom: 0px;
     }
 
-    /* common animation frames */
-        .column-shift-move {
-            transition: transform 50s ease;
+
+    /* chat-pop-lists */
+        .chat-pop-lists {
+            inset-inline-end: 0px;
+            z-index: 2;
         }
-        .chat-pop-move {
-            transition: transform 50s ease;
+        .note-pop-lists-in {
+            padding-block: 20px;
         }
-    /* \\\ commmon animation frames */
+
+        /* common animation frames */
+            .chat-pop-move {
+                transition: transform 0.5s ease;
+            }
+        /* \\\ commmon animation frames */
+
+        /* chat-pop animation frames */
+            .chat-pop-enter-from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            .chat-pop-enter-to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            .chat-pop-enter-active {
+                transition: transform 0.5s ease, opacity 0.5s ease;
+            }
+        /* \\\ chat-pop animation frames */
+    /* \\\ chat-pop-lists */
 
 
-    /* chat-pop animation frames */
-        .chat-pop-enter-from {
-            transform: translateX(100%);
-            opacity: 0;
+    /* note-pop-lists */
+        .note-pop-lists {
+            inset-inline-end: calc(var(--w-notification-pop) + 20px);
+            z-index: 3;
         }
-        .chat-pop-enter-to {
-            transform: translateX(0);
-            opacity: 1;
-        }
-        .chat-pop-enter-active {
-            transition: transform 50s ease, opacity 50s ease;
-        }
-    /* \\\ chat-pop animation frames */
 
-    /* note-pop animation frames */
-        .note-pop-enter-from {
-            transform: translateX(100%);
-            opacity: 0;
-        }
-        .note-pop-enter-to {
-            transform: translateX(0);
-            opacity: 1;
-        }
-        .note-pop-enter-active {
-            transition: transform 50s ease, opacity 50s ease;
-        }
-    /* \\\ note-pop animation frames */
+        /* note-pop animation frames */
+            .note-pop-enter-from {
+                transform: translateX(200%);
+                opacity: 0;
+            }
+            .note-pop-enter-to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            .note-pop-enter-active {
+                transition: transform 0.5s ease, opacity 0.5s ease;
+            }
+        /* \\\ note-pop animation frames */
+    /* \\\ note-pop-lists */
 </style>

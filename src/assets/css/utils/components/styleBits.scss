@@ -825,7 +825,13 @@
 
 
 /* cursor */
-    .c-pointer { cursor: pointer; }
+    .cur-pointer { cursor: pointer; }
+    .cur-default { cursor: default; }
+    .cur-not-allowed { cursor: not-allowed; }
+    .cur-progress { cursor: progress; }
+
+    .pointer-e-none { pointer-events: none; }
+    .pointer-e-auto { pointer-events: auto; }
 /* \\\ cursor */
 
 /* positions */
@@ -839,6 +845,31 @@
     .pos-x-center { @include pos-x-center; }
     .pos-y-center { @include pos-y-center; }
 /* positions */
+
+
+// z-index
+    .zi-1 { z-index: 1; }
+    .zi-2 { z-index: 2; }
+    .zi-3 { z-index: 3; }
+    .zi-4 { z-index: 4; }
+    .zi-5 { z-index: 5; }
+    .zi-6 { z-index: 6; }
+    .zi-7 { z-index: 7; }
+    .zi-8 { z-index: 8; }
+    .zi-9 { z-index: 9; }
+    .zi-10 { z-index: 10; }
+    .zi-11 { z-index: 11; }
+    .zi-12 { z-index: 12; }
+    .zi-13 { z-index: 13; }
+    .zi-14 { z-index: 14; }
+    .zi-15 { z-index: 15; }
+    .zi-16 { z-index: 16; }
+    .zi-17 { z-index: 17; }
+    .zi-18 { z-index: 18; }
+    .zi-19 { z-index: 19; }
+    .zi-20 { z-index: 20; }
+/* \\\ z-index */
+
 
 /* positive values */
 .top-0 { top: 0px; }
