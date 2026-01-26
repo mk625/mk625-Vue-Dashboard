@@ -1,0 +1,28 @@
+{
+    "extends": [
+        "stylelint-config-standard",
+        "stylelint-config-recommended-vue"
+    ],
+    "customSyntax": "postcss-html",
+    "overrides": [
+        {
+            "files": ["**/*.vue"],
+            "rules": {
+                "selector-max-type": 0
+            }
+        },
+        {
+            "files": ["**/global-reset.css"],
+            "rules": {
+                "selector-max-type": null
+            }
+        }
+    ],
+    "rules": {
+        "custom-property-no-undefined": true,
+        "selector-max-type": 0,
+        "declaration-no-important": true,
+        "selector-list-comma-newline-after": "always",
+        "property-no-unknown": true
+    }
+}
