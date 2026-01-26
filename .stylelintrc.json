@@ -1,16 +1,8 @@
 {
     "extends": [
-        "stylelint-config-standard",
-        "stylelint-config-recommended-vue"
+        "stylelint-config-standard"
     ],
-    "customSyntax": "postcss-html",
     "overrides": [
-        {
-            "files": ["**/*.vue"],
-            "rules": {
-                "selector-max-type": 0
-            }
-        },
         {
             "files": ["**/global-reset.css"],
             "rules": {
