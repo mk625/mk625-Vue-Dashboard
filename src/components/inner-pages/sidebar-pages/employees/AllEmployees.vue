@@ -155,7 +155,7 @@
             @updated="handleUpdate"
         />
 
-        <NoficationPop/>
+        <!-- <NoficationPop/> -->
     <!-- \\\ child components -->
 </template>
 

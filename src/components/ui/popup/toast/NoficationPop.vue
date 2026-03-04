@@ -10,31 +10,33 @@
 
     // global variables
         const notificationPopChatListsIn = ref(null);
-        const notificationPopNoteListsIn = ref(null);
 
         const chats = ref([
             {
                 id: 1,
                 user_name: 'Meeha',
                 text: 'Muthu where are you going saldjflk fadf',
+                type: 'chat',
             },
             {
                 id: 2,
                 user_name: 'Muthu',
-                text: 'I am going to the market so will be back in 2 hours'
+                text: 'Need complete bug id-20',
+                type: 'reminder',
             },
             {
                 id: 3,
                 user_name: 'Meeha',
-                text: 'What are you doing?'
+                text: 'Need to test marketing plus page',
+                type: 'reminder',
             },
             {
                 id: 4,
                 user_name: 'Muthu',
-                text: 'I am going to the market alksdjflksa jdfkljas dfkals fasklfj alksdjf klsajdf kaskdlfj aklsfj lksadfjklasfjadf'
+                text: 'I am going to the market alksdjflksa alksdjf klsajdf kaskdlfj',
+                type: 'chat',
             },
         ])
-        const notes = ref([]);
     // \\\ global variables
 
 
@@ -51,18 +53,6 @@
             el.scrollTop = el.scrollHeight;
         });
     }
-    function addNote() {
-        notes.value.push({
-            id: notes.value.length + 1,
-            title: 'Note 1',
-            text: 'This is a note'
-        });
-
-        nextTick(() => {
-            const el = notificationPopNoteListsIn.value;
-            el.scrollTop = el.scrollHeight;
-        });
-    }
 </script>
 
 
@@ -71,7 +61,6 @@
         <!-- new pop button -->
             <div class="d-flx g-20 aI-E pTB20 pos-fixed left-30 bottom-10 zi-2">
                 <MButton @click="addChat">Add Chat</MButton>
-                <MButton @click="addNote">Add Note</MButton>
             </div>
         <!-- \\\ new pop button -->
 
@@ -91,45 +80,9 @@
             </div>
         <!-- \\\ chat notifications -->
 
-
-        <!-- note notifications -->
-            <div
-                class="note-pop-lists notification-pop-lists"
-                ref="notificationPopNoteListsIn"
-                key="key-note-lists"
-                v-if="notes.length > 0"
-            >
-                <TransitionGroup
-                    tag="div"
-                    name="note-pop"
-                >
-                    <div class="notification-pop note-pop" v-for="note in notes" :key="note.id">
-                        <h4 class="mB5">{{ note.title }}</h4>
-                        <p> {{ note.text }} </p>
-                    </div>
-                </TransitionGroup>
-            </div>
-        <!-- \\\ note notifications -->
     </Teleport>
 </template>
 
-
-<!-- <style>
-    #app-root {
-        position: relative;
-    }
-    #app-root::after {
-        content: '';
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.5);
-        pointer-events: auto;
-        z-index: 1;
-    }
-</style> -->
 
 <style scoped>
     .notification-pop-lists {
@@ -141,6 +94,7 @@
         max-height: 100vh;
         padding: 15px;
         overflow-y: auto;
+        overflow-x: hidden;
         scroll-behavior: smooth;
 
         position: fixed;
@@ -175,6 +129,7 @@
             }
         /* \\\ commmon animation frames */
 
+
         /* chat-pop animation frames */
             .chat-pop-enter-from {
                 transform: translateX(100%);
@@ -189,26 +144,4 @@
             }
         /* \\\ chat-pop animation frames */
     /* \\\ chat-pop-lists */
-
-
-    /* note-pop-lists */
-        .note-pop-lists {
-            inset-inline-end: calc(var(--w-notification-pop) + 20px);
-            z-index: 3;
-        }
-
-        /* note-pop animation frames */
-            .note-pop-enter-from {
-                transform: translateX(200%);
-                opacity: 0;
-            }
-            .note-pop-enter-to {
-                transform: translateX(0);
-                opacity: 1;
-            }
-            .note-pop-enter-active {
-                transition: transform 0.5s ease, opacity 0.5s ease;
-            }
-        /* \\\ note-pop animation frames */
-    /* \\\ note-pop-lists */
 </style>

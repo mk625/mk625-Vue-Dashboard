@@ -33,6 +33,12 @@
     // \\\ text
 
 
+    // skeleton
+        --c-skeleton-darker: var(--c-gray-90);
+        --c-skeleton-lighter: var(--c-gray-95);
+    // \\\ skeleton
+
+
     // box shadows
         --c-shadow-sm:
                     0 1px 2px oklch(0% 0 0 / 0.06),

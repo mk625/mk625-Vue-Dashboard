@@ -5,6 +5,7 @@
     import { ref } from 'vue';
     import db  from '@/firebase';
     import { collection, onSnapshot } from 'firebase/firestore'
+    import NoficationPop from '@/components/ui/popup/toast/NoficationPop.vue';
 
     // variables
         let dashboard_items = ref([]);
@@ -44,6 +45,8 @@
             </BaseCard>
         </div>
     </div>
+
+    <NoficationPop />
 </template>
 
 

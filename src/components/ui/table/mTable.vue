@@ -175,7 +175,7 @@
         display: inline-block;
         width: 50%;
         height: 6px;
-        background: linear-gradient( 90deg, var(--c-gray-90) 25%, var(--c-gray-95) 37%, var(--c-gray-90) 63%);
+        background: linear-gradient( 90deg, var(--c-skeleton-darker) 25%, var(--c-skeleton-lighter) 37%, var(--c-skeleton-darker) 63%);
         background-size: 400% 100%;
         border-radius: 8px;
         animation: sk-animation 1.4s ease infinite;
