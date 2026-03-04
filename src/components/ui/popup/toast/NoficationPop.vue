@@ -20,13 +20,13 @@
             },
             {
                 id: 2,
-                user_name: 'Muthu',
+                user_name: 'Bug Complete',
                 text: 'Need complete bug id-20',
                 type: 'reminder',
             },
             {
                 id: 3,
-                user_name: 'Meeha',
+                user_name: 'Testing',
                 text: 'Need to test marketing plus page',
                 type: 'reminder',
             },
@@ -67,14 +67,28 @@
 
         <!-- chat notifications -->
             <div
-                class="chat-pop-lists notification-pop-lists"
+                class="notification-pop-lists notification-pop-lists"
                 ref="notificationPopChatListsIn"
                 key="key-chat-lists"
             >
-                <TransitionGroup tag="div" name="chat-pop">
-                    <div class="notification-pop chat-pop" v-for="chat in chats" :key="chat.id">
-                        <h4 class="mB5">{{ chat.user_name }}</h4>
-                        <p> {{ chat.text }} </p>
+                <TransitionGroup tag="div" name="notification-pop">
+                    <div
+                        :class="`notification-pop ${chat.type||''}-pop`"
+                        v-for="chat in chats" :key="chat.id"
+                    >
+                        <!-- chat -->
+                            <template v-if="chat.type === 'chat'">
+                                <h4 class="mB5">{{ chat.user_name }}</h4>
+                                <p> {{ chat.text }} </p>
+                            </template>
+                        <!-- \\\ chat -->
+
+                        <!-- reminder -->
+                            <template v-else-if="chat.type === 'reminder'">
+                                <h4 class="mB5"> <strong class="c-status-orange">Reminder:</strong> {{ chat.user_name }}</h4>
+                                <p> {{ chat.text }} </p>
+                            </template>
+                        <!-- \\\ reminder -->
                     </div>
                 </TransitionGroup>
             </div>
@@ -109,13 +123,16 @@
         margin-bottom: 12px;
         border-radius: 10px;
     }
+    .notification-pop.reminder-pop {
+        background-color: #f0e4d2;
+    }
     .notification-pop:last-child {
         margin-bottom: 0px;
     }
 
 
-    /* chat-pop-lists */
-        .chat-pop-lists {
+    /* notification-pop-lists */
+        .notification-pop-lists {
             inset-inline-end: 0px;
             z-index: 2;
         }
@@ -124,24 +141,24 @@
         }
 
         /* common animation frames */
-            .chat-pop-move {
+            .notification-pop-move {
                 transition: transform 0.5s ease;
             }
         /* \\\ commmon animation frames */
 
 
-        /* chat-pop animation frames */
-            .chat-pop-enter-from {
+        /* notification-pop animation frames */
+            .notification-pop-enter-from {
                 transform: translateX(100%);
                 opacity: 0;
             }
-            .chat-pop-enter-to {
+            .notification-pop-enter-to {
                 transform: translateX(0);
                 opacity: 1;
             }
-            .chat-pop-enter-active {
+            .notification-pop-enter-active {
                 transition: transform 0.5s ease, opacity 0.5s ease;
             }
-        /* \\\ chat-pop animation frames */
-    /* \\\ chat-pop-lists */
+        /* \\\ notification-pop animation frames */
+    /* \\\ notification-pop-lists */
 </style>
