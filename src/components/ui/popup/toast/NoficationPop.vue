@@ -9,30 +9,36 @@
 
 
     // global variables
-        const notificationPopNotificationsListsIn = ref(null);
-        const notifications = ref([])
+        const notificationPopListsIn = ref(null);
+
+        const chatLists = ref([]);
+        const reminderLists = ref([]);
     // \\\ global variables
 
 
 
-    function addPop() {
-        let popType = 'chat';
-
-        if(notifications.value.length + 1 == 3 || notifications.value.length + 1 == 5) {
-            popType = 'reminder';
-        }
-
-        notifications.value.push({
-            id: notifications.value.length + 1,
-            user_name: 'Meeha',
+    function addChatPop() {
+        chatLists.value.push({
+            id: chatLists.value.length + 1,
+            user_name: 'Chat: Meeha',
             text: 'What are you doing?',
-            type: popType,
         });
 
-        console.log(notifications.value);
+        nextTick(() => {
+            const el = notificationPopListsIn.value;
+            if (el) el.scrollTop = el.scrollHeight;
+        });
+    }
+
+    function addReminderPop() {
+        reminderLists.value.push({
+            id: reminderLists.value.length + 1,
+            user_name: 'Reminder: Meeha',
+            text: 'What are you doing?',
+        });
 
         nextTick(() => {
-            const el = notificationPopNotificationsListsIn.value;
+            const el = notificationPopListsIn.value;
             if (el) el.scrollTop = el.scrollHeight;
         });
     }
@@ -43,44 +49,55 @@
     <Teleport to="body">
         <!-- new pop button -->
             <div class="d-flx g-20 aI-E pTB20 pos-fixed left-30 bottom-10 zi-2">
-                <MButton @click="addPop">Add Popup</MButton>
+                <MButton @click="addChatPop">Add Chat Popup</MButton>
+                <MButton @click="addReminderPop">Add Reminder Popup</MButton>
             </div>
         <!-- \\\ new pop button -->
 
 
-        <!-- notifications notifications -->
+        <!-- notifications -->
             <div
-                class="notification-pop-lists notification-pop-lists"
-                ref="notificationPopNotificationsListsIn"
-                key="key-notifications-lists"
+                class="notification-pop-lists"
+                ref="notificationPopListsIn"
+                role="region"
+                aria-label="Notifications"
             >
-                <TransitionGroup tag="div" name="notification-pop">
-                    <div
-                        v-for="item in notifications"
-                        :key="item.id"
-                        :class="`notification-pop ${item.type || ''}-pop`"
-                    >
-                        <!-- chat -->
-                            <div v-if="item.type === 'chat'">
-                                <template>
-                                    <h4 class="mB5">{{ item.user_name }}</h4>
-                                    <p>{{ item.text }}</p>
-                                </template>
-                            </div>
-                        <!-- \\\ chat -->
+                <TransitionGroup tag="div" name="notification-pop-groups-group">
+                    <!-- chat -->
+                        <div>
+                            <TransitionGroup tag="div" name="notification-pop">
+                                <div
+                                    v-for="chat in chatLists"
+                                    :key="chat.id"
+                                    :class="`notification-pop chat-pop`"
+                                >
+                                    <h4 class="mB5">{{ chat.user_name }}</h4>
+                                    <p>{{ chat.text }}</p>
+                                </div>
+                            </TransitionGroup>
+                        </div>
+                    <!-- \\\ chat -->
 
-                        <!-- reminder -->
-                            <div v-else-if="item.type === 'reminder'">
-                                <template>
-                                    <h4 class="mB5"><strong class="c-status-orange fw-bold">Reminder:</strong> {{ item.user_name }}</h4>
-                                    <p>{{ item.text }}</p>
-                                </template>
-                            </div>
-                        <!-- \\\ reminder -->
-                    </div>
+
+                    <!-- reminder -->
+                        <div>
+                            <TransitionGroup tag="div" name="notification-pop">
+                                <div>
+                                    <div
+                                        v-for="reminder in reminderLists"
+                                        :key="reminder.id"
+                                        :class="`notification-pop reminder-pop`"
+                                    >
+                                        <h4 class="mB5">{{ reminder.user_name }}</h4>
+                                        <p>{{ reminder.text }}</p>
+                                    </div>
+                                </div>
+                            </TransitionGroup>
+                        </div>
+                    <!-- \\\ reminder -->
                 </TransitionGroup>
             </div>
-        <!-- \\\ notifications notifications -->
+        <!-- \\\ notifications -->
 
     </Teleport>
 </template>
@@ -124,15 +141,27 @@
             inset-inline-end: 0px;
             z-index: 2;
         }
-        .notification-pop-lists-in {
-            padding-block: 20px;
-        }
 
         /* common animation frames */
             .notification-pop-move {
                 transition: transform 0.5s ease;
             }
-        /* \\\ commmon animation frames */
+        /* \\\ common animation frames */
+
+
+        /* notification-pop-groups-group animation frames */
+            .notification-pop-groups-group-enter-from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            .notification-pop-groups-group-enter-to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            .notification-pop-groups-group-enter-active {
+                transition: transform 0.5s ease, opacity 0.5s ease;
+            }
+        /*  \\\ notification-pop-groups-group animation frames */
 
 
         /* notification-pop animation frames */
@@ -145,6 +174,17 @@
                 opacity: 1;
             }
             .notification-pop-enter-active {
+                transition: transform 0.5s ease, opacity 0.5s ease;
+            }
+            .notification-pop-leave-from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            .notification-pop-leave-to {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            .notification-pop-leave-active {
                 transition: transform 0.5s ease, opacity 0.5s ease;
             }
         /* \\\ notification-pop animation frames */
