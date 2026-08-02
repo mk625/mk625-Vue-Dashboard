@@ -116,6 +116,10 @@
         background-color: var(--c-app-theme);
         border-color: var(--c-app-theme);
     }
+    .m-btn.m-btn-primary:hover {
+        background-color: var(--c-app-theme-hover);
+        border-color: var(--c-app-theme-hover);
+    }
     .m-btn.m-btn-primary-2 {
         background-color: var(--c-white);
         color: var(--c-black);
