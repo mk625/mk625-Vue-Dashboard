@@ -6,9 +6,33 @@
     import PlainButton from '@/components/ui/buttons/PlainButton.vue';
     import MInput from '@/components/ui/input/MInput.vue';
     import MProfilePic from '@/components/ui/general/mProfilePic.vue';
+    import MDropdown from '@/components/ui/popup/toast/dropdown/MDropdown.vue';
 
     const route = useRoute();
     const navigationItems = ref([]);
+    const fileInputRef = ref(null);
+    const currentProfilePic = ref(profilePic);
+
+    const profilePhotoItems = [
+        { label: 'Add photo', value: 'add-photo', icon: 'bi-image' },
+        { label: 'Remove photo', value: 'remove-photo', icon: 'bi-trash', danger: true }
+    ];
+
+    function onProfilePhotoSelect(item) {
+        if (item.value === 'add-photo') {
+            fileInputRef.value?.click();
+        } else if (item.value === 'remove-photo') {
+            currentProfilePic.value = '';
+            if (fileInputRef.value) fileInputRef.value.value = '';
+        }
+    }
+
+    function onProfilePhotoChange(event) {
+        const file = event.target.files?.[0];
+        if (!file) return;
+
+        currentProfilePic.value = URL.createObjectURL(file);
+    }
 
     const pageTitle = computed(() => {
         const currentPath = route.path;
@@ -62,9 +86,25 @@
                 <!-- \\\ app actions -->
 
                 <!-- profile picture -->
-                    <div>
-                        <MProfilePic :src="profilePic" />
-                    </div>
+                    <input
+                        ref="fileInputRef"
+                        type="file"
+                        accept="image/*"
+                        hidden
+                        @change="onProfilePhotoChange"
+                    />
+
+                    <MDropdown
+                        :items="profilePhotoItems"
+                        @select="onProfilePhotoSelect"
+                    >
+                        <template #trigger="{ toggle }">
+                            <MProfilePic
+                                :src="currentProfilePic"
+                                @click="toggle"
+                            />
+                        </template>
+                    </MDropdown>
                 <!-- \\\ profile picture -->
             </div>
         </div>

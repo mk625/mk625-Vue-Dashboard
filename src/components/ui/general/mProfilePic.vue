@@ -76,6 +76,14 @@ defineProps({
         background-color: var(--c-gray-80);
         flex-shrink: 0;
         border: none;
+        transition: var(--fast-trans);
+    }
+    button.m-profile-pic:hover,
+    a.m-profile-pic:hover,
+    /* selcted state */
+    button.m-profile-pic.dropdown-opened,
+    a.m-profile-pic.dropdown-opened {
+        box-shadow: 0 0 0 2px var(--c-gray-80);
     }
 
     .m-profile-pic__image {
