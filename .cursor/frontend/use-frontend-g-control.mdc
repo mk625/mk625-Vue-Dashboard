@@ -1,0 +1,37 @@
+---
+description: Frontend-first task classification for MPCP
+alwaysApply: true
+---
+
+# Frontend-focused global control
+
+**CRM Plus / Marketing Plus (MPCP)** — JSP + vanilla JS + CSS. Treat tasks as **frontend-first** by default.
+
+## Where rules live
+
+| Location | Role |
+|----------|------|
+| `.cursor/rules/project-overview.mdc` | Auto-applied repo context |
+| `.cursor/rules/frontend-context.mdc` | Auto-applied when `WebContent/` files are open |
+| `.cursor/frontend/rules/` | **Detailed** standards and component guide |
+| `.cursor/frontend/commands/` | CSS audit and reflow detection workflows |
+
+## Frontend tasks
+
+UI, CSS, HTML, JS, JSP, Handlebars, styles, components, Figma-to-code, or anything under `WebContent/`.
+
+1. Load relevant files from `.cursor/frontend/rules/`
+2. Reuse existing classes from `WebContent/styles/core/`
+3. Mention which rule files you used
+
+## Design generation (Figma / prompts)
+
+Follow `crm-plus-components-rules.md` and output its Component Usage Review Report (§7).
+
+## API tasks with UI impact
+
+REST config: `WebContent/WEB-INF/conf/Crmplus/resources.yml`. Handlers: `src/com/adventnet/zoho/rest/resource/handlers/`. Focus on what the frontend needs.
+
+## Stack
+
+No npm/Vue/React. `$()` = getElementById; `$j` = jQuery. VCS: Mercurial.
