@@ -2,7 +2,16 @@
 <script setup>
     // imports
         import { ref } from 'vue';
-        import { addDoc, collection, query, orderBy, limit, getDocs } from 'firebase/firestore';
+        import {
+            addDoc,
+            collection,
+            getDocs,
+            limit,
+            orderBy,
+            query,
+            serverTimestamp,
+            where
+        } from 'firebase/firestore';
         import db from '@/firebase';
 
         import MInput from '@/components/ui/input/MInput.vue';
@@ -20,6 +29,7 @@
 
         const isLoading = ref(false);
         const isError = ref(false);
+        const errorMessage = ref('');
         const showToast = ref(false);
     // \\\ global variables
 
@@ -34,45 +44,79 @@
         }
 
         const lastDoc = querySnapshot.docs[0];
-        return lastDoc.data().id || 0;
+        return Number(lastDoc.data().id) || 0;
+    }
+
+    function resetForm() {
+        first_name.value = '';
+        last_name.value = '';
+        email.value = '';
+        phone.value = '';
+        location.value = '';
     }
 
     async function handleSubmit() {
-        if (first_name.value === '' || last_name.value === '' || email.value === '' || phone.value === '' || location.value === '') {
+        if (isLoading.value) {
+            return;
+        }
+
+        const employee = {
+            firstName: first_name.value.trim(),
+            lastName: last_name.value.trim(),
+            email: email.value.trim().toLowerCase(),
+            phone: phone.value.toString().trim(),
+            location: location.value.trim()
+        };
+
+        if (Object.values(employee).some((value) => !value)) {
             isError.value = true;
+            errorMessage.value = 'Please fill in all the fields';
+            return;
+        }
+
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        if (!emailPattern.test(employee.email)) {
+            isError.value = true;
+            errorMessage.value = 'Please enter a valid email address';
             return;
         }
 
         isError.value = false;
+        errorMessage.value = '';
         isLoading.value = true;
 
         try {
+            const duplicateEmailQuery = query(
+                collection(db, 'users-list'),
+                where('email', '==', employee.email),
+                limit(1)
+            );
+            const duplicateEmailSnapshot = await getDocs(duplicateEmailQuery);
+
+            if (!duplicateEmailSnapshot.empty) {
+                isError.value = true;
+                errorMessage.value = 'An employee with this email already exists';
+                return;
+            }
+
             const lastId = await getLastId();
             const newId = lastId + 1;
 
             await addDoc(collection(db, 'users-list'),{
                 id: newId,
-                name: first_name.value + ' ' + last_name.value,
-                email: email.value,
-                phone: phone.value,
-                location: location.value,
+                ...employee,
+                name: `${employee.firstName} ${employee.lastName}`,
+                createdAt: serverTimestamp()
             })
 
             isError.value = false;
-
-            // reset form
-                first_name.value = "";
-                last_name.value = "";
-                email.value = "";
-                phone.value = "";
-                location.value = "";
-            // \\\ reset form
-
+            resetForm();
             showToast.value = true;
-
         } catch (error) {
             console.error('Error adding document: ', error);
             isError.value = true;
+            errorMessage.value = 'Employee could not be added. Please try again';
         } finally {
             isLoading.value = false;
         }
@@ -205,12 +249,17 @@
                 </div>
 
                 <div v-if="isError" class="mT15">
-                    <p class="c-status-red">Please fill in all the fields</p>
+                    <p class="c-status-red">{{ errorMessage }}</p>
                 </div>
 
                 <div class="txt-a-center mT30">
-                    <MButton type="submit" btn_view="loader" :isLoading="isLoading">
-                        Save
+                    <MButton
+                        type="submit"
+                        btn_view="loader"
+                        :isLoading="isLoading"
+                        :disabled="isLoading"
+                    >
+                        Add Employee
                     </MButton>
                 </div>
             </form>

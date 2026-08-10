@@ -8,13 +8,82 @@
 
         <!-- styles -->
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+			<style>
+				.initial-loader {
+					position: fixed;
+					inset: 0;
+					z-index: 100;
+					display: grid;
+					place-items: center;
+					background: var(--c-white);
+				}
+
+				.initial-loader__animation {
+					position: relative;
+					width: 92px;
+					height: 40px;
+				}
+
+				.initial-loader__animation::before,
+				.initial-loader__animation::after {
+					position: absolute;
+					content: "";
+					background: #377dff;
+					border-radius: 50%;
+				}
+
+				.initial-loader__animation::before {
+					top: 6px;
+					left: 0;
+					width: 28px;
+					height: 28px;
+					animation: initial-loader-small 1s ease-in-out infinite alternate;
+				}
+
+				.initial-loader__animation::after {
+					top: 0;
+					left: 0;
+					width: 40px;
+					height: 40px;
+					animation: initial-loader-large 1s ease-in-out infinite alternate-reverse;
+				}
+
+				@keyframes initial-loader-small {
+					from {
+						left: 0;
+					}
+
+					to {
+						left: 64px;
+					}
+				}
+
+				@keyframes initial-loader-large {
+					from {
+						left: 0;
+					}
+
+					to {
+						left: 52px;
+					}
+				}
+
+				@media (prefers-reduced-motion: reduce) {
+					.initial-loader__animation::before,
+					.initial-loader__animation::after {
+						animation-duration: 2s;
+					}
+				}
+			</style>
         <!-- \\\ styles -->
 	</head>
 
     <body class="c-accent-shades__blue">
 
 		<div id="app-root">
-			<!-- app root -->
+			<div class="initial-loader" role="status" aria-label="Loading application">
+				<div class="initial-loader__animation" aria-hidden="true"></div>
+			</div>
 		</div>
 
 

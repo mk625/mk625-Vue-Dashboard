@@ -5,6 +5,7 @@
         import db from '@/firebase';
 
         // ui components
+            import MButton from '@/components/ui/buttons/MButton.vue';
             import MInput from '@/components/ui/input/MInput.vue';
             import MInputLabel from '@/components/ui/input/MInputLabel.vue';
             import RightDialog from '@/components/ui/dialog/RightDialog.vue';
@@ -39,7 +40,9 @@
             });
 
             const isError = ref(false);
+            const errorMessage = ref('');
             const showToast = ref(false);
+            const toastMessage = ref('');
             const isLoading = ref(false);
             const emit = defineEmits(['close', 'update:show', 'updated']);
         // \\\ local
@@ -48,55 +51,87 @@
 
     watch(() => props.employee, (newEmployee) => {
         if (newEmployee) {
+            const employeeName = newEmployee.name || newEmployee.Name || '';
+
             formData.value = {
-                firstName: newEmployee.firstName || newEmployee.name?.split(' ')[0] || '',
-                lastName: newEmployee.lastName || newEmployee.name?.split(' ').slice(1).join(' ') || '',
+                firstName: newEmployee.firstName || employeeName.split(' ')[0] || '',
+                lastName: newEmployee.lastName || employeeName.split(' ').slice(1).join(' ') || '',
                 email: newEmployee.email || '',
                 phone: newEmployee.phone || '',
-                location: newEmployee.location || ''
+                location: newEmployee.location || newEmployee.Location || ''
             };
         }
     }, { immediate: true });
 
+    watch(() => props.show, (show) => {
+        if (show) {
+            isError.value = false;
+            errorMessage.value = '';
+        }
+    });
+
 
     async function handleSubmit() {
         isError.value = false;
+        errorMessage.value = '';
 
-        // Validate form
-        if (!formData.value.firstName || !formData.value.lastName || !formData.value.email || !formData.value.phone || !formData.value.location) {
-            isError.value = true;
+        if (isLoading.value) {
             return;
         }
 
-        const employeeId = props.employee.docId;
+        const updatedEmployee = {
+            firstName: formData.value.firstName.trim(),
+            lastName: formData.value.lastName.trim(),
+            email: formData.value.email.trim(),
+            phone: formData.value.phone.toString().trim(),
+            location: formData.value.location.trim()
+        };
+
+        // Validate form
+        if (Object.values(updatedEmployee).some((value) => !value)) {
+            isError.value = true;
+            errorMessage.value = 'Please fill in all the fields';
+            return;
+        }
+
+        const employeeDocumentId = props.employee?.docId;
+
+        if (!employeeDocumentId) {
+            isError.value = true;
+            errorMessage.value = 'Unable to find this employee in Firebase';
+            return;
+        }
 
         try {
             isLoading.value = true;
 
-            const employeeRef = doc(db, 'users-list', employeeId.toString());
-            const fullName = formData.value.firstName + ' ' + formData.value.lastName;
+            const employeeRef = doc(db, 'users-list', employeeDocumentId);
+            const fullName = `${updatedEmployee.firstName} ${updatedEmployee.lastName}`;
 
             await updateDoc(employeeRef, {
                 name: fullName,
-                email: formData.value.email,
-                phone: formData.value.phone,
-                location: formData.value.location,
+                email: updatedEmployee.email,
+                phone: updatedEmployee.phone,
+                location: updatedEmployee.location,
             });
 
-
             isError.value = false;
+            toastMessage.value = 'Employee updated successfully';
             showToast.value = true;
-            handleClose();
 
             // Emit updated event for parent component
             emit('updated', {
-                id: employeeId,
-                ...formData.value,
+                ...props.employee,
+                docId: employeeDocumentId,
+                ...updatedEmployee,
                 name: fullName
             });
+
+            handleClose();
         } catch (error) {
             console.error('Error updating employee: ', error);
             isError.value = true;
+            errorMessage.value = 'Employee could not be saved. Please try again';
         } finally {
             isLoading.value = false;
         }
@@ -119,7 +154,7 @@
         :isLoading="isLoading"
     >
         <template #body>
-            <form class="d-block">
+            <form class="d-block" @submit.prevent="handleSubmit">
                 <div class="d-flx fD-C g-20">
                     <div class="d-flx aI-C jC-S g-20">
                         <div class="w50pe">
@@ -156,17 +191,44 @@
                 </div>
 
                 <div v-if="isError" class="mT15">
-                    <p class="c-status-red">Please fill in all the fields</p>
+                    <p class="c-status-red">{{ errorMessage }}</p>
                 </div>
 
             </form>
         </template>
+
+        <template #footer>
+            <div class="edit-employee-footer">
+                <div class="d-flx aI-C g-10">
+                    <MButton
+                        variant="secondary"
+                        @click="handleClose"
+                    >
+                        Cancel
+                    </MButton>
+
+                    <MButton
+                        type="submit"
+                        btn_view="loader"
+                        :isLoading="isLoading"
+                        @click="handleSubmit"
+                    >
+                        Save
+                    </MButton>
+                </div>
+            </div>
+        </template>
     </RightDialog>
 
-    <ToastPop message="Employee updated successfully" v-model:show="showToast"/>
+    <ToastPop :message="toastMessage" v-model:show="showToast"/>
 </template>
 
 
 <style scoped>
-
+    .edit-employee-footer {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        width: 100%;
+    }
 </style>

@@ -2,7 +2,7 @@
     // imports
         import { onMounted, ref, computed } from 'vue';
         import db from '@/firebase';
-        import { collection, onSnapshot, orderBy, query } from 'firebase/firestore';
+        import { collection, deleteDoc, doc, onSnapshot, orderBy, query } from 'firebase/firestore';
 
         // ui components
             import MTable from '@/components/ui/table/MTable.vue';
@@ -18,6 +18,7 @@
         const users_list = ref([]);
         const searchingText = ref('');
         const isLoading = ref(true);
+        const deletingEmployeeId = ref(null);
 
         const tableHeaderList = [
             {
@@ -89,13 +90,29 @@
         })
     });
 
-    function handleDelete(row) {
-        console.log('Delete employee:', row);
-    }
-
     function handleEditEmployee(row) {
         selectedEmployee.value = row;
         showEditEmployeeDialog.value = true;
+    }
+
+    async function handleDeleteEmployee(row) {
+        if (!row.docId || deletingEmployeeId.value) {
+            return;
+        }
+
+        if (!window.confirm(`Delete ${row.name || 'this employee'}? This action cannot be undone.`)) {
+            return;
+        }
+
+        try {
+            deletingEmployeeId.value = row.docId;
+            await deleteDoc(doc(db, 'users-list', row.docId));
+        } catch (error) {
+            console.error('Error deleting employee: ', error);
+            window.alert('Employee could not be deleted. Please try again.');
+        } finally {
+            deletingEmployeeId.value = null;
+        }
     }
 
     function handleUpdate() {
@@ -133,11 +150,13 @@
                     >
                         Edit
                     </MButton>
-
                     <MButton
                         variant="red"
                         size="size-sm"
-                        @click="handleDelete(row)"
+                        btn_view="loader"
+                        :isLoading="deletingEmployeeId === row.docId"
+                        :disabled="Boolean(deletingEmployeeId)"
+                        @click="handleDeleteEmployee(row)"
                     >
                         Delete
                     </MButton>

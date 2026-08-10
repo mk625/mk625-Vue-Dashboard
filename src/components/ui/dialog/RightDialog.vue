@@ -55,23 +55,25 @@
         </section>
 
         <footer class="right-dialog-footer">
-            <div class="d-flx aI-C g-10">
-                <MButton
-                    variant="secondary"
-                    @click="handleClose"
-                >
-                    Cancel
-                </MButton>
+            <slot name="footer">
+                <div class="d-flx aI-C g-10">
+                    <MButton
+                        variant="secondary"
+                        @click="handleClose"
+                    >
+                        Cancel
+                    </MButton>
 
-                <MButton
-                    type="submit"
-                    btn_view="loader"
-                    :isLoading="isLoading"
-                    @click="emit('submit')"
-                >
-                    Save
-                </MButton>
-            </div>
+                    <MButton
+                        type="submit"
+                        btn_view="loader"
+                        :isLoading="isLoading"
+                        @click="emit('submit')"
+                    >
+                        Save
+                    </MButton>
+                </div>
+            </slot>
         </footer>
     </div>
 </template>
