@@ -1,152 +1,174 @@
-# CSS Rules & Standards (General)
+# CSS / SCSS Rules & Standards (mk-dashboard)
 
 ## Purpose
-General CSS standards for scalable, understandable, minimal, responsive, modern styles. For component classes and file order, also follow `crm-plus-components-rules.md`. Design system lives under `WebContent/styles/core/`.
+Standards for scalable, minimal, responsive styles in this Vue 3 app. Design system lives under `src/assets/css/`. Component-local styles belong in Vue SFCs (`<style scoped lang="scss">`).
 
 ---
 
 ## Overview
-CSS should be: scalable, understandable, minimal, responsive, and follow modern standards.
+CSS/SCSS should be: scalable, understandable, minimal, responsive, and token-driven.
 
 ---
 
-## 1. Universal selector (compulsory)
-Use only this for the universal selector; other universal styles are highly restricted.
+## 1. Entry & file order
 
-```css
-* { padding: 0; margin: 0; box-sizing: border-box; }
+Styles load through `src/assets/css/main.scss` (imported from `src/main.js`). Keep this order:
+
+**Sources (tokens)**
+- `utils/sources/app-fonts.scss`
+- `utils/sources/app-themes.scss`
+- `utils/sources/app-colors.scss`
+- `utils/sources/app-status-colors.scss`
+- `utils/sources/app-layout.scss`
+
+**Global**
+- `utils/components/_functions.scss`, `_mixins.scss`
+- `utils/global-reset.scss`
+
+**Source styles**
+- `utils/sources/sources-styles/*`
+
+**Utils**
+- `styleBits.scss`, `flex.scss`, `grid.scss`, `mini-components.scss`, `responsive.scss`
+
+**Component / page styles** — in the Vue SFC that owns the UI (scoped). Do not dump page CSS into `main.scss`.
+
+Vite injects mixins globally via `vite.config.js` (`additionalData` → `_mixins.scss`).
+
+---
+
+## 2. Universal selector (compulsory)
+
+Only this pattern for the universal reset (already in `global-reset.scss`). Other `*` rules are highly restricted.
+
+```scss
+* { padding: 0; margin: 0; }
+*, *::before, *::after { box-sizing: border-box; }
 ```
 
 ---
 
-## 2. Body tag (compulsory)
-Body should only set these; other body styles are highly restricted.
+## 3. Body tag (compulsory)
 
-- `body { font-family; color; font-size; line-height; text-align }`
+Body may only set baseline inheritance (already in `global-reset.scss`):
 
-**Warning – never repeat body styles:**
-- Bad: `body { color: #999999; }` and elsewhere `.card-description { color: #999999; }`
-- Good: set color once (e.g. on body or a variable); use that variable or inheritance for `.card-description`.
+- `font-family`, `color`, `font-size`, `line-height`, `text-align`, app-level `background` / `overflow`
 
----
-
-## 3. Non-inheritable elements
-These tags do not inherit from body or parent. Inherit explicitly where needed.
-
-```css
-input, textarea, button { font-family: inherit; font-size: inherit; color: inherit; line-height: inherit; }
-```
-Apply to all input-like elements as needed.
+**Never repeat body styles on leaves:**
+- Bad: `body { color: #999; }` and `.card-description { color: #999; }`
+- Good: use `var(--c-text-secondary)` (or inherit)
 
 ---
 
-## 4. CSS property order
-Use this order for readability: display → dimensions → spacing → background → typography → border/outline → margin → positioning.
+## 4. Non-inheritable elements
 
-**Order:** display props → width → height → padding → background-color → font props → outline, border → margin → positioning
+Form controls do not inherit from body. Keep (or extend) the reset pattern:
 
-**Example:**
-```css
-.box-example {
-   display: flex;
-   align-items: center;
-   justify-content: center;
-   gap: 10px;
-   width: 100%;
-   height: 100%;
-   padding: 10px;
-   background-color: white;
-   font-size: 14px;
-   color: white;
-   margin: 0 auto;
-   border: 1px solid black;
-   box-shadow: 4px 4px 4px 4px #c4c4c4;
-   position: absolute;
-   top: 0;
-   left: 0;
+```scss
+input, textarea, button, select {
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
 }
 ```
 
 ---
 
-## 5. CSS file order
-Common styles must be linked first; page-specific (module) CSS last.
+## 5. Variables (required for)
 
-**Example order:**
+Use CSS custom properties from sources — do not hardcode hex for themeable values:
 
-**Common**
-- **Sources:** (I) fonts.css, (II) colors.css
-- **Utils:** (III) global.css, (IV) style-bits.css, (V) flex.css
-- **Components:** (VI) dialog.css, (VII) form-elements.css, (VIII) tabs.css
+| Concern | Where | Examples |
+|---------|--------|----------|
+| Colors | `app-colors.scss` | `--c-text-primary`, `--c-gray-90`, `--c-border-default` |
+| Status / theme | `app-status-colors.scss`, `app-themes.scss` | status tones |
+| Fonts | `app-fonts.scss` | `--app-font` |
+| Layout sizes | `app-layout.scss` | `--w-app-sidebar`, `--h-app-header`, `--h-input` |
+| Motion | `styleBits.scss` | `--fast-trans`, `--default-trans` |
 
-**Modules (page-specific)**  
-- (IX) home.css, (X) setting-page.css, etc.
-
-First group = common; from the first module file onward = specific page CSS.
-
----
-
-## 6. Variables (required for)
-Use variables for:
-- (i) Colors
-- (ii) Fonts
-- (iii) Heights (e.g. header, sometimes footer)
-- (iv) Widths (e.g. sidebar)
+Prefer existing tokens. Add new variables to the matching source file, not ad-hoc in a component.
 
 ---
 
-## Best practices (general)
-- Use file compression/minification for HTML, CSS, and JS to improve load time.
+## 6. Utilities first
+
+Reuse project utilities before writing one-off layout CSS:
+
+- Flex: `d-flx`, `aI-C`, `jC-SB`, `g-*`, `fD-C` (`flex.scss`)
+- Spacing / type / misc: `styleBits.scss` (e.g. `.f14`, padding helpers)
+- Grid / responsive: `grid.scss`, `responsive.scss`
+
+Utility single-word / short names are allowed. Do **not** style against utilities as selectors (see §8.4).
 
 ---
 
-## Inner styles best practices
+## 7. CSS property order
 
-1. **Never use `!important`** (only one or two exceptions if truly required.)
-   - Bad: `.data-card .card-title { color: green !important; }`
+display → dimensions → spacing → background → typography → border/outline → margin → positioning.
+
+**Example:**
+```scss
+.box-example {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    height: 100%;
+    padding: 10px;
+    background-color: var(--c-white);
+    font-size: 14px;
+    color: var(--c-text-primary);
+    margin: 0 auto;
+    border: 1px solid var(--c-border-default);
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+```
+
+---
+
+## 8. Inner styles best practices
+
+1. **Never use `!important`** (Stylelint: `declaration-no-important`). Rare exceptions only (e.g. autofill hacks already in reset).
+
+2. **Never use `<div>` for text** — use semantic tags (`h1`–`h6`, `p`, `span`).
+
+3. **Never use tag or id as selector** — class selectors only (Stylelint: `selector-max-type: 0`). Tag selectors belong only in `global-reset.scss`.
+
+4. **Never use a utility/common class as a styling hook**
+   - Bad: `.data-card .f14 { color: green; }`
    - Good: `.data-card .card-title { color: green; }`
 
-2. **Never use `<div>` for text** – use semantic tags (h1–h6, p, span).
-   - Bad: `<div> Testimonials </div>`
-   - Good: `<h2> Testimonials </h2>`
+5. **Never overuse `>`** — prefer a class on the child. Use `>` only for the same nested UI pattern.
 
-3. **Never use tag or id as selector** – use class selectors only.
-   - Bad: `.user-lists h4 { color: var(--c-txt-primary); }`
-   - Good: `.user-lists .user-name { color: var(--c-txt-primary); }`
+6. **Never use id as a CSS selector** for styling.
 
-4. **Never use a generic/common class as selector** – use component-specific classes.
-   - Bad: `.data-card .font-bold { color: green; }`
-   - Good: `.data-card .card-title { color: green; }`
+7. **One `<main>` and one `<h1>` per view** (route page).
 
-5. **Never overuse direct child selector `>`** – prefer class on the direct child. Use `>` only for the same UI element nested in the same UI.
-   - Bad: `.user-lists > .user-list { margin-bottom: 5px; }`
-   - Good: `.user-lists .user-list { margin-bottom: 5px; }`
+8. **BEM-style naming** where applicable: `.app-header`, `.app-header__action-btn`, `.m-btn--primary`.
 
-6. **Never use id as CSS selector** for styling.
-   - Bad: `#sidebar { width: 200px; }`
-   - Good: `.sidebar { width: 200px; }`
+9. **Scoped SFC styles**
+   - Prefer `<style scoped lang="scss">`
+   - Class names must be component-specific (`m-btn`, `app-header`, …)
+   - Do not pierce unrelated components with deep selectors unless required for a slot root
 
-7. **Never use multiple `<main>` or multiple `<h1>`** on the same page.
+10. **Clean & consistent style**
+    - Indentation: 4 spaces
+    - Lowercase properties/values
+    - One selector / one declaration per line
+    - End declarations with `;`
 
-8. **Use BEM-style naming** where applicable (block__element--modifier).
+11. **Accessibility & UX**
+    - High contrast via tokens
+    - Visible `:focus` / `:hover` (do not strip focus without a replacement)
 
-9. **Clean & consistent style**
-   - Indentation: 4 spaces
-   - Lowercase for properties and values
-   - One selector per line
-   - One declaration per line
-   - End each line with `;`
+12. **Maintainability**
+    - Comment complex blocks
+    - Keep SFC style blocks small; extract shared bits to `src/assets/css/` when reused 2+ times
+    - Run `npm run lint:css` when touching global CSS
 
-10. **Accessibility & UX**
-    - Maintain high contrast colors
-    - Provide focus states (`:focus`, `:hover`)
-
-11. **Maintainability**
-    - Add comments for complex logic
-    - Keep file size small
-    - Split large CSS into modules (e.g. app-header.css, user-card.css)
-    - Use a style guide or design system
-
-12. **Never use tag name as selector**
+13. **Never use tag name as selector** outside reset
     - Bad: `header { height: var(--h-app-header); }`
     - Good: `.app-header { height: var(--h-app-header); }`

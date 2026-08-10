@@ -1,115 +1,126 @@
-# HTML & JS Rules & Standards
+# Vue / HTML / JS Rules & Standards (mk-dashboard)
 
 ## Purpose
-Standards for HTML and JavaScript: semantic markup, accessibility (A11y), naming (e.g. BEM), validation, minimal DOM, documentation, and no inline styles.
+Standards for Vue SFCs, semantic markup, accessibility, naming, and script organization in this project.
 
 ---
 
 ## Overview
-- Use semantic elements
-- Be accessible (A11y)
-- Naming & organization (e.g. BEM)
-- Validate & lint
-- Minimize DOM depth and nodes
-- Document & comment
+- Vue 3 Composition API with `<script setup>`
+- Semantic HTML in `<template>`
+- Accessible (A11y)
+- BEM-like / namespaced classes
+- Minimal DOM depth
 - No inline styles
+- Import via `@/` alias (`src/`)
 
 ---
 
 ## Common mistakes to avoid
 - Nested interactive elements (e.g. `<a><button></button></a>`)
-- Missing `alt` text on images
+- Missing `alt` on images
 - Unlabeled form inputs
-- Using `<br>` for spacing (use CSS instead)
-- Using `<b>` or `<i>` — prefer `<strong>` or `<em>`
+- Using `<br>` for spacing (use CSS / utilities)
+- Using `<b>` / `<i>` for meaning — prefer `<strong>` / `<em>` (icon fonts like `bi-*` / `fa-*` on `<i>` are fine)
 - Duplicate `id`s
-- Skipping semantic tags
+- Skipping semantic landmarks (`header`, `main`, `nav`, …)
 
 ---
 
-## 1. Formatting HTML code
-All HTML must be formatted. Prefer standards similar to htmlformatter.com (consistent indentation, line breaks, attribute order).
+## 1. Vue SFC structure
 
----
+Preferred order:
 
-## 2. Handling on-click events (semantic HTML)
-`onclick` (or equivalent) must be on interactive elements only:
+```vue
+<script setup>
+    // imports, props, state, logic
+</script>
 
-- Prefer **`<button>`** or **`<a>`** for click handlers.
-- When you need a clickable element that is not a link or submit, use **`<span role="button">`** (and ensure keyboard support: Enter/Space, focus outline).
+<template>
+    <!-- markup -->
+</template>
 
-**Why button and anchor?**
-- Semantically correct for interactive actions
-- Keyboard & accessibility: Enter/Space activate them
-- Default styles: cursor pointer, focus outline
-- Screen readers treat them as clickable
-
-Always use semantic HTML for interactive UI.
-
----
-
-## 3. Selectors in JS: avoid tag names
-Do **not** use tag names as selectors in JavaScript (e.g. `document.querySelector('div')`).
-
-**Why?**
-- **Breaks easily:** HTML structure changes; reordering or adding tags can break logic.
-- **Multiple matches:** Tags like `<div>` appear everywhere; a tag selector may match many elements when you need one.
-- **Poor scalability:** Large codebases need precise selectors; tag names don’t scale across teams.
-
-**Do:** Use **class names** as selectors in JS. Use **id** only when you need a single, unique element.
-
----
-
-## 4. Avoid invalid nesting
-Do not nest block elements inside inline or invalid containers. Example to avoid: `<p><div></div></p>` (invalid; `<div>` is not allowed inside `<p>`).
-
----
-
-## 5. Use `<strong>` or `<em>` for meaning
-Use `<strong>` for importance and `<em>` for emphasis. Avoid using `<b>` or `<i>` for styling; reserve them only if you have a specific reason (e.g. typographic convention).
-
----
-
-## 6. Class names: avoid single-word names (except utilities)
-Do not use single-word class names for components or blocks (e.g. `.card`, `.button`, `.title`). They are too generic and can clash.
-
-**Exception:** Utility classes are allowed, e.g. `.fs14 { font-size: 14px; }` where the name describes the utility.
-
-Prefer descriptive, namespaced or BEM-like names (e.g. `.data-card`, `.zcrmp-button`, `.card-title`).
-
----
-
-## 7. JSP and Handlebars
-
-- Reusable includes use `.jspf` fragments (e.g. `staticresources.jspf`)
-- Handlebars templates in JSP: `<script id="templateId" type="text/x-handlebars-template">`
-- Compile via `Component.getHandlebarTemplate(templateId, data, helpers)` (`js/components/component.js`)
-- One `<main>` and one `<h1>` per page
-
----
-
-## 8. Project DOM APIs
-
-```javascript
-function $(id) { return document.getElementById(id); }  // common.js
-$j = jQuery.noConflict();
+<style scoped lang="scss">
+    /* component styles */
+</style>
 ```
 
-- `$('myId')` — getElementById only; never use bare `$` for jQuery
-- `$j('.my-class')` — jQuery selectors and plugins
+- Use `defineProps` / `defineEmits` in `<script setup>`
+- Prefer existing UI: `src/components/ui/` (`MButton`, `MInput`, `RightDialog`, `BaseCard`, …)
+- Layout shell: `src/components/home/` (`AppHome`, `AppHeader`, `AppSideBar`, …)
+- Route pages: `src/components/inner-pages/sidebar-pages/...`
 
 ---
 
-## 9. Module and state patterns
-
-- `Common` (`common.js`) — shared state, API prefix `/api/v1`, CSRF cookie `cmcsr`
-- `ZCPConstants` (`constants.js`) — app constants
-- `MainPage` / `Module` (`Module.js`) — navigation and module registry
-- `Services` (`services.js`) — iframe-loaded Zoho service UIs
+## 2. Formatting templates
+Keep templates readable: consistent indentation, one primary attribute group per line when long, clear HTML comments for sections (match existing `<!-- section -->` / `<!-- \\\ section -->` style when editing those files).
 
 ---
 
-## 10. i18n
+## 3. Click handlers (semantic HTML)
+Bind `@click` (and keyboard equivalents) only on interactive elements:
 
-- Hardcoded user-visible strings in JS: append `//No I18N` unless using existing i18n helpers
-- Locale bundles: `crmplusi18n_{locale}.js`; RTL splits: `common_ltr.js` / `common_rtl.js`
+- Prefer **`<button>`** or **`<a>`** (or UI wrappers like `MButton` / `PlainButton`)
+- For non-link / non-submit clickables: `role="button"`, keyboard Enter/Space, and a visible focus style
+
+---
+
+## 4. Selectors in JS / Vue: avoid tag names
+Do **not** use tag selectors (`querySelector('div')`, `closest('span')` for logic).
+
+**Do:** class names, `ref=""`, or template refs (`ref` + `useTemplateRef` / `ref` on elements).
+
+`id` only for a single unique target (rare).
+
+---
+
+## 5. Avoid invalid nesting
+Do not nest block elements inside invalid parents (e.g. `<p><div></div></p>`).
+
+---
+
+## 6. Emphasis
+Use `<strong>` / `<em>` for meaning. Reserve `<b>` / `<i>` for icons or typographic cases.
+
+---
+
+## 7. Class names
+- Avoid generic single-word component classes (`.card`, `.button`, `.title`) — prefer `.base-card`, `.m-btn`, `.card-title`
+- **Exception:** project utilities (`d-flx`, `g-10`, `f14`, …) from `styleBits.scss` / `flex.scss`
+- BEM where it helps: `.app-header__action-btn`
+
+---
+
+## 8. Routing & navigation
+
+- Routes are generated from `src/api/navigation.json` in `src/router/index.js`
+- Adding a sidebar page: update `navigation.json`, map the component in the router `componentMap` / child maps, and add the page under `inner-pages/`
+- Layout uses nested routes under `AppHome` (`AppLayout`)
+
+---
+
+## 9. Data & services
+
+- Firebase / Firestore: `src/firebase.js` (default export `db`)
+- Shared JS helpers: `src/js/services/`, `src/js/utils/`
+- Prefer Pinia for shared client state when introducing cross-view state
+- Do not introduce jQuery, global `$`, or Handlebars — this is a Vue SPA
+
+---
+
+## 10. Imports
+
+```js
+import MButton from '@/components/ui/buttons/MButton.vue'
+import { fetchNavigationItems } from '@/js/services/navigationApi.js'
+```
+
+Use `@/` instead of long relative paths across feature folders.
+
+---
+
+## 11. Accessibility checklist
+- One `<main>` and one page-level `<h1>` (or clear document title via header) per view
+- Labels for inputs (`MInputLabel` / associated `for`+`id` or `aria-label`)
+- Dialogs: focus management and dismiss affordance (`RightDialog` patterns)
+- Do not remove focus outlines without an equivalent visible state
