@@ -1,3 +1,4 @@
+
 <script setup>
     // props (for standalone use)
         defineProps ({
@@ -15,6 +16,22 @@
             },
             suf_icon: {
                 type: String,
+            },
+            full_width: {
+                type: Boolean,
+                default: false
+            },
+            input_id: {
+                type: String,
+                default: ''
+            },
+            autocomplete: {
+                type: String,
+                default: ''
+            },
+            aria_invalid: {
+                type: Boolean,
+                default: false
             }
         });
     // \\\ props
@@ -29,19 +46,22 @@
 
 
 <template>
-    <div class="input-box">
+    <div :class="['input-box', { 'input-box--full': full_width }]">
         <div class="d-flx aI-C g-8 h100pe">
-            <slot v-if="pre_icon" name="prefix">
-                <i :class="['bi', pre_icon]"></i>
+            <slot v-if="pre_icon || $slots.prefix" name="prefix">
+                <i :class="['bi', pre_icon]" aria-hidden="true"></i>
             </slot>
             <input
                 class="fG-1 m-input"
+                :id="input_id || undefined"
                 :type="type"
                 v-model="modelValue"
                 :placeholder="placeholder"
+                :autocomplete="autocomplete || undefined"
+                :aria-invalid="aria_invalid || undefined"
             />
-            <slot v-if="suf_icon" name="suffix">
-                <i :class="['bi', suf_icon]"></i>
+            <slot v-if="suf_icon || $slots.suffix" name="suffix">
+                <i :class="['bi', suf_icon]" aria-hidden="true"></i>
             </slot>
         </div>
     </div>
@@ -57,6 +77,9 @@
         border-radius: var(--br-radius-input);
         border: 1px solid var(--c-input-br);
         transition: var(--default-trans);
+    }
+    .input-box--full {
+        max-width: none;
     }
     .input-box:hover {
         border-color: var(--c-gray-80);

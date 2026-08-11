@@ -44,6 +44,10 @@
         icon_count: {
             type: String,
             default: 'one'
+        },
+        full_width: {
+            type: Boolean,
+            default: false
         }
     })
 </script>
@@ -54,8 +58,9 @@
     <!-- default button styles -->
     <component
         :is="tag"
-        :class="['m-btn', `m-btn-${variant}`, { 'btn-loading': isLoading }]"
-        :type="type">
+        :class="['m-btn', `m-btn-${variant}`, { 'btn-loading': isLoading, 'm-btn--full': full_width }]"
+        :type="type"
+        :disabled="disabled || isLoading">
 
         <!-- default button -->
             <template v-if="btn_view === 'normal'">
@@ -111,6 +116,13 @@
         text-align: center;
         border: 1px solid transparent;
         position: relative;
+    }
+    .m-btn.m-btn--full {
+        width: 100%;
+    }
+    .m-btn:disabled {
+        opacity: 0.65;
+        cursor: not-allowed;
     }
     .m-btn.m-btn-primary {
         background-color: var(--c-app-theme);

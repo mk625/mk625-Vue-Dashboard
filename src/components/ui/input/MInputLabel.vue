@@ -6,6 +6,10 @@
                 type: String,
                 default: '',
             },
+            html_for: {
+                type: String,
+                default: '',
+            },
         });
     // \\\ props
 </script>
@@ -13,7 +17,7 @@
 
 <template>
     <div>
-        <label class="input-label">
+        <label class="input-label" :for="html_for || undefined">
             <span class="input-label__text">{{ label_name }}</span>
         </label>
     </div>
@@ -23,7 +27,6 @@
 <style scoped>
     .input-label {
         display: block;
-        color: var(--c-black);
         font-weight: var(--fw-medium);
     }
     .input-label__text {

@@ -1,29 +1,51 @@
 <script setup>
     import { ref, computed, onMounted } from 'vue';
-    import { useRoute } from 'vue-router';
+    import { useRoute, useRouter } from 'vue-router';
     import { fetchNavigationItems } from '@/js/services/navigationApi.js';
     import profilePic from '@/assets/images/general/profile-pic.jpg';
     import PlainButton from '@/components/ui/buttons/PlainButton.vue';
     import MInput from '@/components/ui/input/MInput.vue';
     import MProfilePic from '@/components/ui/general/mProfilePic.vue';
     import MDropdown from '@/components/ui/popup/toast/dropdown/MDropdown.vue';
+    import { useAuthStore } from '@/stores/authStore.js';
 
     const route = useRoute();
+    const router = useRouter();
+    const authStore = useAuthStore();
     const navigationItems = ref([]);
     const fileInputRef = ref(null);
     const currentProfilePic = ref(profilePic);
+    const isLoggingOut = ref(false);
 
     const profilePhotoItems = [
         { label: 'Add photo', value: 'add-photo', icon: 'bi-image' },
-        { label: 'Remove photo', value: 'remove-photo', icon: 'bi-trash', danger: true }
+        { label: 'Remove photo', value: 'remove-photo', icon: 'bi-trash', danger: true },
+        { label: 'Log out', value: 'logout', icon: 'bi-box-arrow-right', danger: true }
     ];
 
-    function onProfilePhotoSelect(item) {
+    async function handleLogout() {
+        if (isLoggingOut.value) {
+            return;
+        }
+
+        isLoggingOut.value = true;
+
+        try {
+            await authStore.logout();
+            await router.push('/login');
+        } finally {
+            isLoggingOut.value = false;
+        }
+    }
+
+    async function onProfilePhotoSelect(item) {
         if (item.value === 'add-photo') {
             fileInputRef.value?.click();
         } else if (item.value === 'remove-photo') {
             currentProfilePic.value = '';
             if (fileInputRef.value) fileInputRef.value.value = '';
+        } else if (item.value === 'logout') {
+            await handleLogout();
         }
     }
 
@@ -47,6 +69,10 @@
     });
 
     onMounted(async () => {
+        if (authStore.user?.photoURL) {
+            currentProfilePic.value = authStore.user.photoURL;
+        }
+
         try {
             navigationItems.value = await fetchNavigationItems();
         } catch (error) {

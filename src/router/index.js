@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import AppLayout from '../components/home/AppHome.vue'
+import LoginPage from '../components/auth/LoginPage.vue'
 import DashboardHome from '../components/home/home-elements/DashboardHome.vue'
 import AttendanceHome from '../components/inner-pages/sidebar-pages/attendance/AttendanceHome.vue'
 import EmployeesHome from '../components/inner-pages/sidebar-pages/employees/EmployeesHome.vue'
@@ -11,6 +12,8 @@ import PerformanceHome from '../components/inner-pages/sidebar-pages/performance
 import ReportsHome from '../components/inner-pages/sidebar-pages/reports/ReportsHome.vue'
 import SettingsHome from '../components/inner-pages/sidebar-pages/settings/SettingsHome.vue'
 import navigationData from '../api/navigation.json'
+import { useAuthStore } from '../stores/authStore.js'
+
 
 // Component mapping based on navigation item ID
 const componentMap = {
@@ -24,37 +27,44 @@ const componentMap = {
     'settings': SettingsHome,
 }
 
+
 // Child component mapping for employees
 const employeesChildMap = {
     'all-employees': AllEmployees,
     'add-employee': AddEmployee,
 }
 
+
+const childMapRegistry = {
+    'employees' : employeesChildMap,
+    'settings'  : settingsChildMap,
+    'reports'   : reportsChildMap,
+}
+
+
 function generateRoutesFromNavigation(navigationItems) {
     const routes = []
 
     navigationItems.forEach(item => {
-        // Get component for parent route
-        const component = componentMap[item.id] || EmployeesHome
 
-        // Add parent route (skip dashboard as it's already added)
+        const component = componentMap[item.id] || NotFoundPage
+
         if (item.path !== '/') {
             const routePath = item.path.replace(/^\//, '')
+
             routes.push({
                 path: routePath,
                 component: component,
             })
         }
 
-        // Add child routes if they exist
         if (item.hasChildren && item.children && item.children.length > 0) {
             item.children.forEach(child => {
                 const childPath = child.path.replace(/^\//, '')
-                // Check if there's a specific component for this child route
-                let childComponent = component
-                if (item.id === 'employees' && employeesChildMap[child.id]) {
-                    childComponent = employeesChildMap[child.id]
-                }
+
+                const childMap = childMapRegistry[item.id]
+                const childComponent = (childMap && childMap[child.id]) || NotFoundPage
+
                 routes.push({
                     path: childPath,
                     component: childComponent,
@@ -66,16 +76,25 @@ function generateRoutesFromNavigation(navigationItems) {
     return routes
 }
 
+
 // Generate routes from navigation.json
 const dynamicRoutes = generateRoutesFromNavigation(navigationData)
+
 
 // Create router with routes generated from navigation.json
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
     routes: [
         {
+            path: '/login',
+            name: 'login',
+            component: LoginPage,
+            meta: { guestOnly: true },
+        },
+        {
             path: '/',
             component: AppLayout,
+            meta: { requiresAuth: true },
             children: [
                 {
                     path: '',
@@ -84,7 +103,34 @@ const router = createRouter({
                 ...dynamicRoutes,
             ],
         },
+        {
+            path: '/:pathMatch(.*)*',
+            redirect: '/',
+        },
     ],
 })
+
+
+router.beforeEach(async (to) => {
+    const authStore = useAuthStore()
+
+    if (!authStore.isReady) {
+        await authStore.initAuthListener()
+    }
+
+    if (to.meta.requiresAuth && !authStore.isAuthenticated) {
+        return {
+            path: '/login',
+            query: { redirect: to.fullPath },
+        }
+    }
+
+    if (to.meta.guestOnly && authStore.isAuthenticated) {
+        return typeof to.query.redirect === 'string' ? to.query.redirect : '/'
+    }
+
+    return true
+})
+
 
 export default router
