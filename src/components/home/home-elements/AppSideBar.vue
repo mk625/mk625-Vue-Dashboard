@@ -1,7 +1,9 @@
 <script setup>
     import { ref, onMounted } from 'vue'
+    import { RouterLink } from 'vue-router'
     import Slide from '@/js/utils/ui/SlideToggle.js'
     import { fetchNavigationItems } from '@/js/services/navigationApi.js'
+    import sidebarLogo from '@/assets/images/favicon/fav-icon.png'
 
     const vSlide = Slide
 
@@ -58,7 +60,7 @@
         <!-- logo -->
             <div class="app-sidebar__logo-container">
                 <div class="app-sidebar__logo">
-                    <img class="app-sidebar__logo-img" src="../../../assets/images/logo/" alt="MK logo">
+                    <img class="app-sidebar__logo-img" :src="sidebarLogo" alt="MK logo">
                     <h4 class="app-sidebar__company-name">MK Corp</h4>
                 </div>
             </div>

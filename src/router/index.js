@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import AppLayout from '../components/home/AppHome.vue'
 import LoginPage from '../components/auth/LoginPage.vue'
+import NotFoundPage from '../components/inner-pages/NotFoundPage.vue'
 import DashboardHome from '../components/home/home-elements/DashboardHome.vue'
 import AttendanceHome from '../components/inner-pages/sidebar-pages/attendance/AttendanceHome.vue'
 import EmployeesHome from '../components/inner-pages/sidebar-pages/employees/EmployeesHome.vue'
@@ -34,11 +35,13 @@ const employeesChildMap = {
     'add-employee': AddEmployee,
 }
 
+const settingsChildMap = {}
+const reportsChildMap = {}
 
 const childMapRegistry = {
-    'employees' : employeesChildMap,
-    'settings'  : settingsChildMap,
-    'reports'   : reportsChildMap,
+    'employees': employeesChildMap,
+    'settings': settingsChildMap,
+    'reports': reportsChildMap,
 }
 
 
@@ -105,7 +108,7 @@ const router = createRouter({
         },
         {
             path: '/:pathMatch(.*)*',
-            redirect: '/',
+            component: NotFoundPage,
         },
     ],
 })
