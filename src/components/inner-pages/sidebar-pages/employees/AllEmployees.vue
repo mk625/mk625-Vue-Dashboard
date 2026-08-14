@@ -9,7 +9,6 @@
             import MSearchBox from '@/components/ui/input/MSearchBox.vue';
             import MButton from '@/components/ui/buttons/MButton.vue';
             import EditEmployeeDialog from './EditEmployeeDialog.vue';
-            import NoficationPop from '@/components/ui/popup/toast/NoficationPop.vue';
         // \\\ ui components
     // \\\ imports
 
@@ -78,7 +77,7 @@
             return users_list.value;
         }
 
-        return users_list.value.filter((user) =>{
+        return users_list.value.filter((user) => {
             return(
                 user.docId?.toString().includes(searchingTextUpdated) ||
                 user.id?.toString().includes(searchingTextUpdated) ||
@@ -90,10 +89,12 @@
         })
     });
 
+
     function handleEditEmployee(row) {
         selectedEmployee.value = row;
         showEditEmployeeDialog.value = true;
     }
+
 
     async function handleDeleteEmployee(row) {
         if (!row.docId || deletingEmployeeId.value) {
@@ -115,9 +116,11 @@
         }
     }
 
+    
     function handleUpdate() {
         console.log('Employee updated successfully');
     }
+
 
     onMounted(() => {
         getUsersList();
@@ -135,6 +138,7 @@
         </div>
     </div>
 
+    
     <div>
         <MTable
             :columns="tableHeaderList"
@@ -150,6 +154,7 @@
                     >
                         Edit
                     </MButton>
+
                     <MButton
                         variant="red"
                         size="size-sm"
@@ -173,8 +178,6 @@
             :employee="selectedEmployee"
             @updated="handleUpdate"
         />
-
-        <!-- <NoficationPop/> -->
     <!-- \\\ child components -->
 </template>
 
