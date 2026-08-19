@@ -8,7 +8,7 @@
             import MButton from '@/components/ui/buttons/MButton.vue';
             import MInput from '@/components/ui/input/MInput.vue';
             import MInputLabel from '@/components/ui/input/MInputLabel.vue';
-            import RightDialog from '@/components/ui/dialog/RightDialog.vue';            import KnowMoreDialog from '@/components/ui/dialog/KnowMoreDialog.vue';            import ToastPop from '@/components/ui/popup/toast/ToastPop.vue';
+            import RightDialog from '@/components/ui/dialog/RightDialog.vue';
         // \\\ ui components
     // \\\ imports
 

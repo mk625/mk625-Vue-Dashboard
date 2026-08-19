@@ -109,11 +109,11 @@
 
 <style scoped>
     .right-dialog {
-        --w-right-dialog: var(--w-dialog-primary, 560px);        
-        --h-right-dialog-height: var(--h-dialog-primary, 100vh);
+        --w-right-dialog: 560px;        
+        --h-right-dialog-height: 100vh;
 
-        --h-right-dialog-header: var(--h-dialog-primary-header, 64px);
-        --h-right-dialog-footer: var(--h-dialog-primary-footer, 72px);
+        --h-right-dialog-header: 64px;
+        --h-right-dialog-footer: 72px;
 
         width: var(--w-right-dialog);
         height: var(--h-right-dialog-height);
@@ -129,7 +129,7 @@
         inset-inline-end: 0px;
     }
     .right-dialog.dialog__primary.size__sm {
-        --w-right-dialog: var(--w-dialog-secondary, 480px);
+        --w-right-dialog: var(--w-dialog-secondary);
     }
     .right-dialog.dialog__primary.size__lg {
         --w-right-dialog: 660px;
@@ -137,15 +137,17 @@
     
     /* secondary dialog */
     .right-dialog.dialog__secondary {
-        --w-secondary-dialog: var(--w-dialog-secondary, 480px);
+        --w-secondary-dialog: 660px;
+        --right-secondary-dialog: var(--w-right-dialog);
+        
         width: var(--w-secondary-dialog);
-        inset-inline-end: var(--w-dialog-primary, 560px);
+        inset-inline-end: var(--right-secondary-dialog);
     }
     .right-dialog.dialog__secondary.size__sm {
         --w-secondary-dialog: 420px;
     }
     .right-dialog.dialog__secondary.size__lg {
-        --w-secondary-dialog: 560px;
+        --w-secondary-dialog: 820px;
     }
 
 
