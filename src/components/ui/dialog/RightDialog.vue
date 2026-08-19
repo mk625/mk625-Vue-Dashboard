@@ -57,51 +57,53 @@
 
 
 <template>
-    <div :class="['right-dialog', `dialog__${type}`]" v-if="show">
-        <header class="right-dialog-header">
-            <slot name="header">
-                <div class="h100pe d-flx aI-C jC-SB g-20 h100">
-                    <div>
+    <Teleport to="body">
+        <div :class="['right-dialog', `dialog__${type}`]" v-if="show">
+            <header class="right-dialog-header">
+                <slot name="header">
+                    <div class="h100pe d-flx aI-C jC-SB g-20 h100">
                         <div>
-                            <h4 class="f18"> {{ title }} </h4>
+                            <div>
+                                <h4 class="f18"> {{ title }} </h4>
+                            </div>
+                        </div>
+        
+                        <div>
+                            <HovIconCirlce class="right-dialog-close-btn" @click="handleClose" />
                         </div>
                     </div>
+                </slot>
+            </header>
     
-                    <div>
-                        <HovIconCirlce class="right-dialog-close-btn" @click="handleClose" />
+    
+            <section class="right-dialog-body">
+                <slot name="body"></slot>
+            </section>
+    
+            
+            <footer class="right-dialog-footer">
+                <slot name="footer">
+                    <div class="d-flx aI-C g-10">
+                        <MButton
+                            variant="secondary"
+                            @click="handleClose"
+                        >
+                            Cancel
+                        </MButton>
+    
+                        <MButton
+                            type="submit"
+                            btn_view="loader"
+                            :isLoading="isLoading"
+                            @click="emit('submit')"
+                        >
+                            Save
+                        </MButton>
                     </div>
-                </div>
-            </slot>
-        </header>
-
-
-        <section class="right-dialog-body">
-            <slot name="body"></slot>
-        </section>
-
-        
-        <footer class="right-dialog-footer">
-            <slot name="footer">
-                <div class="d-flx aI-C g-10">
-                    <MButton
-                        variant="secondary"
-                        @click="handleClose"
-                    >
-                        Cancel
-                    </MButton>
-
-                    <MButton
-                        type="submit"
-                        btn_view="loader"
-                        :isLoading="isLoading"
-                        @click="emit('submit')"
-                    >
-                        Save
-                    </MButton>
-                </div>
-            </slot>
-        </footer>
-    </div>
+                </slot>
+            </footer>
+        </div>
+    </Teleport>
 </template>
 
 

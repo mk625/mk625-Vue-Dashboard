@@ -159,6 +159,7 @@
         :isLoading="isLoading"
         @update:show="emit('update:show', $event)"
         @close="handleClose"
+        style="--w-dialog-primary: 600px;"
     >
         <template #header>
             <div class="h100pe d-flx aI-C jC-SB g-20 h100">
@@ -242,10 +243,11 @@
         </template>
     </RightDialog>
 
-    <KnowMoreDialog
+    <RightDialog
         v-model:show="showKnowMoreDialog"
         title="Employee Details"
         @close="closeKnowMoreDialog"
+        type="secondary"
     >
         <template #body>
             <div class="d-flx fD-C g-15">
@@ -270,7 +272,7 @@
                 </div>
             </div>
         </template>
-    </KnowMoreDialog>
+    </RightDialog>
 
     <ToastPop :message="toastMessage" v-model:show="showToast"/>
 </template>
