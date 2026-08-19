@@ -7,70 +7,97 @@
     // \\\ imports
 
 
-    // global variables
-        // from parent
-            const props = defineProps({
-                show: {
-                    type: Boolean,
-                    default: false
-                },
-                type: {
-                    type: String,
-                    default: 'primary',
-                    validator: (value) => ['primary', 'secondary'].includes(value)
-                },
-                title: {
-                    type: String,
-                    default: 'Edit employee'
-                },
-                isLoading: {
-                    type: Boolean,
-                    default: false
-                }
-            });
-        // \\\ from parent
+    // from parent
+        const props = defineProps({
+            show: {
+                type: Boolean,
+                default: false
+            },
+            type: {
+                type: String,
+                default: 'primary',
+                validator: (value) => ['primary', 'secondary'].includes(value)
+            },
+            title: {
+                type: String,
+                default: 'Edit employee'
+            },
+            isLoading: {
+                type: Boolean,
+                default: false
+            }
+        });
+    // \\\ from parent
 
-        // local
-            const emit = defineEmits(['close', 'update:show', 'submit', 'know-more']);
-            const secondaryDialog = ref(null);
 
-            const setSecondaryDialogPosition = async () => {
-                if (props.type !== 'secondary' || !props.show) {
-                    return;
-                }
+    const emit = defineEmits(['close', 'update:show', 'submit', 'know-more']);
+    const secondaryDialog = ref(null);
+    const closeDialogsEvent = 'right-dialog-close-all';
+    
 
-                await nextTick();
+    const setSecondaryDialogPosition = async () => {
+        if (props.type !== 'secondary' || !props.show) {
+            return;
+        }
 
-                const primaryDialog = document.querySelector('.right-dialog.dialog__primary');
-                if (primaryDialog && secondaryDialog.value) {
-                    const primaryDialogWidth = primaryDialog.getBoundingClientRect().width;
-                    secondaryDialog.value.style.setProperty('--right-secondary-dialog', `${primaryDialogWidth}px`);
-                }
-            };
+        await nextTick();
 
-            const handleClose = () => {
-                emit('update:show', false);
-                emit('close');
-            };
+        const primaryDialog = document.querySelector('.right-dialog.dialog__primary');
+        
+        if (primaryDialog && secondaryDialog.value) {
+            const primaryDialogWidth = primaryDialog.getBoundingClientRect().width;
+            secondaryDialog.value.style.setProperty('--right-secondary-dialog', `${primaryDialogWidth}px`);
+        }
+    };
 
-            const handleEscapeKey = (event) => {
-                if (event.key === 'Escape' && props.show) {
-                    handleClose();
-                }
-            };
 
-            onMounted(() => {
-                document.addEventListener('keydown', handleEscapeKey);
-                setSecondaryDialogPosition();
-            });
+    const handleClose = () => {
+        if (props.type === 'secondary') {
+            closeDialog();
+            return;
+        }
 
-            watch(() => props.show, setSecondaryDialogPosition);
+        document.dispatchEvent(new CustomEvent(closeDialogsEvent));
+    };
 
-            onUnmounted(() => {
-                document.removeEventListener('keydown', handleEscapeKey);
-            });
-        // \\\ local
-    // \\\ global variables
+
+    const closeDialog = () => {
+        if (!props.show) {
+            return;
+        }
+
+        emit('update:show', false);
+        emit('close');
+    };
+
+
+    const handleEscapeKey = (event) => {
+        if (event.key === 'Escape' && props.show) {
+            handleClose();
+        }
+    };
+
+
+    onMounted(() => {
+        document.addEventListener('keydown', handleEscapeKey);
+        document.addEventListener(closeDialogsEvent, closeDialog);
+        setSecondaryDialogPosition();
+    });
+
+
+    watch(() => props.show, (show, previousShow) => {
+        if (props.type === 'primary' && previousShow && !show) {
+            document.dispatchEvent(new CustomEvent(closeDialogsEvent));
+        }
+
+        setSecondaryDialogPosition();
+    });
+
+
+    onUnmounted(() => {
+        document.removeEventListener('keydown', handleEscapeKey);
+        document.removeEventListener(closeDialogsEvent, closeDialog);
+    });
 </script>
 
 
