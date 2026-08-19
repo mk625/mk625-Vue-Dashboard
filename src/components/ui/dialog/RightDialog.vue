@@ -1,7 +1,7 @@
 
 <script setup>
     // imports
-        import { onMounted, onUnmounted } from 'vue';
+        import { nextTick, onMounted, onUnmounted, ref, watch } from 'vue';
         import HovIconCirlce from '@/components/ui/buttons/HovIconCirlce.vue';
         import MButton from '@/components/ui/buttons/MButton.vue';
     // \\\ imports
@@ -32,6 +32,21 @@
 
         // local
             const emit = defineEmits(['close', 'update:show', 'submit', 'know-more']);
+            const secondaryDialog = ref(null);
+
+            const setSecondaryDialogPosition = async () => {
+                if (props.type !== 'secondary' || !props.show) {
+                    return;
+                }
+
+                await nextTick();
+
+                const primaryDialog = document.querySelector('.right-dialog.dialog__primary');
+                if (primaryDialog && secondaryDialog.value) {
+                    const primaryDialogWidth = primaryDialog.getBoundingClientRect().width;
+                    secondaryDialog.value.style.setProperty('--right-secondary-dialog', `${primaryDialogWidth}px`);
+                }
+            };
 
             const handleClose = () => {
                 emit('update:show', false);
@@ -46,7 +61,10 @@
 
             onMounted(() => {
                 document.addEventListener('keydown', handleEscapeKey);
+                setSecondaryDialogPosition();
             });
+
+            watch(() => props.show, setSecondaryDialogPosition);
 
             onUnmounted(() => {
                 document.removeEventListener('keydown', handleEscapeKey);
@@ -58,62 +76,67 @@
 
 <template>
     <Teleport to="body">
-        <div :class="['right-dialog', `dialog__${type}`]" v-if="show">
-            <header class="right-dialog-header">
-                <slot name="header">
-                    <div class="h100pe d-flx aI-C jC-SB g-20 h100">
-                        <div>
+        <Transition name="right-dialog" appear>
+            <div ref="secondaryDialog" :class="['right-dialog', `dialog__${type}`]" v-if="show">
+                <header class="right-dialog-header">
+                    <slot name="header">
+                        <div class="h100pe d-flx aI-C jC-SB g-20 h100">
                             <div>
-                                <h4 class="f18"> {{ title }} </h4>
+                                <div>
+                                    <h4 class="f18"> {{ title }} </h4>
+                                </div>
+                            </div>
+        
+                            <div>
+                                <HovIconCirlce class="right-dialog-close-btn" @click="handleClose" />
                             </div>
                         </div>
-        
-                        <div>
-                            <HovIconCirlce class="right-dialog-close-btn" @click="handleClose" />
+                    </slot>
+                </header>
+    
+    
+                <section class="right-dialog-body">
+                    <slot name="body"></slot>
+                </section>
+    
+
+                <footer class="right-dialog-footer">
+                    <slot name="footer">
+                        <div class="d-flx aI-C g-10">
+                            <MButton
+                                variant="secondary"
+                                @click="handleClose"
+                            >
+                                Cancel
+                            </MButton>
+    
+                            <MButton
+                                type="submit"
+                                btn_view="loader"
+                                :isLoading="isLoading"
+                                @click="emit('submit')"
+                            >
+                                Save
+                            </MButton>
                         </div>
-                    </div>
-                </slot>
-            </header>
-    
-    
-            <section class="right-dialog-body">
-                <slot name="body"></slot>
-            </section>
-    
-            
-            <footer class="right-dialog-footer">
-                <slot name="footer">
-                    <div class="d-flx aI-C g-10">
-                        <MButton
-                            variant="secondary"
-                            @click="handleClose"
-                        >
-                            Cancel
-                        </MButton>
-    
-                        <MButton
-                            type="submit"
-                            btn_view="loader"
-                            :isLoading="isLoading"
-                            @click="emit('submit')"
-                        >
-                            Save
-                        </MButton>
-                    </div>
-                </slot>
-            </footer>
-        </div>
+                    </slot>
+                </footer>
+            </div>
+        </Transition>
     </Teleport>
 </template>
 
 
 <style scoped>
     .right-dialog {
-        --w-right-dialog: 560px;        
+        --w-right-dialog-sm: 440px;        
+        --w-right-dialog: 500px;       
+        --w-right-dialog-lg: 660px;       
         --h-right-dialog-height: 100vh;
 
         --h-right-dialog-header: 64px;
         --h-right-dialog-footer: 72px;
+        --zin-primary-dialog: 10;
 
         width: var(--w-right-dialog);
         height: var(--h-right-dialog-height);
@@ -123,25 +146,37 @@
         top: 0px;
         bottom: 0px;
         border-inline-start: 1px solid var(--c-gray-90);
-        z-index: 10;
+        z-index: var(--zin-primary-dialog);
     }
     .right-dialog.dialog__primary {
         inset-inline-end: 0px;
     }
     .right-dialog.dialog__primary.size__sm {
-        --w-right-dialog: var(--w-dialog-secondary);
+        --w-right-dialog: var(--w-right-dialog-sm);
     }
     .right-dialog.dialog__primary.size__lg {
-        --w-right-dialog: 660px;
+        --w-right-dialog: var(--w-right-dialog-lg);
     }
+
+    /* animation */
+        .right-dialog-enter-active,
+        .right-dialog-leave-active {
+            transition: transform 240ms ease, opacity 240ms ease;
+        }
+        .right-dialog-enter-from,
+        .right-dialog-leave-to {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+    /* \\\ animation */
     
     /* secondary dialog */
     .right-dialog.dialog__secondary {
         --w-secondary-dialog: 660px;
-        --right-secondary-dialog: var(--w-right-dialog);
         
         width: var(--w-secondary-dialog);
         inset-inline-end: var(--right-secondary-dialog);
+        z-index: calc(var(--zin-primary-dialog) - 1);
     }
     .right-dialog.dialog__secondary.size__sm {
         --w-secondary-dialog: 420px;

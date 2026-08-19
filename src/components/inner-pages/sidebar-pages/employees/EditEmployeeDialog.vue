@@ -243,6 +243,8 @@
         </template>
     </RightDialog>
 
+    
+    <!-- secondary right dialog -->
     <RightDialog
         v-model:show="showKnowMoreDialog"
         title="Employee Details"
