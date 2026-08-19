@@ -807,6 +807,14 @@
     .plain-btn {
         @include btn-reset;
     }
+
+    .btn-link {
+        @include btn-reset;
+        color: var(--c-link);
+    }
+    .btn-link:hover {
+        color: var(--c-link-hover);
+    }
 // \\\ button
 
 

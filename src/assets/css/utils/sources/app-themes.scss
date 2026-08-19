@@ -125,6 +125,7 @@
 
         /* link colors */
             --c-link: var(--c-app-theme);
+            --c-link-hover: color-mix(in oklab, var(--c-app-theme), var(--c-black) 20%);
     /* \\\ link colors */
     }
 /* \\\ ui components shades */

@@ -1,4 +1,3 @@
-
 <script setup>
     // imports
         import { onMounted, onUnmounted } from 'vue';
@@ -14,14 +13,9 @@
                     type: Boolean,
                     default: false
                 },
-                type: {
-                    type: String,
-                    default: 'primary',
-                    validator: (value) => ['primary', 'secondary'].includes(value)
-                },
                 title: {
                     type: String,
-                    default: 'Edit employee'
+                    default: 'Know More'
                 },
                 isLoading: {
                     type: Boolean,
@@ -31,7 +25,7 @@
         // \\\ from parent
 
         // local
-            const emit = defineEmits(['close', 'update:show', 'submit', 'know-more']);
+            const emit = defineEmits(['close', 'update:show', 'submit']);
 
             const handleClose = () => {
                 emit('update:show', false);
@@ -57,37 +51,35 @@
 
 
 <template>
-    <div :class="['right-dialog', `dialog__${type}`]" v-if="show">
-        <header class="right-dialog-header">
+    <div class="know-more-dialog" v-if="show">
+        <header class="know-more-dialog-header">
             <slot name="header">
                 <div class="h100pe d-flx aI-C jC-SB g-20 h100">
                     <div>
-                        <div>
-                            <h4 class="f18"> {{ title }} </h4>
-                        </div>
+                        <h4 class="f18"> {{ title }} </h4>
                     </div>
     
                     <div>
-                        <HovIconCirlce class="right-dialog-close-btn" @click="handleClose" />
+                        <HovIconCirlce class="know-more-dialog-close-btn" @click="handleClose" />
                     </div>
                 </div>
             </slot>
         </header>
 
 
-        <section class="right-dialog-body">
+        <section class="know-more-dialog-body">
             <slot name="body"></slot>
         </section>
 
         
-        <footer class="right-dialog-footer">
+        <footer class="know-more-dialog-footer">
             <slot name="footer">
                 <div class="d-flx aI-C g-10">
                     <MButton
                         variant="secondary"
                         @click="handleClose"
                     >
-                        Cancel
+                        Close
                     </MButton>
 
                     <MButton
@@ -96,7 +88,7 @@
                         :isLoading="isLoading"
                         @click="emit('submit')"
                     >
-                        Save
+                        Confirm
                     </MButton>
                 </div>
             </slot>
@@ -106,67 +98,45 @@
 
 
 <style scoped>
-    .right-dialog {
-        --w-right-dialog: var(--w-dialog-primary, 560px);        
-        --h-right-dialog-height: var(--h-dialog-primary, 100vh);
+    .know-more-dialog {
+        --h-know-more-dialog-width: var(--w-dialog-secondary, 480px);
+        --h-know-more-dialog-height: var(--h-dialog-secondary, 100vh);
 
-        --h-right-dialog-header: var(--h-dialog-primary-header, 64px);
-        --h-right-dialog-footer: var(--h-dialog-primary-footer, 72px);
+        --h-know-more-dialog-header: var(--h-dialog-secondary-header, 56px);
+        --h-know-more-dialog-footer: var(--h-dialog-secondary-footer, 64px);
 
-        width: var(--w-right-dialog);
-        height: var(--h-right-dialog-height);
+        width: var(--h-know-more-dialog-width);
+        height: var(--h-know-more-dialog-height);
         background-color: var(--c-white);
-        box-shadow: -7px 0px 26px 0px rgb(0 0 0 / 6%);
+        box-shadow: -7px 0px 26px 0px rgb(0 0 0 / 8%);
         position: fixed;
         top: 0px;
         bottom: 0px;
-        border-inline-start: 1px solid var(--c-gray-90);
-        z-index: 10;
-    }
-    .right-dialog.dialog__primary {
         inset-inline-end: 0px;
+        border-inline-start: 1px solid var(--c-border-default);
+        z-index: 20;
     }
-    .right-dialog.dialog__primary.size__sm {
-        --w-right-dialog: var(--w-dialog-secondary, 480px);
-    }
-    .right-dialog.dialog__primary.size__lg {
-        --w-right-dialog: 660px;
-    }
-    
-    /* secondary dialog */
-    .right-dialog.dialog__secondary {
-        --w-secondary-dialog: var(--w-dialog-secondary, 480px);
-        width: var(--w-secondary-dialog);
-        inset-inline-end: var(--w-dialog-primary, 560px);
-    }
-    .right-dialog.dialog__secondary.size__sm {
-        --w-secondary-dialog: 420px;
-    }
-    .right-dialog.dialog__secondary.size__lg {
-        --w-secondary-dialog: 560px;
-    }
-
-
-    .right-dialog .right-dialog-header {
-        height: var(--h-right-dialog-header);
+    .know-more-dialog .know-more-dialog-header {
+        height: var(--h-know-more-dialog-header);
         padding: 0px 20px;
         border-bottom: 1px solid var(--c-border-default);
     }
-    .right-dialog .right-dialog-close-btn {
-        font-size: 18px;
+    .know-more-dialog .know-more-dialog-close-btn {
+        font-size: 16px;
     }
-    .right-dialog .right-dialog-body {
-        height: calc(100% - (var(--h-right-dialog-header) + var(--h-right-dialog-footer)));
+    .know-more-dialog .know-more-dialog-body {
+        height: calc(100% - (var(--h-know-more-dialog-header) + var(--h-know-more-dialog-footer)));
         padding: 20px;
         overflow-y: auto;
     }
-    .right-dialog .right-dialog-body.without-padding {
+    .know-more-dialog .know-more-dialog-body.without-padding {
         padding: 0px;
     }
-    .right-dialog-footer {
+    .know-more-dialog-footer {
         display: flex;
         align-items: center;
-        height: var(--h-right-dialog-footer);
+        justify-content: flex-end;
+        height: var(--h-know-more-dialog-footer);
         padding: 0px 20px;
         border-top: 1px solid var(--c-border-default);
     }
