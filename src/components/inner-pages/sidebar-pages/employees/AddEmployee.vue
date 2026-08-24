@@ -1,7 +1,7 @@
 
 <script setup>
     // imports
-        import { ref } from 'vue';
+        import { ref, reactive } from 'vue';
         import {
             addDoc,
             collection,
@@ -17,22 +17,52 @@
         import MInput from '@/components/ui/input/MInput.vue';
         import MInputLabel from '@/components/ui/input/MInputLabel.vue';
         import MButton from '@/components/ui/buttons/MButton.vue';
-        import ToastPop from '@/components/ui/popup/toast/ToastPop.vue'
+        import ToastPop from '@/components/ui/popup/toast/ToastPop.vue';
     // \\\ imports
 
-    // global variables
-        const first_name = ref('');
-        const last_name = ref('');
-        const email = ref('');
-        const phone = ref('');
-        const location = ref('');
+    // steps definition
+        const steps = [
+            { id: 1, title: 'Basic Information' },
+            { id: 2, title: 'Employment Details' },
+            { id: 3, title: 'Compensation' },
+            { id: 4, title: 'Attendance' }
+        ];
+
+        const currentStep = ref(1);
+    // \\\ steps definition
+
+    // global variables / form state
+        const form = reactive({
+            // Step 1: Basic Information
+            firstName: '',
+            lastName: '',
+            email: '',
+            phone: '',
+            location: '',
+
+            // Step 2: Employment Details
+            department: '',
+            designation: '',
+            joiningDate: '',
+            employmentType: '',
+
+            // Step 3: Compensation
+            salary: '',
+            bankAccount: '',
+            ifscCode: '',
+            taxId: '',
+
+            // Step 4: Attendance & Work Settings
+            shift: '',
+            workMode: '',
+            reportingManager: ''
+        });
 
         const isLoading = ref(false);
         const isError = ref(false);
         const errorMessage = ref('');
         const showToast = ref(false);
     // \\\ global variables
-
 
     async function getLastId() {
         const usersRef = collection(db, 'users-list');
@@ -48,11 +78,69 @@
     }
 
     function resetForm() {
-        first_name.value = '';
-        last_name.value = '';
-        email.value = '';
-        phone.value = '';
-        location.value = '';
+        Object.keys(form).forEach((key) => {
+            form[key] = '';
+        });
+        currentStep.value = 1;
+        isError.value = false;
+        errorMessage.value = '';
+    }
+
+    // Step Validation
+    function validateStep(step) {
+        isError.value = false;
+        errorMessage.value = '';
+
+        if (step === 1) {
+            if (!form.firstName.trim() || !form.lastName.trim() || !form.email.trim() || !form.phone.toString().trim() || !form.location.trim()) {
+                isError.value = true;
+                errorMessage.value = 'Please fill in all basic information fields';
+                return false;
+            }
+
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailPattern.test(form.email.trim())) {
+                isError.value = true;
+                errorMessage.value = 'Please enter a valid email address';
+                return false;
+            }
+        } else if (step === 2) {
+            if (!form.department.trim() || !form.designation.trim() || !form.joiningDate || !form.employmentType.trim()) {
+                isError.value = true;
+                errorMessage.value = 'Please fill in all employment detail fields';
+                return false;
+            }
+        } else if (step === 3) {
+            if (!form.salary || !form.bankAccount.trim() || !form.ifscCode.trim()) {
+                isError.value = true;
+                errorMessage.value = 'Please fill in all compensation fields';
+                return false;
+            }
+        } else if (step === 4) {
+            if (!form.shift.trim() || !form.workMode.trim()) {
+                isError.value = true;
+                errorMessage.value = 'Please fill in the attendance & work settings';
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    function nextStep() {
+        if (validateStep(currentStep.value)) {
+            if (currentStep.value < steps.length) {
+                currentStep.value++;
+            }
+        }
+    }
+
+    function prevStep() {
+        isError.value = false;
+        errorMessage.value = '';
+        if (currentStep.value > 1) {
+            currentStep.value--;
+        }
     }
 
     async function handleSubmit() {
@@ -60,27 +148,29 @@
             return;
         }
 
+        // Validate current/final step
+        if (!validateStep(currentStep.value)) {
+            return;
+        }
+
         const employee = {
-            firstName: first_name.value.trim(),
-            lastName: last_name.value.trim(),
-            email: email.value.trim().toLowerCase(),
-            phone: phone.value.toString().trim(),
-            location: location.value.trim()
+            firstName: form.firstName.trim(),
+            lastName: form.lastName.trim(),
+            email: form.email.trim().toLowerCase(),
+            phone: form.phone.toString().trim(),
+            location: form.location.trim(),
+            department: form.department.trim(),
+            designation: form.designation.trim(),
+            joiningDate: form.joiningDate,
+            employmentType: form.employmentType.trim(),
+            salary: form.salary,
+            bankAccount: form.bankAccount.trim(),
+            ifscCode: form.ifscCode.trim(),
+            taxId: form.taxId.trim(),
+            shift: form.shift.trim(),
+            workMode: form.workMode.trim(),
+            reportingManager: form.reportingManager.trim()
         };
-
-        if (Object.values(employee).some((value) => !value)) {
-            isError.value = true;
-            errorMessage.value = 'Please fill in all the fields';
-            return;
-        }
-
-        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-        if (!emailPattern.test(employee.email)) {
-            isError.value = true;
-            errorMessage.value = 'Please enter a valid email address';
-            return;
-        }
 
         isError.value = false;
         errorMessage.value = '';
@@ -97,18 +187,19 @@
             if (!duplicateEmailSnapshot.empty) {
                 isError.value = true;
                 errorMessage.value = 'An employee with this email already exists';
+                currentStep.value = 1;
                 return;
             }
 
             const lastId = await getLastId();
             const newId = lastId + 1;
 
-            await addDoc(collection(db, 'users-list'),{
+            await addDoc(collection(db, 'users-list'), {
                 id: newId,
                 ...employee,
                 name: `${employee.firstName} ${employee.lastName}`,
                 createdAt: serverTimestamp()
-            })
+            });
 
             isError.value = false;
             resetForm();
@@ -128,81 +219,31 @@
     <!-- steps design -->
     <div class="mB50 mT30">
         <ul class="d-flx aI-C jC-C g-80 c-status-shades__green">
-            <li class="step-completed">
+            <li 
+                v-for="(step, index) in steps" 
+                :key="step.id"
+                :class="{
+                    'step-completed': currentStep > step.id,
+                    'step-active': currentStep === step.id,
+                    'step-reached': currentStep >= step.id
+                }"
+            >
                 <div class="txt-a-center">
                     <div class="design-container">
                         <div>
                             <div class="status-circle">
-                                <i class="bi bi-check-lg f20"></i>
+                                <i v-if="currentStep > step.id" class="bi bi-check-lg f20"></i>
+                                <span v-else class="f14 font-w-600">{{ step.id }}</span>
                             </div>
                             <div>
-                                <span>Step 1</span>
+                                <span>Step {{ step.id }}</span>
                             </div>
                         </div>
+                        <div v-if="index !== 0" class="progress-line"></div>
                     </div>
 
                     <div>
-                        <h3 class="f18">Basic Information</h3>
-                    </div>
-                </div>
-            </li>
-
-            <li>
-                <div class="txt-a-center">
-                    <div class="design-container">
-                        <div>
-                            <div class="status-circle">
-                                <i class="bi bi-check-lg f20"></i>
-                            </div>
-                            <div>
-                                <span>Step 2</span>
-                            </div>
-                        </div>
-                        <div class="progress-line"></div>
-                    </div>
-
-                    <div>
-                        <h3 class="f18">Employement Details</h3>
-                    </div>
-                </div>
-            </li>
-
-            <li>
-                <div class="txt-a-center">
-                    <div class="design-container">
-                        <div>
-                            <div class="status-circle">
-                                <i class="bi bi-check-lg f20"></i>
-                            </div>
-                            <div>
-                                <span>Step 3</span>
-                            </div>
-                        </div>
-                        <div class="progress-line"></div>
-                    </div>
-
-                    <div>
-                        <h3 class="f18">Compensation</h3>
-                    </div>
-                </div>
-            </li>
-
-            <li>
-                <div class="txt-a-center">
-                    <div class="design-container">
-                        <div>
-                            <div class="status-circle">
-                                <i class="bi bi-check-lg f20"></i>
-                            </div>
-                            <div>
-                                <span>Step 4</span>
-                            </div>
-                        </div>
-                        <div class="progress-line"></div>
-                    </div>
-
-                    <div>
-                        <h3 class="f18">Attendance</h3>
+                        <h3 class="f18">{{ step.title }}</h3>
                     </div>
                 </div>
             </li>
@@ -212,55 +253,145 @@
 
     <div>
         <div class="max-w-600 w100pe m0-auto">
-            <form class="d-block" @submit.prevent="handleSubmit">
-                <div class="d-flx fD-C g-20">
+            <form class="d-block" @submit.prevent>
+                <!-- Step 1: Basic Information -->
+                <div v-show="currentStep === 1" class="d-flx fD-C g-20">
                     <div class="d-flx aI-C jC-S g-20">
                         <div class="w50pe">
                             <MInputLabel class="mB5" label_name="First Name"/>
-                            <MInput v-model="first_name" placeholder="Enter First Name"/>
+                            <MInput v-model="form.firstName" placeholder="Enter First Name"/>
                         </div>
                         <div class="w50pe">
                             <MInputLabel class="mB5" label_name="Last Name"/>
-                            <MInput v-model="last_name" placeholder="Enter Last Name"/>
+                            <MInput v-model="form.lastName" placeholder="Enter Last Name"/>
                         </div>
                     </div>
 
-                    <div>
-                        <div class="d-flx aI-C jC-S g-20">
-                            <div class="w50pe">
-                                <MInputLabel class="mB5" label_name="Email"/>
-                                <MInput v-model="email" type="email" placeholder="Enter Email"/>
-                            </div>
-                            <div class="w50pe">
-                                <MInputLabel class="mB5" label_name="Phone"/>
-                                <MInput v-model="phone" type="tel" placeholder="Enter Phone"/>
-                            </div>
+                    <div class="d-flx aI-C jC-S g-20">
+                        <div class="w50pe">
+                            <MInputLabel class="mB5" label_name="Email"/>
+                            <MInput v-model="form.email" type="email" placeholder="Enter Email"/>
+                        </div>
+                        <div class="w50pe">
+                            <MInputLabel class="mB5" label_name="Phone"/>
+                            <MInput v-model="form.phone" type="tel" placeholder="Enter Phone"/>
                         </div>
                     </div>
 
-                    <div>
-                        <div>
-                            <div class="w50pe">
-                                <MInputLabel class="mB5" label_name="Location"/>
-                                <MInput v-model="location" placeholder="Enter Location"/>
-                            </div>
+                    <div class="w50pe">
+                        <MInputLabel class="mB5" label_name="Location"/>
+                        <MInput v-model="form.location" placeholder="Enter Location"/>
+                    </div>
+                </div>
+
+                <!-- Step 2: Employment Details -->
+                <div v-show="currentStep === 2" class="d-flx fD-C g-20">
+                    <div class="d-flx aI-C jC-S g-20">
+                        <div class="w50pe">
+                            <MInputLabel class="mB5" label_name="Department"/>
+                            <MInput v-model="form.department" placeholder="e.g. Engineering"/>
+                        </div>
+                        <div class="w50pe">
+                            <MInputLabel class="mB5" label_name="Designation"/>
+                            <MInput v-model="form.designation" placeholder="e.g. Frontend Developer"/>
+                        </div>
+                    </div>
+
+                    <div class="d-flx aI-C jC-S g-20">
+                        <div class="w50pe">
+                            <MInputLabel class="mB5" label_name="Joining Date"/>
+                            <MInput v-model="form.joiningDate" type="date"/>
+                        </div>
+                        <div class="w50pe">
+                            <MInputLabel class="mB5" label_name="Employment Type"/>
+                            <MInput v-model="form.employmentType" placeholder="e.g. Full-Time, Part-Time"/>
                         </div>
                     </div>
                 </div>
 
+                <!-- Step 3: Compensation -->
+                <div v-show="currentStep === 3" class="d-flx fD-C g-20">
+                    <div class="d-flx aI-C jC-S g-20">
+                        <div class="w50pe">
+                            <MInputLabel class="mB5" label_name="Monthly Salary / CTC"/>
+                            <MInput v-model="form.salary" type="number" placeholder="Enter Salary"/>
+                        </div>
+                        <div class="w50pe">
+                            <MInputLabel class="mB5" label_name="Bank Account No"/>
+                            <MInput v-model="form.bankAccount" placeholder="Enter Account Number"/>
+                        </div>
+                    </div>
+
+                    <div class="d-flx aI-C jC-S g-20">
+                        <div class="w50pe">
+                            <MInputLabel class="mB5" label_name="IFSC Code"/>
+                            <MInput v-model="form.ifscCode" placeholder="Enter IFSC Code"/>
+                        </div>
+                        <div class="w50pe">
+                            <MInputLabel class="mB5" label_name="Tax ID / PAN"/>
+                            <MInput v-model="form.taxId" placeholder="Enter PAN / Tax ID"/>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 4: Attendance & Work Settings -->
+                <div v-show="currentStep === 4" class="d-flx fD-C g-20">
+                    <div class="d-flx aI-C jC-S g-20">
+                        <div class="w50pe">
+                            <MInputLabel class="mB5" label_name="Work Shift"/>
+                            <MInput v-model="form.shift" placeholder="e.g. Day Shift (9 AM - 6 PM)"/>
+                        </div>
+                        <div class="w50pe">
+                            <MInputLabel class="mB5" label_name="Work Mode"/>
+                            <MInput v-model="form.workMode" placeholder="e.g. On-site, Hybrid, Remote"/>
+                        </div>
+                    </div>
+
+                    <div class="w50pe">
+                        <MInputLabel class="mB5" label_name="Reporting Manager"/>
+                        <MInput v-model="form.reportingManager" placeholder="Enter Manager Name"/>
+                    </div>
+                </div>
+
+                <!-- Error Message -->
                 <div v-if="isError" class="mT15">
                     <p class="c-status-red">{{ errorMessage }}</p>
                 </div>
 
-                <div class="txt-a-center mT30">
-                    <MButton
-                        type="submit"
-                        btn_view="loader"
-                        :isLoading="isLoading"
-                        :disabled="isLoading"
-                    >
-                        Add Employee
-                    </MButton>
+                <!-- Step Navigation Controls -->
+                <div class="d-flx aI-C jC-SB mT30">
+                    <div>
+                        <MButton
+                            v-if="currentStep > 1"
+                            type="button"
+                            variant="secondary"
+                            :disabled="isLoading"
+                            @click="prevStep"
+                        >
+                            Back
+                        </MButton>
+                    </div>
+
+                    <div>
+                        <MButton
+                            v-if="currentStep < steps.length"
+                            type="button"
+                            @click="nextStep"
+                        >
+                            Next Step
+                        </MButton>
+
+                        <MButton
+                            v-else
+                            type="button"
+                            btn_view="loader"
+                            :isLoading="isLoading"
+                            :disabled="isLoading"
+                            @click="handleSubmit"
+                        >
+                            Add Employee
+                        </MButton>
+                    </div>
                 </div>
             </form>
         </div>
@@ -291,6 +422,10 @@
     .step-completed .status-circle {
         background-color: var(--c-status);
     }
+    .step-active .status-circle {
+        background-color: var(--c-status);
+        box-shadow: 0 0 0 3px var(--c-status__90);
+    }
     .progress-line {
         width: 100px;
         height: 6px;
@@ -304,7 +439,8 @@
         translate: 0 -50%;
         transition: var(--fast-trans);
     }
-    .step-completed .progress-line {
+    .step-reached .progress-line {
         background-position: left;
     }
 </style>
+
