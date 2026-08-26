@@ -64,7 +64,6 @@
         justify-content: center;
         min-height: 100vh;
         padding: 24px;
-        background: linear-gradient(135deg, var(--c-gray-98) 0%, var(--c-gray-95) 100%);
     }
 
     .not-found-page__card {

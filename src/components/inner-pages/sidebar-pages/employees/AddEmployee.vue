@@ -219,8 +219,8 @@
     <!-- steps design -->
     <div class="mB50 mT30">
         <ul class="d-flx aI-C jC-C g-80 c-status-shades__green">
-            <li 
-                v-for="(step, index) in steps" 
+            <li
+                v-for="(step, index) in steps"
                 :key="step.id"
                 :class="{
                     'step-completed': currentStep > step.id,
@@ -437,7 +437,7 @@
         inset-inline-start: -100px;
         top: 50%;
         translate: 0 -50%;
-        transition: var(--fast-trans);
+        transition: var(--default-trans);
     }
     .step-reached .progress-line {
         background-position: left;
