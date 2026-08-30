@@ -7,7 +7,7 @@ import AttendanceHome from '../components/inner-pages/sidebar-pages/attendance/A
 import EmployeesHome from '../components/inner-pages/sidebar-pages/employees/EmployeesHome.vue'
 import AllEmployees from '../components/inner-pages/sidebar-pages/employees/AllEmployees.vue'
 import AddEmployee from '../components/inner-pages/sidebar-pages/employees/AddEmployee.vue'
-import OnLeave from '../components/inner-pages/sidebar-pages/employees/OnLeave.vue'
+// import OnLeave from '../components/inner-pages/sidebar-pages/employees/OnLeave.vue'
 import DepartmentsHome from '../components/inner-pages/sidebar-pages/departments/DepartmentsHome.vue'
 import PayrollHome from '../components/inner-pages/sidebar-pages/payroll/PayrollHome.vue'
 import PerformanceHome from '../components/inner-pages/sidebar-pages/performance/PerformanceHome.vue'
@@ -34,7 +34,7 @@ const componentMap = {
 const employeesChildMap = {
     'all-employees': AllEmployees,
     'add-employee': AddEmployee,
-    'on-leave': OnLeave,
+    // 'on-leave': OnLeave,
 }
 
 const settingsChildMap = {}
