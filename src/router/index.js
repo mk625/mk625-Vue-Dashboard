@@ -60,6 +60,7 @@ function generateRoutesFromNavigation(navigationItems) {
             routes.push({
                 path: routePath,
                 component: component,
+                meta: component === NotFoundPage ? { moduleInProgress: true } : {},
             })
         }
 
@@ -73,6 +74,7 @@ function generateRoutesFromNavigation(navigationItems) {
                 routes.push({
                     path: childPath,
                     component: childComponent,
+                    meta: childComponent === NotFoundPage ? { moduleInProgress: true } : {},
                 })
             })
         }

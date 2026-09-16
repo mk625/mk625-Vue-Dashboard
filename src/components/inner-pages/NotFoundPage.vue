@@ -1,9 +1,27 @@
 <script setup>
-    import { useRouter } from 'vue-router'
+    import { computed } from 'vue'
+    import { useRoute, useRouter } from 'vue-router'
 
     import MButton from '@/components/ui/buttons/MButton.vue'
 
+    const route = useRoute()
     const router = useRouter()
+
+    const isModuleInProgress = computed(() => route.meta.moduleInProgress === true)
+
+    const pageEyebrow = computed(() => (
+        isModuleInProgress.value ? 'In progress' : 'Error 404'
+    ))
+
+    const pageTitle = computed(() => (
+        isModuleInProgress.value ? 'Coming soon' : 'Page not found'
+    ))
+
+    const pageDescription = computed(() => (
+        isModuleInProgress.value
+            ? 'This module is still being built. Please check back soon or return to the dashboard.'
+            : 'The page you requested could not be found. It may have moved or no longer exists.'
+    ))
 
     function goHome() {
         router.push('/')
@@ -18,10 +36,10 @@
     <div class="not-found-page">
         <main class="not-found-page__card" aria-labelledby="not-found-title">
             <div class="not-found-page__content">
-                <p class="not-found-page__eyebrow">Error 404</p>
-                <h1 id="not-found-title" class="not-found-page__title">Page not found</h1>
+                <p class="not-found-page__eyebrow">{{ pageEyebrow }}</p>
+                <h1 id="not-found-title" class="not-found-page__title">{{ pageTitle }}</h1>
                 <p class="not-found-page__description">
-                    The page you requested could not be found. It may have moved or no longer exists.
+                    {{ pageDescription }}
                 </p>
 
                 <div class="not-found-page__actions d-flx g-12">
