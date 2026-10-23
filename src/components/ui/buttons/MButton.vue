@@ -172,10 +172,7 @@
         border: 1px solid transparent;
         border-radius: var(--br-radius-input);
         cursor: pointer;
-        transition: background-color var(--fast-trans, 0.15s ease),
-            border-color var(--fast-trans, 0.15s ease),
-            color var(--fast-trans, 0.15s ease),
-            opacity var(--fast-trans, 0.15s ease);
+        transition: var(--fast-trans);
         position: relative;
     }
 
