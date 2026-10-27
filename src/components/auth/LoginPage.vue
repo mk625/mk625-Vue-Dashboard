@@ -390,7 +390,7 @@
             <!-- \\\ showcase column -->
         </div>
 
-        <ToastPop v-model:show="showToast" :message="toastMessage" />
+        <ToastPop v-model="showToast" :message="toastMessage" type="success" />
     </div>
 </template>
 

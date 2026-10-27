@@ -397,7 +397,7 @@
         </div>
     </div>
 
-    <ToastPop message="Employee added successfully" v-model:show="showToast"/>
+    <ToastPop message="Employee added successfully" type="success" v-model="showToast"/>
 </template>
 
 

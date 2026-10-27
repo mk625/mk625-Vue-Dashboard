@@ -1,104 +1,212 @@
 
 <script setup>
-    // imports
-        import { watch, onBeforeUnmount } from 'vue';
-    // \\\ imports
+import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue';
 
-    // global variables
-        let closeTimer = null;
-        const emit = defineEmits(['update:show']);
-    // \\\ global variables
+const props = defineProps({
+    modelValue: {
+        type: Boolean,
+        default: false
+    },
+    message: {
+        type: String,
+        default: ''
+    },
+    type: {
+        type: String,
+        default: 'info',
+        validator: (value) => ['success', 'error', 'warning', 'info'].includes(value)
+    },
+    duration: {
+        type: Number,
+        default: 3000
+    },
+    closable: {
+        type: Boolean,
+        default: true
+    }
+});
 
+const emit = defineEmits(['update:modelValue', 'close']);
 
-    const props = defineProps({
-        message: {
-            type: String,
-            required: true,
-        },
-        show: {
-            type: Boolean,
-            default: false,
+const timer = ref(null);
+
+const toastClasses = computed(() => ({
+    [`m-toast--${props.type}`]: true
+}));
+
+function close() {
+    clearTimer();
+
+    emit('update:modelValue', false);
+    emit('close');
+}
+
+function clearTimer() {
+    if (timer.value) {
+        clearTimeout(timer.value);
+        timer.value = null;
+    }
+}
+
+function startTimer() {
+    clearTimer();
+
+    if (props.duration > 0 && props.modelValue) {
+        timer.value = setTimeout(() => {
+            close();
+        }, props.duration);
+    }
+}
+
+watch(
+    () => props.modelValue,
+    (isVisible) => {
+        if (isVisible) {
+            startTimer();
+        } else {
+            clearTimer();
         }
-    });
+    }
+);
 
-    watch(() => props.show, (newVal) => {
-        if (newVal) {
-            if (closeTimer) {
-                clearTimeout(closeTimer);
-            }
-
-            closeTimer = setTimeout(() => {
-                emit('update:show', false);
-            }, 2000);
+watch(
+    () => [props.message, props.duration],
+    () => {
+        if (props.modelValue) {
+            startTimer();
         }
-    });
+    }
+);
 
-    onBeforeUnmount(() => {
-        if (closeTimer) {
-            clearTimeout(closeTimer);
-        }
-    });
+onMounted(() => {
+    if (props.modelValue) {
+        startTimer();
+    }
+});
+
+onBeforeUnmount(() => {
+    clearTimer();
+});
 </script>
 
 
 <template>
-    <Teleport to="body">
-        <Transition name="toast">
-            <div v-if="show" class="toaster-container c-status-shades__green">
-                <div class="d-flx aI-C g-10">
-                    <div class="icon-box">
-                        <i class="bi bi-check2 f20 c-status"></i>
-                    </div>
-                    <div class="fG-1">
-                        <p> {{ message }} </p>
-                    </div>
-                </div>
-            </div>
-        </Transition>
-    </Teleport>
+    <Transition name="m-toast">
+        <div
+            v-if="modelValue"
+            class="m-toast"
+            :class="toastClasses"
+            :role="type === 'error' ? 'alert' : 'status'"
+            aria-live="polite"
+        >
+            <span class="m-toast__message">
+                {{ message }}
+            </span>
+
+            <button
+                v-if="closable"
+                class="m-toast__close"
+                type="button"
+                aria-label="Close notification"
+                @click="close"
+            >
+                &times;
+            </button>
+        </div>
+    </Transition>
 </template>
 
 
-<style scoped>
-    .toast-enter-from,
-    .toast-leave-to {
-        top: 10px;
-        opacity: 0;
-        visibility: hidden;
-    }
+<style scoped lang="scss">
+.m-toast {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    width: fit-content;
+    max-width: min(420px, calc(100vw - 32px));
+    padding: 12px 16px;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    background-color: #ffffff;
+    color: #303133;
+    font-size: 14px;
+    line-height: 1.5;
+    box-shadow: 0 4px 16px rgb(0 0 0 / 12%);
+}
 
-    .toast-enter-to,
-    .toast-leave-from {
-        top: 30px;
+.m-toast__message {
+    overflow-wrap: anywhere;
+}
+
+.m-toast__close {
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    border: none;
+    background: transparent;
+    color: inherit;
+    font-size: 20px;
+    line-height: 1;
+    cursor: pointer;
+    opacity: 0.65;
+
+    &:hover {
         opacity: 1;
-        visibility: visible;
     }
 
-    .toast-enter-active,
-    .toast-leave-active {
-        transition: var(--fast-trans);
+    &:focus-visible {
+        outline: 2px solid currentColor;
+        outline-offset: 2px;
+        border-radius: 4px;
     }
+}
 
-    .toaster-container {
-        padding-block: 8px;
-        padding-inline: 12px 18px;
-        background-color: var(--c-status__98);
-        position: fixed;
-        top: 30px;
-        inset-inline-start: 50%;
-        translate: -50% -15px;
-        border: 1px solid var(--c-status__90);
-        box-shadow: var(--c-shadow);
-        border-radius: 8px;
-        z-index: 10;
+.m-toast--success {
+    border-color: #b3e6c8;
+    background-color: #f0f9eb;
+    color: #237a45;
+}
+
+.m-toast--error {
+    border-color: #f5b7b1;
+    background-color: #fef0f0;
+    color: #c0392b;
+}
+
+.m-toast--warning {
+    border-color: #f5d69a;
+    background-color: #fdf6ec;
+    color: #9a6700;
+}
+
+.m-toast--info {
+    border-color: #b3d8ff;
+    background-color: #ecf5ff;
+    color: #2468a2;
+}
+
+.m-toast-enter-active,
+.m-toast-leave-active {
+    transition:
+        opacity 0.2s ease,
+        transform 0.2s ease;
+}
+
+.m-toast-enter-from,
+.m-toast-leave-to {
+    transform: translateY(-8px);
+    opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .m-toast-enter-active,
+    .m-toast-leave-active {
+        transition: none;
     }
-    .icon-box {
-        width: 30px;
-        height: 30px;
-        border-radius: 50%;
-        background-color: var(--c-status__95);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
+}
 </style>

@@ -9,6 +9,7 @@
             import MInput from '@/components/ui/input/MInput.vue';
             import MInputLabel from '@/components/ui/input/MInputLabel.vue';
             import RightDialog from '@/components/ui/dialog/RightDialog.vue';
+            import ToastPop from '@/components/ui/popup/toast/ToastPop.vue';
         // \\\ ui components
     // \\\ imports
 
@@ -276,7 +277,7 @@
         </template>
     </RightDialog>
 
-    <ToastPop :message="toastMessage" v-model:show="showToast"/>
+    <ToastPop :message="toastMessage" type="success" v-model="showToast"/>
 </template>
 
 

@@ -6,7 +6,7 @@
     import PlainButton from '@/components/ui/buttons/PlainButton.vue';
     import MInput from '@/components/ui/input/MInput.vue';
     import MProfilePic from '@/components/ui/general/mProfilePic.vue';
-    import MDropdown from '@/components/ui/popup/toast/dropdown/MDropdown.vue';
+    import MDropdown from '@/components/ui/popup/dropdown/MDropdown.vue';
     import { useAuthStore } from '@/stores/authStore.js';
 
     const route = useRoute();
