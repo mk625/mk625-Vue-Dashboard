@@ -124,10 +124,11 @@
                         :items="profilePhotoItems"
                         @select="onProfilePhotoSelect"
                     >
-                        <template #trigger="{ toggle }">
+                        <template #trigger="{ open, triggerProps }">
                             <MProfilePic
                                 :src="currentProfilePic"
-                                @click="toggle"
+                                :class="{ 'dropdown-opened': open }"
+                                v-bind="triggerProps"
                             />
                         </template>
                     </MDropdown>

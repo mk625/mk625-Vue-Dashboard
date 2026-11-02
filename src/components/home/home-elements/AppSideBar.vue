@@ -139,6 +139,7 @@
             width: var(--w-app-sidebar);
             display: flex;
             flex-direction: column;
+            flex-shrink: 0;
             background-color: #f3f6f7;
             height: 100%;
             border-right: 1px solid #DDE1E8;
