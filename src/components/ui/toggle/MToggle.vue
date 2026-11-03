@@ -1,31 +1,92 @@
 
 <script setup>
-    defineProps({
-        disabled: {
-            type: Boolean,
-            default: false
-        }
+    import { computed, watch } from 'vue';
+
+    // Props that mirror Element Plus Switch essential features
+    const props = defineProps({
+        disabled: { type: Boolean, default: false },
+        size: { type: String, default: 'default' }, // 'large' | 'default' | 'small'
+        loading: { type: Boolean, default: false },
+        activeColor: { type: String, default: '' },
+        inactiveColor: { type: String, default: '' },
+        activeText: { type: String, default: '' },
+        inactiveText: { type: String, default: '' },
+        activeIcon: { type: String, default: '' }, // name of icon component (e.g., 'Check')
+        inactiveIcon: { type: String, default: '' },
+        width: { type: Number, default: null }, // custom width in px when set
+        beforeChange: { type: Function, default: null }
     });
 
+    const emit = defineEmits(['change', 'update:modelValue']);
+
+    // v-model binding for the boolean value
     const modelValue = defineModel({
         type: Boolean,
         default: false
+    });
+
+    // Compute classes based on state
+    const sizeClass = computed(() => {
+        return {
+            large: 'm-toggle--large',
+            small: 'm-toggle--small',
+            default: ''
+        }[props.size] || '';
+    });
+    const loadingClass = computed(() => (props.loading ? 'm-toggle--loading' : ''));
+    const disabledClass = computed(() => (props.disabled ? 'm-toggle__disabled' : ''));
+
+    // Inline style for track (colors & width)
+    const trackStyle = computed(() => {
+        const style = {};
+        if (modelValue.value) {
+            if (props.activeColor) style['background-color'] = props.activeColor;
+        } else {
+            if (props.inactiveColor) style['background-color'] = props.inactiveColor;
+        }
+        if (props.width) style['width'] = `${props.width}px`;
+        return style;
+    });
+
+    // Handle click / change with optional beforeChange hook
+    const toggle = async () => {
+        if (props.disabled || props.loading) return;
+        if (props.beforeChange) {
+            const result = await props.beforeChange();
+            if (result === false) return;
+        }
+        const newVal = !modelValue.value;
+        modelValue.value = newVal;
+        emit('update:modelValue', newVal);
+        emit('change', newVal);
+    };
+
+    // Sync external changes to emit event (optional, for completeness)
+    watch(() => modelValue.value, (val) => {
+        emit('change', val);
     });
 </script>
 
 
 <template>
     <label
-        :class="['m-toggle', {'m-toggle__disabled': disabled}]"
+        :class="['m-toggle', sizeClass, loadingClass, disabledClass]"
+        @click.prevent="toggle"
     >
         <input
             type="checkbox"
             class="m-toggle__input"
-            :disabled="disabled"
+            :disabled="disabled || loading"
             v-model="modelValue"
         />
 
-        <span class="m-toggle__track">
+        <span class="m-toggle__track" :style="trackStyle">
+            <!-- optional texts -->
+            <span v-if="modelValue && activeText" class="m-toggle__text m-toggle__text--active">{{ activeText }}</span>
+            <span v-else-if="!modelValue && inactiveText" class="m-toggle__text m-toggle__text--inactive">{{ inactiveText }}</span>
+            <!-- optional icons -->
+            <component v-if="modelValue && activeIcon" :is="activeIcon" class="m-toggle__icon m-toggle__icon--active" />
+            <component v-else-if="!modelValue && inactiveIcon" :is="inactiveIcon" class="m-toggle__icon m-toggle__icon--inactive" />
             <span class="m-toggle__knob"></span>
         </span>
     </label>
@@ -39,6 +100,45 @@
         width: 30px;
         height: 18px;
         cursor: pointer;
+    }
+    /* size variants */
+    .m-toggle--large {
+        width: 40px;
+        height: 24px;
+    }
+    .m-toggle--large .m-toggle__knob {
+        width: 20px;
+        height: 20px;
+        transform: translateX(0);
+    }
+    .m-toggle--large .m-toggle__input:checked + .m-toggle__track .m-toggle__knob {
+        transform: translateX(16px);
+    }
+    .m-toggle--small {
+        width: 24px;
+        height: 14px;
+    }
+    .m-toggle--small .m-toggle__knob {
+        width: 10px;
+        height: 10px;
+        transform: translateX(0);
+    }
+    .m-toggle--small .m-toggle__input:checked + .m-toggle__track .m-toggle__knob {
+        transform: translateX(8px);
+    }
+    /* loading state */
+    .m-toggle--loading {
+        opacity: 0.6;
+        pointer-events: none;
+    }
+    /* text */
+    .m-toggle__text {
+        font-size: 12px;
+        margin: 0 4px;
+    }
+    .m-toggle__icon {
+        font-size: 14px;
+        margin: 0 2px;
     }
 
     /* real checkbox hidden */
