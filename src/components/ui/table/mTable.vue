@@ -58,9 +58,9 @@
                     typeof first === 'number' && typeof second === 'number'
                         ? first - second
                         : String(first).localeCompare(String(second), undefined, {
-                              numeric: true,
-                              sensitivity: 'base',
-                          });
+                                numeric: true,
+                                sensitivity: 'base',
+                            });
 
                 return comparison === 0 ? a.index - b.index : comparison * multiplier;
             })
